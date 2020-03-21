@@ -26,7 +26,7 @@ import {AppComponent} from './app.component';
         AppRoutingModule,
         AngularFireModule.initializeApp (environment.firebase),
         AngularFireMessagingModule,
-        ServiceWorkerModule.register ('combined-sw.js', {enabled: environment.production})
+        // ServiceWorkerModule.register ('combined-sw.js', {enabled: environment.production})
         // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
     ],
     providers: [

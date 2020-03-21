@@ -30,7 +30,7 @@
                           #select1
                           [items]="words"
                           [(ngModel)]="word1"
-                          (change)="onWord1Changed($event)">
+                          (change)="onWord1Changed()">
                         </ng-select>
                     </div>
                     <div class="word-select">
@@ -39,7 +39,7 @@
                           #select2
                           [items]="words"
                           [(ngModel)]="word2"
-                          (change)="onWord2Changed($event)">
+                          (change)="onWord2Changed()">
                         </ng-select>
                     </div>
                 </div>
