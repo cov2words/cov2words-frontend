@@ -1,25 +1,55 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>
-      Ionic PWA
-    </ion-title>
-    <ion-buttons *ngIf="showInstallBtn" slot="primary">
-     <ion-button (click)="showInstallBanner()">
-       Install
-     </ion-button>
-   </ion-buttons>
-  </ion-toolbar>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>
+            Ionic PWA
+        </ion-title>
+        <ion-buttons *ngIf="showInstallBtn" slot="primary">
+            <ion-button (click)="showInstallBanner()">
+                Install
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-grid>
-    <ion-row>
-      <ion-col *ngFor="let feature of pwa_features" size="6" (click)="goToDetailsView(feature)">
-        <preload-image [ratio]="{w: 1, h: 1}" [src]="feature.image"></preload-image>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+    <ion-grid>
+        <ion-row>
+            <div class="ion-text-center" style="margin: auto;">
+                <img src="assets/images/undraw_doctor_kw5l.svg"
+                     style="max-height: 400px; margin: 20px auto;"/>
+                <p>
+                    Please select two words you obtained from the hotline.
+                </p>
+                <div class="word-container">
+                    <div class="word-select">
+                        <label>WORD1</label>
+                        <ng-select
+                          #select1
+                          [items]="words"
+                          [(ngModel)]="word1"
+                          (change)="onWord1Changed($event)">
+                        </ng-select>
+                    </div>
+                    <div class="word-select">
+                        <label>WORD2</label>
+                        <ng-select
+                          #select2
+                          [items]="words"
+                          [(ngModel)]="word2"
+                          (change)="onWord2Changed($event)">
+                        </ng-select>
+                    </div>
+                </div>
+                <div class="qr-container"
+                     *ngIf="qrCodeContent">
+                    <qrcode [qrdata]="qrCodeContent"
+                            [width]="256"
+                            [errorCorrectionLevel]="'M'"></qrcode>
+                </div>
+            </div>
+        </ion-row>
+    </ion-grid>
 </ion-content>
