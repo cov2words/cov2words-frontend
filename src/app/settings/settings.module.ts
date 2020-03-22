@@ -5,19 +5,22 @@ import {RouterModule} from '@angular/router';
 import {IonicModule} from '@ionic/angular';
 
 import {SettingsPage} from './settings.page';
+import {TranslateModule} from "@ngx-translate/core";
 
-@NgModule ({
+@NgModule({
     imports: [
         CommonModule,
         FormsModule,
         IonicModule,
-        RouterModule.forChild ([
+        RouterModule.forChild([
             {
                 path: '',
                 component: SettingsPage
             }
-        ])
+        ]),
+        TranslateModule.forChild()
     ],
     declarations: [SettingsPage]
 })
-export class SettingsPageModule {}
+export class SettingsPageModule {
+}

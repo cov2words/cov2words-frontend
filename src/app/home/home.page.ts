@@ -1,7 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgSelectComponent} from '@ng-select/ng-select';
+import {TranslateService} from "@ngx-translate/core";
 
-@Component ({
+@Component({
     selector: 'app-home',
     templateUrl: 'home.page.html',
     styleUrls: ['./home.page.scss']
@@ -31,40 +32,40 @@ export class HomePage implements OnInit {
         'KuchenKuchen': '<saddfasdsadad>'
     };
 
-    @ViewChild ('select1', {static: false}) select1: NgSelectComponent;
-    @ViewChild ('select2', {static: false}) select2: NgSelectComponent;
+    @ViewChild('select1', {static: false}) select1: NgSelectComponent;
+    @ViewChild('select2', {static: false}) select2: NgSelectComponent;
 
     public word1 = null;
     public word2 = null;
 
-    constructor () {
-        window.addEventListener ('beforeinstallprompt', (e) => {
-            console.log ('beforeinstallprompt Event fired');
+    constructor() {
+        window.addEventListener('beforeinstallprompt', (e) => {
+            console.log('beforeinstallprompt Event fired');
             // Prevent Chrome 67 and earlier from automatically showing the prompt
-            e.preventDefault ();
+            e.preventDefault();
             // Stash the event so it can be triggered later.
             this.deferredPrompt = e;
             this.showInstallBtn = true;
         });
     }
 
-    ngOnInit () {
+    ngOnInit() {
         if (this.deferredPrompt === undefined) {
             this.showInstallBtn = false;
         }
     }
 
-    showInstallBanner () {
+    showInstallBanner() {
         if (this.deferredPrompt !== undefined && this.deferredPrompt !== null) {
             // Show the prompt
-            this.deferredPrompt.prompt ();
+            this.deferredPrompt.prompt();
             // Wait for the user to respond to the prompt
             this.deferredPrompt.userChoice
-                .then ((choiceResult) => {
+                .then((choiceResult) => {
                     if (choiceResult.outcome === 'accepted') {
-                        console.log ('User accepted the A2HS prompt');
+                        console.log('User accepted the A2HS prompt');
                     } else {
-                        console.log ('User dismissed the A2HS prompt');
+                        console.log('User dismissed the A2HS prompt');
                     }
                     // We no longer need the prompt.  Clear it up.
                     this.deferredPrompt = null;
@@ -72,16 +73,16 @@ export class HomePage implements OnInit {
         }
     }
 
-    public onWord1Changed (): void {
-        this.select2.focus ();
-        this.updateQr ();
+    public onWord1Changed(): void {
+        this.select2.focus();
+        this.updateQr();
     }
 
-    public onWord2Changed (): void {
-        this.updateQr ();
+    public onWord2Changed(): void {
+        this.updateQr();
     }
 
-    private updateQr (): void {
+    private updateQr(): void {
         if (this.word1 === null || this.word2 === null) {
             return;
         }

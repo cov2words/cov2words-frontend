@@ -3,9 +3,7 @@
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
-        <ion-title>
-            Ionic PWA
-        </ion-title>
+        <ion-title>{{ 'application.title' | translate }}</ion-title>
         <ion-buttons *ngIf="showInstallBtn" slot="primary">
             <ion-button (click)="showInstallBanner()">
                 Install
@@ -20,26 +18,34 @@
             <div class="ion-text-center" style="margin: auto;">
                 <img src="assets/images/undraw_doctor_kw5l.svg"
                      style="max-height: 400px; margin: 20px auto;"/>
-                <p>
-                    Please select two words you obtained from the hotline.
-                </p>
+                <p>{{ 'application.description' | translate }}</p>
+                <p>{{ 'home.action' | translate }}</p>
                 <div class="word-container">
                     <div class="word-select">
-                        <label>WORD1</label>
+                        <label>{{ 'home.word1' | translate }}</label>
                         <ng-select
-                          #select1
-                          [items]="words"
-                          [(ngModel)]="word1"
-                          (change)="onWord1Changed()">
+                            #select1
+                            [items]="words"
+                            [(ngModel)]="word1"
+                            (change)="onWord1Changed()">
                         </ng-select>
                     </div>
                     <div class="word-select">
-                        <label>WORD2</label>
+                        <label>{{ 'home.word2' | translate }}</label>
                         <ng-select
-                          #select2
-                          [items]="words"
-                          [(ngModel)]="word2"
-                          (change)="onWord2Changed()">
+                            #select2
+                            [items]="words"
+                            [(ngModel)]="word2"
+                            (change)="onWord2Changed()">
+                        </ng-select>
+                    </div>
+                    <div class="word-select">
+                        <label>{{ 'home.word3' | translate }}</label>
+                        <ng-select
+                            #select2
+                            [items]="words"
+                            [(ngModel)]="word2"
+                            (change)="onWord2Changed()">
                         </ng-select>
                     </div>
                 </div>

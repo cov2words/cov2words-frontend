@@ -7,21 +7,24 @@ import {NgSelectModule} from '@ng-select/ng-select';
 import {QRCodeModule} from 'angularx-qrcode';
 
 import {HomePage} from './home.page';
+import {TranslateModule} from "@ngx-translate/core";
 
-@NgModule ({
+@NgModule({
     imports: [
         CommonModule,
         FormsModule,
         IonicModule,
         NgSelectModule,
         QRCodeModule,
-        RouterModule.forChild ([
+        RouterModule.forChild([
             {
                 path: '',
                 component: HomePage
             }
-        ])
+        ]),
+        TranslateModule.forChild(),
     ],
     declarations: [HomePage]
 })
-export class HomePageModule {}
+export class HomePageModule {
+}
