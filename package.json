@@ -15,7 +15,6 @@
   "dependencies": {
     "@angular/common": "^8.2.14",
     "@angular/core": "^8.2.14",
-    "@angular/fire": "^5.1.1",
     "@angular/forms": "^8.2.14",
     "@angular/http": "^7.2.2",
     "@angular/platform-browser": "^8.2.14",
@@ -30,7 +29,6 @@
     "@ng-select/ng-select": "^3.7.3",
     "angularx-qrcode": "^2.1.0",
     "core-js": "^2.5.3",
-    "firebase": "^5.8.2",
     "intersection-observer": "^0.5.0",
     "rxjs": "~6.5.4",
     "zone.js": "~0.9.1"
