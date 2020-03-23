@@ -1,5 +1,5 @@
 {
-  "application.title": "Anamnese Hotline für Corona",
+  "application.title": "COV2WORDS!",
   "application.description": "Mit unserer Lösung können die 3 Statuswörter in maschinenlesbare QR-Codes generiert werden, sodas die Anamnese direkt in SAP importiert werden kann.",
   "home.action": "Wählen Sie bitte die drei Schlagwörter aus um die Anamnese-Daten zu generieren. Die Reihenfolge der Schlagwörter muss eingehalten werden:",
   "home.word1": "Schlagwort 1",
@@ -10,5 +10,16 @@
   "menu.call": "Hotline anrufen",
   "menu.about": "Über",
   "settings.title": "Einstellungen",
-  "settings.notifications": "Benachrichtigungen aktiveren"
+  "settings.notifications": "Benachrichtigungen aktiveren",
+  "language" : "Deutsch",
+  "language_de": "Deutsch",
+  "language_en": "Englisch",
+  "language_fr": "Französisch",
+  "language_es": "Spanisch",
+  "language_pt": "Portugisisch",
+  "language_it": "Italienisch",
+  "language_nl": "Niederländisch",
+  "language_pl": "Polnisch",
+  "language_ru": "Russisch",
+  "language.title": "Sprache"
 }

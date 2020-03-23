@@ -1,5 +1,5 @@
 {
-  "application.title": "Medical history hotline for Corona",
+  "application.title": "COV2WORDS!",
   "application.description": "With our solution the 3 status words can be generated into machine readable QR codes, so that the anamnesis can be imported directly into SAP.",
   "home.action": "Please select the three keywords to generate the anamnesis data. The order of the keywords must be observed:",
   "home.word1": "Keyword 1",
@@ -10,5 +10,16 @@
   "menu.call": "Call hotline",
   "menu.about": "About",
   "settings.title": "Settings",
-  "settings.notifications": "Enable Notifications"
+  "settings.notifications": "Enable Notifications",
+  "language_de": "German",
+  "language_en": "English",
+  "language_fr": "French",
+  "language_es": "Spanish",
+  "language_pt": "Portuguese",
+  "language_it": "Italian",
+  "language_nl": "Dutch",
+  "language_pl": "Polish",
+  "language_ru": "Russian",
+  "language" : "English",
+  "language.title": "Language"
 }

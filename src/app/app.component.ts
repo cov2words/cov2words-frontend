@@ -35,4 +35,9 @@ export class AppComponent {
             this._translateService.use("de");
         });
     }
+
+    public onChangeValue(value) {
+        console.log(value.detail.value);
+        this._translateService.use(value.detail.value);
+    }
 }

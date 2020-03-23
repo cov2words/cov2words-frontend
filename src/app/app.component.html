@@ -32,6 +32,23 @@
                             </ion-label>
                         </ion-item>
                     </ion-menu-toggle>
+                    <ion-menu-toggle auto-hide="false">
+                        <ion-item>
+                            <ion-icon slot="start" [name]="'globe'"></ion-icon>
+                            <ion-label>{{ 'language' | translate }}</ion-label>
+                            <ion-select placeholder="{{ 'language' | translate }}" (ionChange)="onChangeValue($event)">
+                                <ion-select-option value="de">{{ 'language_de' | translate }}</ion-select-option>
+                                <ion-select-option value="en">{{ 'language_en' | translate }}</ion-select-option>
+                                <ion-select-option value="es">{{ 'language_es' | translate }}</ion-select-option>
+                                <ion-select-option value="fr">{{ 'language_fr' | translate }}</ion-select-option>
+                                <ion-select-option value="it">{{ 'language_it' | translate }}</ion-select-option>
+                                <ion-select-option value="nl">{{ 'language_nl' | translate }}</ion-select-option>
+                                <ion-select-option value="pl">{{ 'language_pl' | translate }}</ion-select-option>
+                                <ion-select-option value="pt">{{ 'language_pt' | translate }}</ion-select-option>
+                                <ion-select-option value="ru">{{ 'language_ru' | translate }}</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                    </ion-menu-toggle>
                 </ion-list>
             </ion-content>
         </ion-menu>
