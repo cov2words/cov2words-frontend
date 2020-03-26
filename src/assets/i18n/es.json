@@ -10,7 +10,8 @@
   "language": "Español",
   "language.title": "Idioma",
   "application.title": "COV2WORDS!",
-  "home.action": "Por favor, seleccione las tres palabras clave para generar los datos de la anamnesis. El orden de las palabras clave debe ser observado:",
+  "home.action2": " El orden de las palabras clave debe ser observado:",
+  "home.action": "Por favor, seleccione las dos palabras clave para generar los datos de la anamnesis."
   "home.word3": "Palabra clave 3",
   "home.word2": "Palabra clave 2",
   "home.word1": "Palabra clave 1",
