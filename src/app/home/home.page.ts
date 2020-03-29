@@ -39,13 +39,12 @@ export class HomePage implements OnInit {
             this.deferredPrompt = e;
             this.showInstallBtn = true;
         });
-
-        this._cov2WordsService.wordList.subscribe((res: WordListResponse) => {
-            this._buildWordListView(res);
-        });
     }
 
     ngOnInit() {
+        this._cov2WordsService.wordList.subscribe((res: WordListResponse) => {
+            this._buildWordListView(res);
+        });
         if (this.deferredPrompt === undefined) {
             this.showInstallBtn = false;
         }
