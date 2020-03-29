@@ -21,34 +21,16 @@
                 <p>{{ 'application.description' | translate }}</p>
                 <p>{{ 'home.action' | translate }}</p>
                 <div class="word-container">
-                    <div class="word-select">
-                        <label>{{ 'home.word1' | translate }}</label>
+                    <div class="word-select" *ngFor="let view of wordViews">
+                        <label>{{ view.label | translate }}</label>
                         <ng-select
-                            #select1
-                            [items]="words"
-                            [(ngModel)]="word1"
-                            (change)="onWord1Changed()">
-                        </ng-select>
-                    </div>
-                    <div class="word-select">
-                        <label>{{ 'home.word2' | translate }}</label>
-                        <ng-select
-                            #select2
-                            [items]="words"
-                            [(ngModel)]="word2"
-                            (change)="onWord2Changed()">
-                        </ng-select>
-                    </div>
-                    <div class="word-select">
-                        <label>{{ 'home.word3' | translate }}</label>
-                        <ng-select
-                            #select2
-                            [items]="words"
-                            [(ngModel)]="word2"
-                            (change)="onWord2Changed()">
+                                [items]="view.items"
+                                [(ngModel)]="view.word"
+                                (change)="onWordChanged()">
                         </ng-select>
                     </div>
                 </div>
+
                 <div class="qr-container"
                      *ngIf="qrCodeContent">
                     <qrcode [qrdata]="qrCodeContent"

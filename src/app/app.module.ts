@@ -11,6 +11,10 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import {OriginStampClientJSModule} from "./extlib/originstamp-client-js/originstamp_client_js/originstamp_client_js.module";
+import {ApplicationEnvironment} from "./extlib/originstamp-client-js/originstamp_client_js/config/application-environment.service";
+import {WebEnvironment} from "./helper/web-environment.type";
+import {Cov2WordsService} from "./app.service";
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -24,6 +28,7 @@ export function createTranslateLoader(http: HttpClient) {
         HttpClientModule,
         IonicModule.forRoot(),
         AppRoutingModule,
+        OriginStampClientJSModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -35,7 +40,12 @@ export function createTranslateLoader(http: HttpClient) {
     providers: [
         StatusBar,
         SplashScreen,
-        {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
+        Cov2WordsService,
+        {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
+        {
+            provide: ApplicationEnvironment,
+            useClass: WebEnvironment
+        }
     ],
     bootstrap: [AppComponent]
 })

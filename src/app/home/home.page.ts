@@ -1,11 +1,18 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {NgSelectComponent} from '@ng-select/ng-select';
-import {TranslateService} from "@ngx-translate/core";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {Cov2WordsService} from "../app.service";
+import {WordService} from "../extlib/originstamp-client-js/originstamp_client_js/rest_services/word.service";
+import {WordListResponse} from "../extlib/originstamp-client-js/originstamp_client_js/model/wordlist.response";
+import {AnswerRequest} from "../extlib/originstamp-client-js/originstamp_client_js/model/answer.request";
+import {WordRequest} from "../extlib/originstamp-client-js/originstamp_client_js/model/word.request";
+import {WordPairResponse} from "../extlib/originstamp-client-js/originstamp_client_js/model/word_pair.response";
+import {ToastController} from "@ionic/angular";
+import {ServiceError} from "../extlib/originstamp-client-js/originstamp_client_js/error_handling/service_error.type";
 
 @Component({
     selector: 'app-home',
     templateUrl: 'home.page.html',
-    styleUrls: ['./home.page.scss']
+    styleUrls: ['./home.page.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomePage implements OnInit {
 
@@ -14,31 +21,14 @@ export class HomePage implements OnInit {
 
     public qrCodeContent = '';
 
-    words = [
-        'Apfel',
-        'Mandarine',
-        'Kuchen'
-    ];
+    public wordViews: WordView[];
 
-    wordCombinationXmlMapping = {
-        'ApfelApfel': '<some-xml>',
-        'ApfelMandarine': '<other-xml>',
-        'ApfelKuchen': '<xxx>',
-        'MandarineApfel': '<yyy>',
-        'MandarineMandarine': '<adssd>',
-        'MandarineKuchen': '<sdasdsa>',
-        'KuchenApfel': '<addasd>',
-        'KuchenMandarine': '<adasdsd>',
-        'KuchenKuchen': '<saddfasdsadad>'
-    };
-
-    @ViewChild('select1', {static: false}) select1: NgSelectComponent;
-    @ViewChild('select2', {static: false}) select2: NgSelectComponent;
-
-    public word1 = null;
-    public word2 = null;
-
-    constructor() {
+    constructor(
+        private _cov2WordsService: Cov2WordsService,
+        private _wordService: WordService,
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _toastController: ToastController
+    ) {
         window.addEventListener('beforeinstallprompt', (e) => {
             console.log('beforeinstallprompt Event fired');
             // Prevent Chrome 67 and earlier from automatically showing the prompt
@@ -53,6 +43,28 @@ export class HomePage implements OnInit {
         if (this.deferredPrompt === undefined) {
             this.showInstallBtn = false;
         }
+
+        this._cov2WordsService.wordList.subscribe((res: WordListResponse) => {
+            this._buildWordListView(res);
+        });
+    }
+
+    private _buildWordListView(response: WordListResponse) {
+        let view: WordView[] = [];
+
+        for (let i = 0; i < response.combinations; i++) {
+            view.push(
+                new WordView(
+                    "home.word" + (i + 1),
+                    response.words,
+                    response.combinations,
+                    null,
+                    response.language
+                )
+            );
+        }
+        this.wordViews = view;
+        this._changeDetectorRef.detectChanges();
     }
 
     showInstallBanner() {
@@ -73,20 +85,61 @@ export class HomePage implements OnInit {
         }
     }
 
-    public onWord1Changed(): void {
-        this.select2.focus();
-        this.updateQr();
-    }
-
-    public onWord2Changed(): void {
-        this.updateQr();
-    }
-
-    private updateQr(): void {
-        if (this.word1 === null || this.word2 === null) {
-            return;
+    public onWordChanged(): void {
+        if (this.wordViews.filter(view => view.word === null).length > 0) {
+            // Not ready yet.
+        } else {
+            this.updateQr(this.wordViews);
         }
-        this.qrCodeContent = this.wordCombinationXmlMapping[this.word1 + this.word2];
     }
 
+    private updateQr(wordViews: WordView[]): void {
+        this.qrCodeContent = null;
+
+        let words: WordRequest[] = [];
+        for (let i = 0; i < wordViews.length; i++) {
+            words.push(
+                new WordRequest(
+                    wordViews[i].word,
+                    i
+                )
+            )
+        }
+
+        this._wordService.getAnswerForWordPair(
+            new AnswerRequest(
+                wordViews[0].language,
+                words
+            )
+        )
+            .then((res: WordPairResponse) => this._handleResponse(res))
+            .catch(err => this._showError(err));
+    }
+
+    private _handleResponse(res: WordPairResponse) {
+        this.qrCodeContent = res.answer;
+    }
+
+    private _showError(err: ServiceError) {
+        this.presentToast(err.errorMessage);
+    }
+
+    async presentToast(message: string) {
+        const toast = await this._toastController.create({
+            message: message,
+            duration: 2000
+        });
+        toast.present();
+    }
+}
+
+export class WordView {
+    constructor(
+        public label: string,
+        public items: string[],
+        public combinations: number,
+        public word: string,
+        public language: string
+    ) {
+    }
 }
