@@ -1,6 +1,6 @@
 {
   "application.title": "COV2WORDS!",
-  "application.description": "Mit unserer Lösung können die 3 Statuswörter in maschinenlesbare QR-Codes generiert werden, sodas die Anamnese direkt in SAP importiert werden kann.",
+  "application.description": "Mit unserer Lösung können die Statuswörter in maschinenlesbare QR-Codes generiert werden, sodas die Anamnese direkt in SAP importiert werden kann.",
   "home.word1": "Schlagwort 1",
   "home.word2": "Schlagwort 2",
   "home.word3": "Schlagwort 3",
