@@ -41,20 +41,23 @@ export class AppComponent {
         this.platform.ready().then(() => {
             this.statusBar.styleDefault();
             this.splashScreen.hide();
-            let userLanguage: string = navigator.language;
-            userLanguage = userLanguage.substr(0, 2);
-
-            this._wordService.getAvailableLanguages()
-                .then((res: LanguageResponse) => {
-                    console.log(userLanguage);
-                    if (res.languages.some(x => x === userLanguage)) {
-                        this._translateService.setDefaultLang(userLanguage);
-                    } else {
-                        this._translateService.setDefaultLang(res.languages[0]);
-                    }
-                    this._prepareLanguageSelection(res);
-                });
         });
+    }
+
+    ngOnInit() {
+        let userLanguage: string = navigator.language;
+        userLanguage = userLanguage.substr(0, 2);
+
+        this._wordService.getAvailableLanguages()
+            .then((res: LanguageResponse) => {
+                console.log(userLanguage);
+                if (res.languages.some(x => x === userLanguage)) {
+                    this._translateService.setDefaultLang(userLanguage);
+                } else {
+                    this._translateService.setDefaultLang(res.languages[0]);
+                }
+                this._prepareLanguageSelection(res);
+            });
     }
 
     private _prepareLanguageSelection(res: LanguageResponse) {
