@@ -1,8 +1,8 @@
 {
   "application.title": "COV2WORDS!",
   "application.description": "With our solution the 3 status words can be generated into machine readable QR codes, so that the anamnesis can be imported directly into SAP.",
-  "home.action": "Wählen Sie bitte die zwei Schlagwörter aus um die Anamnese-Daten zu generieren.",
-  "home.action2": " Die Reihenfolge der Schlagwörter muss eingehalten werden:",
+  "home.action": "Please select the keywords to generate the anamnesis data.",
+  "home.action2": "The order of keywords must be maintained:",
   "home.word1": "Keyword 1",
   "home.word2": "Keyword 2",
   "home.word3": "Keyword 3",

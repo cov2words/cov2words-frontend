@@ -127,7 +127,7 @@ export class HomePage implements OnInit {
     async presentToast(message: string) {
         const toast = await this._toastController.create({
             message: message,
-            duration: 2000
+            duration: 10000
         });
         toast.present();
     }

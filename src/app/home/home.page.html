@@ -15,9 +15,7 @@
 <ion-content padding>
     <ion-grid>
         <ion-row>
-            <div class="ion-text-center" style="margin: auto;">
-                <img src="assets/images/undraw_doctor_kw5l.svg"
-                     style="max-height: 400px; margin: 20px auto;"/>
+            <ion-col>
                 <p>{{ 'application.description' | translate }}</p>
                 <p>{{ 'home.action' | translate }}</p>
                 <div class="word-container">
@@ -37,7 +35,13 @@
                             [width]="256"
                             [errorCorrectionLevel]="'M'"></qrcode>
                 </div>
-            </div>
+            </ion-col>
+            <ion-col>
+                <div class="ion-text-center" style="margin: auto;">
+                    <img src="assets/images/undraw_doctor_kw5l.svg"
+                         style="max-height: 400px; margin: 20px auto;"/>
+                </div>
+            </ion-col>
         </ion-row>
     </ion-grid>
 </ion-content>
