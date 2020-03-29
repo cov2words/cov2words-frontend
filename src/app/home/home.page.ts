@@ -39,16 +39,16 @@ export class HomePage implements OnInit {
             this.deferredPrompt = e;
             this.showInstallBtn = true;
         });
+
+        this._cov2WordsService.wordList.subscribe((res: WordListResponse) => {
+            this._buildWordListView(res);
+        });
     }
 
     ngOnInit() {
         if (this.deferredPrompt === undefined) {
             this.showInstallBtn = false;
         }
-
-        this._cov2WordsService.wordList.subscribe((res: WordListResponse) => {
-            this._buildWordListView(res);
-        });
     }
 
     private _buildWordListView(response: WordListResponse) {

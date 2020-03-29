@@ -41,8 +41,19 @@ export class AppComponent {
         this.platform.ready().then(() => {
             this.statusBar.styleDefault();
             this.splashScreen.hide();
+            let userLanguage: string = navigator.language;
+            userLanguage = userLanguage.substr(0, 2);
+
             this._wordService.getAvailableLanguages()
-                .then((res: LanguageResponse) => this._prepareLanguageSelection(res));
+                .then((res: LanguageResponse) => {
+                    console.log(userLanguage);
+                    if (res.languages.some(x => x === userLanguage)) {
+                        this._translateService.setDefaultLang(userLanguage);
+                    } else {
+                        this._translateService.setDefaultLang(res.languages[0]);
+                    }
+                    this._prepareLanguageSelection(res);
+                });
         });
     }
 
@@ -59,8 +70,8 @@ export class AppComponent {
             }
         });
 
-        if (this.languages.some(lang => lang.key === "en")) {
-            this._handleLanguage("en");
+        if (this.languages.some(lang => lang.key === this._translateService.getDefaultLang())) {
+            this._handleLanguage(this._translateService.getDefaultLang());
         } else {
             this._handleLanguage(this.languages[0].key);
         }
@@ -71,7 +82,6 @@ export class AppComponent {
     }
 
     private _handleLanguage(language: string) {
-        console.log("language: " + language);
         this._translateService.use(language);
         this._loadWordList(language);
     }
