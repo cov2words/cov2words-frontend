@@ -52,11 +52,23 @@ export class HomePage implements OnInit {
     private _buildWordListView(response: WordListResponse) {
         let view: WordView[] = [];
 
+        let words: string[] = response.words.sort((n1, n2) => {
+            if (n1 > n2) {
+                return 1;
+            }
+
+            if (n1 < n2) {
+                return -1;
+            }
+
+            return 0;
+        });
+
         for (let i = 0; i < response.combinations; i++) {
             view.push(
                 new WordView(
                     "home.word" + (i + 1),
-                    response.words,
+                    words,
                     response.combinations,
                     null,
                     response.language

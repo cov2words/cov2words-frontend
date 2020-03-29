@@ -18,23 +18,31 @@
             <ion-col>
                 <p>{{ 'application.description' | translate }}</p>
                 <p>{{ 'home.action' | translate }}</p>
-                <div class="word-container">
-                    <div class="word-select" *ngFor="let view of wordViews">
-                        <label>{{ view.label | translate }}</label>
-                        <ng-select
-                                [items]="view.items"
-                                [(ngModel)]="view.word"
-                                (change)="onWordChanged()">
-                        </ng-select>
-                    </div>
-                </div>
-
                 <div class="qr-container"
-                     *ngIf="qrCodeContent">
+                     *ngIf="qrCodeContent"
+                     style="text-align: center;">
                     <qrcode [qrdata]="qrCodeContent"
                             [width]="256"
                             [errorCorrectionLevel]="'M'"></qrcode>
                 </div>
+
+                <div class="qr-container"
+                     *ngIf="!qrCodeContent"
+                     style="text-align: center;">
+                    <img src="assets/images/qrcode.png"
+                         style="max-height: 256px;"/>
+                </div>
+                <ion-grid>
+                    <ion-row *ngFor="let view of wordViews">
+                        <strong>{{ view.label | translate }}</strong>
+                        <ng-select
+                                style="width: 100%; margin: 10px auto"
+                                [items]="view.items"
+                                [(ngModel)]="view.word"
+                                (change)="onWordChanged()">
+                        </ng-select>
+                    </ion-row>
+                </ion-grid>
             </ion-col>
             <ion-col>
                 <div class="ion-text-center" style="margin: auto;">
