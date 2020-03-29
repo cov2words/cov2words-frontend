@@ -7,6 +7,7 @@ import {WordRequest} from "../extlib/originstamp-client-js/originstamp_client_js
 import {WordPairResponse} from "../extlib/originstamp-client-js/originstamp_client_js/model/word_pair.response";
 import {ToastController} from "@ionic/angular";
 import {ServiceError} from "../extlib/originstamp-client-js/originstamp_client_js/error_handling/service_error.type";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
     selector: 'app-home',
@@ -27,7 +28,8 @@ export class HomePage implements OnInit {
         private _cov2WordsService: Cov2WordsService,
         private _wordService: WordService,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _toastController: ToastController
+        private _toastController: ToastController,
+        private _translateService: TranslateService
     ) {
         window.addEventListener('beforeinstallprompt', (e) => {
             console.log('beforeinstallprompt Event fired');
@@ -133,7 +135,10 @@ export class HomePage implements OnInit {
     }
 
     private _showError(err: ServiceError) {
-        this.presentToast(err.errorMessage);
+        this._translateService.get(err.errorMessage)
+            .subscribe((res: string) => {
+                this.presentToast(res);
+            });
     }
 
     async presentToast(message: string) {

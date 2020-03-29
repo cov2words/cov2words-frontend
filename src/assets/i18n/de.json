@@ -22,5 +22,6 @@
   "language_ru": "Russisch",
   "language.title": "Sprache",
   "home.action": "Wählen Sie bitte die zwei Schlagwörter aus um die Anamnese-Daten zu generieren.",
-  "home.action2": " Die Reihenfolge der Schlagwörter muss eingehalten werden:"
+  "home.action2": " Die Reihenfolge der Schlagwörter muss eingehalten werden:",
+  "We could not find an answer for your word combination.": "Wir konnten keine Antwort für Ihre Wortkombination finden."
 }
