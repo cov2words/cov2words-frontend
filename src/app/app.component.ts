@@ -22,6 +22,7 @@ export class AppComponent {
         }
     ];
 
+    public selectedLanguage;
     private _translations = ["en", "de", "es", "fr", "it", "nl", "pl", "pt", "ru"];
     public languages = [];
 
@@ -50,7 +51,6 @@ export class AppComponent {
 
         this._wordService.getAvailableLanguages()
             .then((res: LanguageResponse) => {
-                console.log(userLanguage);
                 if (res.languages.some(x => x === userLanguage)) {
                     this._translateService.setDefaultLang(userLanguage);
                 } else {
@@ -85,6 +85,7 @@ export class AppComponent {
     }
 
     private _handleLanguage(language: string) {
+        this.selectedLanguage = language;
         this._translateService.use(language);
         this._loadWordList(language);
     }

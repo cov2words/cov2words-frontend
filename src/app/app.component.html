@@ -40,7 +40,11 @@
                         <ion-item>
                             <ion-icon slot="start" [name]="'globe'"></ion-icon>
                             <ion-label>{{ 'language' | translate }}</ion-label>
-                            <ion-select placeholder="{{ 'language' | translate }}" (ionChange)="onChangeValue($event)">
+                            <ion-select
+                                    name="language"
+                                    value="{{selectedLanguage}}"
+                                    placeholder="{{ 'language' | translate }}"
+                                    (ionChange)="onChangeValue($event)">
                                 <ion-select-option *ngFor="let language of languages"
                                                    value="{{language.key}}">{{ language.translation | translate }}</ion-select-option>
                             </ion-select>
