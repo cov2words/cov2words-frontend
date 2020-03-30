@@ -48,6 +48,10 @@ export class HomePage implements OnInit {
         if (this.deferredPrompt === undefined) {
             this.showInstallBtn = false;
         }
+
+        if (this._cov2WordsService.lastValue !== null) {
+            this._buildWordListView(this._cov2WordsService.lastValue);
+        }
     }
 
     private _buildWordListView(response: WordListResponse) {

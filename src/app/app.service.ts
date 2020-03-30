@@ -3,6 +3,8 @@ import {WordListResponse} from "./extlib/originstamp-client-js/originstamp_clien
 
 @Injectable()
 export class Cov2WordsService {
+    public lastValue: WordListResponse;
+
     wordList: EventEmitter<WordListResponse>;
 
     constructor() {
@@ -10,6 +12,7 @@ export class Cov2WordsService {
     }
 
     public setWordList(res: WordListResponse) {
+        this.lastValue = res;
         this.wordList.emit(res);
     }
 }
