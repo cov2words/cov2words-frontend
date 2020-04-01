@@ -8,6 +8,7 @@ import {WordPairResponse} from "../extlib/originstamp-client-js/originstamp_clie
 import {ToastController} from "@ionic/angular";
 import {ServiceError} from "../extlib/originstamp-client-js/originstamp_client_js/error_handling/service_error.type";
 import {TranslateService} from "@ngx-translate/core";
+import {AnswerResponse} from "../extlib/originstamp-client-js/originstamp_client_js/model/answer.response";
 
 @Component({
     selector: 'app-home',
@@ -23,6 +24,7 @@ export class HomePage implements OnInit {
     public qrCodeContent = '';
 
     public wordViews: WordView[];
+    public answer: AnswerResponse = null;
 
     constructor(
         private _cov2WordsService: Cov2WordsService,
@@ -56,6 +58,10 @@ export class HomePage implements OnInit {
 
     private _buildWordListView(response: WordListResponse) {
         let view: WordView[] = [];
+
+        if (response == null) {
+            return;
+        }
 
         let words: string[] = response.words.sort((n1, n2) => {
             if (n1 > n2) {
@@ -110,8 +116,14 @@ export class HomePage implements OnInit {
         }
     }
 
+    public fetchCertificates(hash: string) {
+        // Building the URL.
+        window.open(this._wordService.getProofDownload(hash), "_blank");
+    }
+
     private updateQr(wordViews: WordView[]): void {
         this.qrCodeContent = null;
+        this.answer = null;
 
         let words: WordRequest[] = [];
         for (let i = 0; i < wordViews.length; i++) {
@@ -135,6 +147,7 @@ export class HomePage implements OnInit {
 
     private _handleResponse(res: WordPairResponse) {
         this.qrCodeContent = res.answer;
+        this.answer = res.answer_detail;
     }
 
     private _showError(err: ServiceError) {

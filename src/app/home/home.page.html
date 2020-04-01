@@ -51,6 +51,11 @@
                             (change)="onWordChanged()">
                     </ng-select>
                 </ion-row>
+                <ion-row *ngIf="answer !== null">
+                    <ion-button (click)="fetchCertificates(answer.answer_hash)"
+                                [disabled]="!answer.is_proof_available">{{ 'home.certificate' | translate }}
+                    </ion-button>
+                </ion-row>
             </ion-grid>
         </ion-row>
     </ion-grid>

@@ -42,4 +42,8 @@ export class WordService extends RestServiceImplementation {
         return this
             .postContextualized<CombinationsResponse>(url, req.toBody())
     }
+
+    public getProofDownload(hash: string): string {
+        return this.getBaseUrl() + "/pair/answers/proof/get?hash=" + hash;
+    }
 }
