@@ -1,5 +1,5 @@
 /**
- * Represents an OriginStamp API request.
+ * Represents an Cov2Words API request.
  */
 var RequestModel = /** @class */ (function () {
     function RequestModel() {
