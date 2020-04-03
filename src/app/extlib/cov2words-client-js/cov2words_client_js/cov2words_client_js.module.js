@@ -8,16 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import {CommonModule} from '@angular/common';
 import {HttpClientModule} from '@angular/common/http';
 import {NgModule} from '@angular/core';
-import {RecaptchaComponent} from './components/recaptcha.component';
-import {ConfigurationFactory} from './core/configuration_factory.service';
-import {DomainService} from './core/domain.service';
-import {SessionService} from './core/session.service';
 import {RestService} from './rest/rest.service';
-import {AccountService} from './rest_services/account.service';
-import {AccountBillingService} from './rest_services/account_billing.service';
-import {ContactService} from './rest_services/contact.service';
-import {LoginService} from './session/login.service';
-import {UserSession} from './session/user_session.service';
 
 var Cov2WordsClientJSModule = /** @class */ (function () {
     /**
@@ -32,27 +23,11 @@ var Cov2WordsClientJSModule = /** @class */ (function () {
                 CommonModule,
                 HttpClientModule // Rest service
             ],
-            declarations: [
-                RecaptchaComponent
-            ],
+            declarations: [],
             providers: [
-                // core
-                DomainService,
-                SessionService,
-                // rest
-                RestService,
-                // rest_services
-                AccountService,
-                AccountBillingService,
-                ContactService,
-                // session
-                LoginService,
-                UserSession,
-                ConfigurationFactory
+                RestService
             ],
-            exports: [
-                RecaptchaComponent
-            ]
+            exports: []
         })
         /**
          * Contains functionality related to user session management.
