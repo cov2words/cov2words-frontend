@@ -1,14 +1,14 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {Cov2WordsService} from "../app.service";
-import {WordService} from "../extlib/originstamp-client-js/originstamp_client_js/rest_services/word.service";
-import {WordListResponse} from "../extlib/originstamp-client-js/originstamp_client_js/model/wordlist.response";
-import {AnswerRequest} from "../extlib/originstamp-client-js/originstamp_client_js/model/answer.request";
-import {WordRequest} from "../extlib/originstamp-client-js/originstamp_client_js/model/word.request";
-import {WordPairResponse} from "../extlib/originstamp-client-js/originstamp_client_js/model/word_pair.response";
+import {WordService} from "../extlib/cov2words-client-js/cov2words_client_js/rest_services/word.service";
+import {WordListResponse} from "../extlib/cov2words-client-js/cov2words_client_js/model/wordlist.response";
+import {AnswerRequest} from "../extlib/cov2words-client-js/cov2words_client_js/model/answer.request";
+import {WordRequest} from "../extlib/cov2words-client-js/cov2words_client_js/model/word.request";
+import {WordPairResponse} from "../extlib/cov2words-client-js/cov2words_client_js/model/word_pair.response";
 import {ToastController} from "@ionic/angular";
-import {ServiceError} from "../extlib/originstamp-client-js/originstamp_client_js/error_handling/service_error.type";
+import {ServiceError} from "../extlib/cov2words-client-js/cov2words_client_js/error_handling/service_error.type";
 import {TranslateService} from "@ngx-translate/core";
-import {AnswerResponse} from "../extlib/originstamp-client-js/originstamp_client_js/model/answer.response";
+import {AnswerResponse} from "../extlib/cov2words-client-js/cov2words_client_js/model/answer.response";
 
 @Component({
     selector: 'app-home',

@@ -1,5 +1,5 @@
 import {EventEmitter, Injectable} from '@angular/core';
-import {WordListResponse} from "./extlib/originstamp-client-js/originstamp_client_js/model/wordlist.response";
+import {WordListResponse} from "./extlib/cov2words-client-js/cov2words_client_js/model/wordlist.response";
 
 @Injectable()
 export class Cov2WordsService {

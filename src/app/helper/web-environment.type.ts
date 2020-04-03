@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {IApplicationEnvironment} from "../extlib/originstamp-client-js/originstamp_client_js/config/application-environment.interface";
-import {NotImplementedError} from "../extlib/originstamp-client-js/originstamp_client_js/error_handling/not_implemented_error.type";
-import {Configuration} from "../extlib/originstamp-client-js/originstamp_client_js/config/config.type";
+import {IApplicationEnvironment} from "../extlib/cov2words-client-js/cov2words_client_js/config/application-environment.interface";
+import {NotImplementedError} from "../extlib/cov2words-client-js/cov2words_client_js/error_handling/not_implemented_error.type";
+import {Configuration} from "../extlib/cov2words-client-js/cov2words_client_js/config/config.type";
 import {ENV} from "../../environments/environment.prod";
 
 @Injectable()

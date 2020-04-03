@@ -1,5 +1,5 @@
 /**
- * Represents an OriginStamp API response.
+ * Represents an Cov2Words API response.
  */
 export class ResponseModel {
 

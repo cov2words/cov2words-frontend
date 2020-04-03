@@ -29,14 +29,14 @@ import {WordService} from "./rest_services/word.service";
  *
  * Requires LoggingModule and ConfigModule to be loaded.
  */
-export class OriginStampClientJSModule {
+export class Cov2WordsClientJSModule {
 
     // We ensure the Navigation service is instantiated for sure
     // We ensure this module is only loaded once to avoid singletons being loaded multiple times
-    constructor(@Optional() @SkipSelf() parentModule: OriginStampClientJSModule) {
+    constructor(@Optional() @SkipSelf() parentModule: Cov2WordsClientJSModule) {
         if (parentModule) {
             throw new Error(
-                'OriginStampClientJSModule is already loaded. Import it in the AppModule only');
+                'Cov2WordsClientJSModule is already loaded. Import it in the AppModule only');
         }
     }
 

@@ -11,8 +11,8 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
-import {OriginStampClientJSModule} from "./extlib/originstamp-client-js/originstamp_client_js/originstamp_client_js.module";
-import {ApplicationEnvironment} from "./extlib/originstamp-client-js/originstamp_client_js/config/application-environment.service";
+import {Cov2WordsClientJSModule} from "./extlib/cov2words-client-js/cov2words_client_js/cov2words_client_js.module";
+import {ApplicationEnvironment} from "./extlib/cov2words-client-js/cov2words_client_js/config/application-environment.service";
 import {WebEnvironment} from "./helper/web-environment.type";
 import {Cov2WordsService} from "./app.service";
 
@@ -28,7 +28,7 @@ export function createTranslateLoader(http: HttpClient) {
         HttpClientModule,
         IonicModule.forRoot(),
         AppRoutingModule,
-        OriginStampClientJSModule,
+        Cov2WordsClientJSModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,

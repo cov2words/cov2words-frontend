@@ -4,10 +4,10 @@ import {Platform} from '@ionic/angular';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {TranslateService} from "@ngx-translate/core";
-import {WordService} from "./extlib/originstamp-client-js/originstamp_client_js/rest_services/word.service";
-import {LanguageResponse} from "./extlib/originstamp-client-js/originstamp_client_js/model/language.response";
+import {WordService} from "./extlib/cov2words-client-js/cov2words_client_js/rest_services/word.service";
+import {LanguageResponse} from "./extlib/cov2words-client-js/cov2words_client_js/model/language.response";
 import {Cov2WordsService} from "./app.service";
-import {WordListRequest} from "./extlib/originstamp-client-js/originstamp_client_js/model/wordlist.request";
+import {WordListRequest} from "./extlib/cov2words-client-js/cov2words_client_js/model/wordlist.request";
 
 @Component({
     selector: 'app-root',
