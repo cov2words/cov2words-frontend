@@ -11,6 +11,6 @@ export const ENV = {
     production: true,
     version: '%VERSION%',
     cov2words: {
-        apiBaseUrl: 'https://cov2words.hepp.io',
+        apiBaseUrl: 'https://api.cov2words.com',
     }
 };
