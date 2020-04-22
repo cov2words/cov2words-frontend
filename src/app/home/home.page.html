@@ -22,7 +22,7 @@
             <ion-col>
                 <div class="ion-text-center" style="margin: auto;">
                     <img src="assets/images/undraw_doctor_kw5l.svg"
-                         style="max-height: 400px; margin: 20px auto;"/>
+                         style="max-height: 200px; margin: 20px auto;"/>
                 </div>
             </ion-col>
         </ion-row>
@@ -31,7 +31,7 @@
                  *ngIf="qrCodeContent"
                  style="text-align: center;">
                 <qrcode [qrdata]="qrCodeContent"
-                        [width]="256"
+                        [width]="150"
                         [errorCorrectionLevel]="'M'"></qrcode>
             </div>
 
@@ -39,7 +39,7 @@
                  *ngIf="!qrCodeContent"
                  style="text-align: center;">
                 <img src="assets/images/qrcode.png"
-                     style="max-height: 256px;"/>
+                     style="max-height: 150px;"/>
             </div>
             <ion-grid>
                 <ion-row *ngFor="let view of wordViews">
