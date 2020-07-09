@@ -1,0 +1,16 @@
+<ion-button color="primary" (click)="loadQuestions('test')">
+  load (mock)
+  <ion-icon name="construct"></ion-icon>
+</ion-button>
+<ion-button (click)="saveQuestions('test', questions)">
+  <ion-icon name="save"></ion-icon>
+</ion-button>
+<ion-button (click)="downloadAWSConnectJSON()">
+  <ion-icon name="document"></ion-icon>
+</ion-button>
+<ion-button (click)="undo()" [disabled]="!hasPast">
+  <ion-icon name="arrow-back"></ion-icon>
+</ion-button>
+<ion-button (click)="redo()" [disabled]="!hasFuture">
+  <ion-icon name="arrow-forward"></ion-icon>
+</ion-button>

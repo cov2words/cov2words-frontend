@@ -15,6 +15,12 @@ import {Cov2WordsClientJSModule} from "./extlib/cov2words-client-js/cov2words_cl
 import {ApplicationEnvironment} from "./extlib/cov2words-client-js/cov2words_client_js/config/application-environment.service";
 import {WebEnvironment} from "./helper/web-environment.type";
 import {Cov2WordsService} from "./app.service";
+import {QuestionsService} from "./questions/questions.service"
+
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import {ENV} from "../environments/environment"
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -25,6 +31,9 @@ export function createTranslateLoader(http: HttpClient) {
     entryComponents: [],
     imports: [
         BrowserModule,
+        AngularFireModule.initializeApp(ENV.firebaseConfig),
+        AngularFireDatabaseModule,
+        AngularFirestoreModule,
         HttpClientModule,
         IonicModule.forRoot(),
         AppRoutingModule,
@@ -41,6 +50,7 @@ export function createTranslateLoader(http: HttpClient) {
         StatusBar,
         SplashScreen,
         Cov2WordsService,
+        QuestionsService,
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
         {
             provide: ApplicationEnvironment,

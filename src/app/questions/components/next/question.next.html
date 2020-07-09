@@ -1,0 +1,3 @@
+<ion-select value='{{nextQuestion}}' selectedText='{{nextQuestion}}' (ionChange)='changeNextQuestion(index, $event)'>
+  <ion-select-option *ngFor='let option of options' value='{{option.id}}'>{{option.id}}</ion-select-option>
+</ion-select>

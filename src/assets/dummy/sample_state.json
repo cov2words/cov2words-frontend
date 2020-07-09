@@ -1,0 +1,445 @@
+{
+  "questions": [
+    {
+      "id": "P0",
+      "category": "personalInfo",
+      "text": "How old are you?",
+      "inputType": "radio",
+      "options": [
+        "Under 40",
+        "40-50",
+        "51-60",
+        "61-70",
+        "71-80",
+        "Over 80"
+      ],
+      "nextQuestionMap": [
+        "P2",
+        "P2",
+        "P2",
+        "P1",
+        "P2",
+        "P2"
+      ],
+      "uuid": "d472bf2a-9ff0-4c8c-be08-79c1f4293551",
+      "showModal": false
+    },
+    {
+      "id": "P1",
+      "category": "personalInfo",
+      "text": "Are you 65 years old or older?",
+      "inputType": "radio",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "uuid": "4747216a-a489-45aa-b59b-c2ce3e04e66d",
+      "showModal": false
+    },
+    {
+      "id": "P2",
+      "category": "personalInfo",
+      "text": "What is your current living situation?",
+      "inputType": "radio",
+      "options": [
+        "Living alone",
+        "Living together with family, in a shared flat, or in a supervised community facility"
+      ],
+      "uuid": "caf89016-3ccc-453a-9516-ec264b9eb51e",
+      "showModal": false
+    },
+    {
+      "id": "P3",
+      "category": "personalInfo",
+      "text": "At least once a week, do you privately care for people with age-related conditions, chronic illnesses, or frailty?",
+      "inputType": "radio",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "uuid": "032eb1c2-92e5-4989-ad8e-1c87cb19d62c",
+      "showModal": false
+    },
+    {
+      "id": "P4",
+      "category": "personalInfo",
+      "text": "Do you work in one of the following areas?",
+      "inputType": "radio",
+      "options": [
+        "In the medical field",
+        "In a community facility (school, day care center, university, home etc.)",
+        "No, in none of the above"
+      ],
+      "uuid": "8d5464c6-f352-4101-802f-58530b9530a6",
+      "showModal": false
+    },
+    {
+      "id": "P5",
+      "category": "personalInfo",
+      "text": "Do you smoke?",
+      "inputType": "radio",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "uuid": "fdf49f0e-0289-4424-b555-b9e76ec1c505",
+      "showModal": false
+    },
+    {
+      "id": "P6",
+      "category": "personalInfo",
+      "text": "Are you pregnant?",
+      "inputType": "radio",
+      "options": [
+        "Yes",
+        "No",
+        "I don't know"
+      ],
+      "uuid": "e7663f60-827e-43cc-a148-c52c3d818e3d",
+      "showModal": false
+    },
+    {
+      "id": "C0",
+      "category": "contact",
+      "text": "Have you had close contact with a confirmed case?",
+      "inputType": "radio",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "nextQuestionMap": [
+        "CZ",
+        "S0"
+      ],
+      "scoreMap": [
+        1,
+        0
+      ],
+      "uuid": "6a11d706-6c8a-4179-9ee8-019b22be8557",
+      "showModal": false
+    },
+    {
+      "id": "CZ",
+      "category": "contact",
+      "text": "What day was the last contact?",
+      "inputType": "date",
+      "uuid": "b547b2c3-6725-46a3-8abe-ec33514b8493",
+      "showModal": false
+    },
+    {
+      "id": "S0",
+      "category": "symptoms",
+      "text": "Have you had a fever (over 38°C) in the past 24 hours?",
+      "inputType": "radio",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "nextQuestionMap": [
+        "S2",
+        "S1"
+      ],
+      "scoreMap": [
+        1,
+        0
+      ],
+      "uuid": "4634cb88-6242-4851-ba09-09815b31ea04",
+      "showModal": false
+    },
+    {
+      "id": "S1",
+      "category": "symptoms",
+      "text": "Have you had a fever (over 38°C) in the past 4 days?",
+      "inputType": "radio",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "nextQuestionMap": [
+        "S2",
+        "S3"
+      ],
+      "scoreMap": [
+        1,
+        0
+      ],
+      "uuid": "da722e9d-2312-46d9-8316-0dfeca4d2ec7",
+      "showModal": false
+    },
+    {
+      "id": "S2",
+      "category": "symptoms",
+      "text": "What was the highest temperature, approx.?",
+      "inputType": "radio",
+      "options": [
+        "38°C",
+        "39°C",
+        "40°C",
+        "41°C",
+        "42°C",
+        "More than 42°C",
+        "I don't know"
+      ],
+      "uuid": "6470c970-9360-46d3-af85-0293ec792ea9",
+      "showModal": false
+    },
+    {
+      "id": "S3",
+      "category": "symptoms",
+      "text": "In the past 24 hours, have you had chills?",
+      "inputType": "radio",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "scoreMap": [
+        1,
+        0
+      ],
+      "uuid": "d1149981-1f7c-457b-8065-63111d112e33",
+      "showModal": false
+    },
+    {
+      "id": "S4",
+      "category": "symptoms",
+      "text": "In the past 24 hours, have you felt tired or worn out?",
+      "inputType": "radio",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "scoreMap": [
+        1,
+        0
+      ],
+      "uuid": "09988afe-144f-4bf0-a7d4-7c7e727a925d",
+      "showModal": false
+    },
+    {
+      "id": "S5",
+      "category": "symptoms",
+      "text": "In the past 24 hours, have you had body aches?",
+      "inputType": "radio",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "scoreMap": [
+        1,
+        0
+      ],
+      "uuid": "5ce64a5f-52aa-4f84-ae9a-0154f464bea3",
+      "showModal": false
+    },
+    {
+      "id": "S6",
+      "category": "respiratorySymptoms",
+      "text": "In the past 24 hours, have you had a persistent cough?",
+      "inputType": "radio",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "scoreMap": [
+        1,
+        0
+      ],
+      "uuid": "640b0dd1-6ebf-4996-9b29-9bc5d81d1edc",
+      "showModal": false
+    },
+    {
+      "id": "S7",
+      "category": "respiratorySymptoms",
+      "text": "In the past 24 hours, have you had a runny nose?",
+      "inputType": "radio",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "scoreMap": [
+        1,
+        0
+      ],
+      "uuid": "80c667ce-4fc7-4a57-a40a-6e898b01427d",
+      "showModal": false
+    },
+    {
+      "id": "S8",
+      "category": "symptoms",
+      "text": "In the past 24 hours, have you had diarrhea?",
+      "inputType": "radio",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "scoreMap": [
+        1,
+        0
+      ],
+      "uuid": "39ef20af-0035-4e18-9702-e7b79b211720",
+      "showModal": false
+    },
+    {
+      "id": "S9",
+      "category": "respiratorySymptoms",
+      "text": "In the past 24 hours, have you had a sore throat?",
+      "inputType": "radio",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "scoreMap": [
+        1,
+        0
+      ],
+      "uuid": "e795033e-7eec-4f6a-8971-51271d01975d",
+      "showModal": false
+    },
+    {
+      "id": "SA",
+      "category": "symptoms",
+      "text": "In the past 24 hours, have you had a headache?",
+      "inputType": "radio",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "scoreMap": [
+        1,
+        0
+      ],
+      "uuid": "0e15e303-2080-4404-8285-3e46dd17a094",
+      "showModal": false
+    },
+    {
+      "id": "SB",
+      "category": "respiratorySymptoms",
+      "text": "In the past 24 hours, did you feel that you were more quickly out of breath than usual?",
+      "inputType": "radio",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "scoreMap": [
+        1,
+        0
+      ],
+      "uuid": "050348b2-8570-45ea-83ac-a3ba2c3fa181",
+      "showModal": false
+    },
+    {
+      "id": "SC",
+      "category": "symptoms",
+      "text": "Have you had any taste and/or smell loss in the last 24 hours?",
+      "inputType": "radio",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "scoreMap": [
+        1,
+        0
+      ],
+      "uuid": "8d25ff89-d545-4893-a662-84e77a5a2d35",
+      "showModal": false
+    },
+    {
+      "id": "SZ",
+      "category": "symptoms",
+      "text": "With regard to all questions about symptoms: since when have you had the symptoms you specified?",
+      "inputType": "date",
+      "uuid": "7d331cde-6cd9-4924-ba3b-d2de6a8932fe",
+      "showModal": false
+    },
+    {
+      "id": "D0",
+      "category": "illnesses",
+      "text": "Have you been diagnosed with chronic lung disease by a doctor?",
+      "inputType": "radio",
+      "options": [
+        "Yes",
+        "No",
+        "I don't know"
+      ],
+      "uuid": "2eba9495-6121-4444-8c63-dd98bfab0c71",
+      "showModal": false
+    },
+    {
+      "id": "D1",
+      "category": "illnesses",
+      "text": "Have you been diagnosed with diabetes by a doctor?",
+      "inputType": "radio",
+      "options": [
+        "Yes",
+        "No",
+        "I don't know"
+      ],
+      "uuid": "8cc95814-89cb-4b14-aec6-1208f7016628",
+      "showModal": false
+    },
+    {
+      "id": "D2",
+      "category": "illnesses",
+      "text": "Have you been diagnosed with heart disease by a doctor?",
+      "inputType": "radio",
+      "options": [
+        "Yes",
+        "No",
+        "I don't know"
+      ],
+      "uuid": "8c97185e-60c1-4e53-b966-6235b45df46a",
+      "showModal": false
+    },
+    {
+      "id": "D3",
+      "category": "illnesses",
+      "text": "Have you been diagnosed with adipositas (obesity) by a doctor?",
+      "inputType": "radio",
+      "options": [
+        "Yes",
+        "No",
+        "I don't know"
+      ],
+      "uuid": "8de3a9b8-b180-4805-b92c-57de99f617fd",
+      "showModal": false
+    },
+    {
+      "id": "M0",
+      "category": "medication",
+      "text": "Are you currently taking steroids?",
+      "inputType": "radio",
+      "options": [
+        "Yes",
+        "No",
+        "I don't know"
+      ],
+      "uuid": "64f43db7-e0b4-4522-b1cc-e0039b776eec",
+      "showModal": false
+    },
+    {
+      "id": "M1",
+      "category": "medication",
+      "text": "Are you currently taking immunosuppressants?",
+      "inputType": "radio",
+      "options": [
+        "Yes",
+        "No",
+        "I don't know"
+      ],
+      "uuid": "2eeaddb6-e8f5-4928-a69d-f5a8cc02b50a",
+      "showModal": false
+    },
+    {
+      "id": "M2",
+      "category": "medication",
+      "text": "Have you been vaccinated against flu between October 2019 and today?",
+      "inputType": "radio",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "uuid": "c0737ec4-4426-4d8d-81c0-5c47349e592f",
+      "showModal": false
+    }
+  ]
+}

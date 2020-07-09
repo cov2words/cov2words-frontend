@@ -1,0 +1,39 @@
+<ion-row class="question">
+  <ion-col size="1">
+    <ion-input value="{{question.id}}" (ionChange)="changeQuestionId($event)"></ion-input>
+  </ion-col>
+  <ion-col size="5">
+    <ion-textarea value="{{question.text}}" (ionChange)="changeQuestionText($event)"></ion-textarea>
+  </ion-col>
+  <ion-col size="4">
+    <ion-button (click)="deleteQuestion(question.uuid)">
+      <ion-icon name="trash"></ion-icon>
+    </ion-button>
+    <ion-button (click)="moveQuestion(-1)">
+      <ion-icon name="arrow-up"></ion-icon>
+    </ion-button>
+    <ion-button (click)="moveQuestion(1)">
+      <ion-icon name="arrow-down"></ion-icon>
+    </ion-button>
+  </ion-col>
+  <ion-col size="2">
+    <ion-item>
+      <ion-label>fork</ion-label>
+      <ion-toggle checked="{{fork}}" (ionChange)="toggleFork($event)"></ion-toggle>
+    </ion-item>
+  </ion-col>
+  <ion-col size="6">
+    <ion-list *ngIf="question.options">
+      <question-option *ngFor="let option of question.options; let i=index; trackBy:trackByFn"
+        [onChangeOptionText]='changeOptionText' [option]='option' [index]='i' [onDeleteOption]='deleteOption'>
+      </question-option>
+    </ion-list>
+  </ion-col>
+  <ion-col size="6">
+    <ion-list *ngIf="fork">
+      <question-next *ngFor="let nextQuestion of question.nextQuestionMap; let i=index; trackBy:trackByFn"
+        [onChangeNextQuestion]='changeNextQuestion' [nextQuestion]='nextQuestion' [index]='i' [options]='questions'>
+      </question-next>
+    </ion-list>
+  </ion-col>
+</ion-row>

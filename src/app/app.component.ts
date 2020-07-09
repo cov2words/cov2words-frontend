@@ -7,6 +7,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {WordService} from "./extlib/cov2words-client-js/cov2words_client_js/rest_services/word.service";
 import {LanguageResponse} from "./extlib/cov2words-client-js/cov2words_client_js/model/language.response";
 import {Cov2WordsService} from "./app.service";
+import {QuestionsService} from "./questions/questions.service"
 import {WordListRequest} from "./extlib/cov2words-client-js/cov2words_client_js/model/wordlist.request";
 
 @Component({
@@ -19,6 +20,11 @@ export class AppComponent {
             title: 'Home',
             url: '/',
             icon: 'home'
+        },
+        {
+            title: 'Questions',
+            url: '/questions',
+            icon: 'construct'
         }
     ];
 
@@ -33,6 +39,7 @@ export class AppComponent {
         private _translateService: TranslateService,
         private _wordService: WordService,
         private _cov2WordsService: Cov2WordsService,
+        private _questionsService: QuestionsService,
         private _changeDetectorRef: ChangeDetectorRef
     ) {
         this.initializeApp();
