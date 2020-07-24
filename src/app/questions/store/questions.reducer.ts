@@ -146,6 +146,7 @@ export function newQuestionReducer(state = initialStateNewQuestion, action: NewQ
 }
 
 export function optionsReducer(state, action: OptionsActions) {
+  console.log({state})
   switch (action.type) {
     case OptionsActionType.DELETE_OPTION:
       return state.filter((opt, i) => i !== action.payload.index)
@@ -432,7 +433,6 @@ export function rootReducer(state = initialState, action: RootActions) {
     case QuestionsActionType.DELETE_QUESTION:
     case QuestionsActionType.MOVE_QUESTION:
     case QuestionsActionType.MOVE_QUESTION_DND:
-    //case QuestionsActionType.DELETE_OPTION:
     case QuestionsActionType.CHANGE_QUESTION_ID:
     case QuestionsActionType.CHANGE_QUESTION_TEXT:
     case QuestionsActionType.CHANGE_QUESTION_CATEGORY:
@@ -456,12 +456,18 @@ export function rootReducer(state = initialState, action: RootActions) {
 
       let questionIndex = questions.findIndex(question => question.uuid == uuid)
       let question = questions.find(question => question.uuid == uuid)
-      let options = optionsReducer(question.options, action)
+      let options = optionsReducer(question.options || [], action)
       // delete the nextquestion on the fly
-      let nextQuestionMap = question.nextQuestionMap !== undefined
+      console.log("WTFT", question.nextQuestionMap)
+
+      /* let nextQuestionMap = question.nextQuestionMap !== undefined
         ? nextQuestionReducer(question.nextQuestionMap, action)
         : undefined
-      let updatedQuestion = Object.assign({}, question, { options, nextQuestionMap })
+      let updatedQuestion = Object.assign({}, question, { options, nextQuestionMap }) */
+
+      let updatedQuestion = question.nextQuestionMap !== undefined
+        ? Object.assign({}, question, { options, nextQuestionMap: nextQuestionReducer(question.nextQuestionMap, action)})
+        : Object.assign({}, question, {options})
 
       questions[questionIndex] = Object.assign({}, updatedQuestion)
 

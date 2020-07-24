@@ -36,7 +36,8 @@ export class CreateQuestionaireModal implements OnInit {
     let questionaire = {
       name: this._name,
       owner: 'elnerdo',
-      uuid: uuid()
+      uuid: uuid(),
+      categories: []
     }
     this.store.dispatch(new Questions.CreateQuestionaire({...questionaire}))
     this.modalCtrl.dismiss()
