@@ -1,0 +1,15 @@
+<ion-grid>
+  <ion-row>
+    <ion-input placeholder="enter questionaire name" (ionChange)='changeName($event)'></ion-input>
+    <ul>
+      <li>TODO: option to add categories on creation?</li>
+    </ul>
+    <!-- <ion-list *ngIf="">
+      <ion-item *ngFor="let category of categories; let i=index; trackBy:trackByFn">
+        {{ category }}
+      </ion-item>
+    </ion-list>
+    <ng-template #noCats>Everybody should have at least one cat</ng-template> -->
+  </ion-row>
+  <ion-button (click)="addQuestionaire()" disabled="{{!complete}}">create</ion-button>
+</ion-grid>

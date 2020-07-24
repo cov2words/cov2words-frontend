@@ -8,12 +8,20 @@ export class QuestionsService {
 
   constructor(private db: AngularFireDatabase) {}
 
-  getQuestions(questionaire: string) {
-    return this.db.object(`questionaire/${questionaire}/questions`).valueChanges()
+  getQuestionaires() {
+    return this.db.list('questionaire').valueChanges()
   }
 
-  setQuestions(questionaire: string, questions: []) {
-    return this.db.object(`questionaire/${questionaire}/questions`).set(questions)
+  getQuestionaire(questionaire: string) {
+    return this.db.object(`questionaire/${questionaire}`).valueChanges()
+  }
+
+  setQuestionaire(questionaire: {name: string, owner: string, created: string, uuid: string}, questions: []) {
+    // WIP
+    let modified = new Date(), created = new Date()
+    let metadata = Object.assign({}, questionaire, {modified: modified.toISOString(), created: questionaire.created || created.toISOString()})
+    let data = { metadata, questions }
+    return this.db.object(`questionaire/${questionaire.uuid}`).set(data)
   }
 
 }

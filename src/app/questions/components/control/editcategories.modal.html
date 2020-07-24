@@ -1,0 +1,13 @@
+<ion-grid>
+  <ion-list>
+    <ion-item *ngFor="let cat of categories; let i=index; trackBy: trackByFn">
+      <ion-input (ionChange)="editCategory(i, $event)" value="{{cat}}"></ion-input>
+      <ion-button (click)="deleteCategory(i)">delete</ion-button>
+    </ion-item>
+    <ion-item>
+      <ion-input (ionChange)="editNewCategory($event)"></ion-input>
+      <ion-button (click)="addCategory()" disabled="{{ newCategory.length <= 0 }}">add</ion-button>
+    </ion-item>
+  </ion-list>
+  <ion-button (click)="close()">close</ion-button>
+</ion-grid>

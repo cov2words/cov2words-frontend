@@ -1,0 +1,9 @@
+<ion-list>
+  <ion-item class="center">
+    <ion-label>{{labelText}}</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-textarea value="{{value}}" placeholder="{{placeholder}}" (ionChange)='changeValue($event)'></ion-textarea>
+  </ion-item>
+  <ion-button (click)="onSetValue()" disabled="{{!value}}">OK</ion-button>
+</ion-list>

@@ -2,16 +2,19 @@ import { Injectable } from '@angular/core'
 import { Actions, Effect, ofType } from '@ngrx/effects'
 import { QuestionsService } from '../questions.service'
 import {
+  FirebaseActionType,
   QuestionsActionType,
-  GetQuestionsSuccess,
-  GetQuestionsFailure,
-  /* SetQuestionsSuccess,
-  SetQuestionsFailure, */
+  GetQuestionairesSuccess,
+  GetQuestionairesFailure,
+  GetQuestionaireSuccess,
+  GetQuestionaireFailure,
+  SetQuestionaireSuccess,
+  SetQuestionaireFailure,
 } from './questions.actions'
 import { switchMap, catchError, map } from 'rxjs/operators'
-import { of } from 'rxjs'
+import { of, from } from 'rxjs'
 
-import { Question } from '../questions.model'
+import { Questionaire } from '../questions.model'
 
 @Injectable()
 export class QuestionsEffects {
@@ -22,25 +25,37 @@ export class QuestionsEffects {
   ) { }
 
   @Effect()
-  getQuestions$ = this.actions$.pipe(
-    ofType(QuestionsActionType.GET_QUESTIONS),
-    switchMap((action) => {
-      let { payload } = action
-      return this.questionsService.getQuestions(payload).pipe(
-        map((questions: Array<Question>) => new GetQuestionsSuccess(questions)),
-        catchError(error => of(new GetQuestionsFailure(error)))
+  getQuestionaires$ = this.actions$.pipe(
+    ofType(FirebaseActionType.GET_QUESTIONAIRES),
+    switchMap(() => {
+      return this.questionsService.getQuestionaires().pipe(
+        map((questionaires: Array<Questionaire>) => new GetQuestionairesSuccess(questionaires)),
+        catchError(error => of(new GetQuestionairesFailure(error)))
       )
-    }
-      
-    )
+    })
   )
 
   @Effect()
-  setQuestions$ = this.actions$.pipe(
-    ofType(QuestionsActionType.SET_QUESTIONS),
+  getQuestionaire$ = this.actions$.pipe(
+    ofType(FirebaseActionType.GET_QUESTIONAIRE),
     switchMap((action) => {
-      let { payload: { questionaire, questions} } = action
-      return this.questionsService.setQuestions(questionaire, questions)
+      let { payload: {questionaireUUID} } = action
+      return this.questionsService.getQuestionaire(questionaireUUID).pipe(
+        map((questionaire: Questionaire) => new GetQuestionaireSuccess({questionaire})),
+        catchError(error => of(new GetQuestionaireFailure(error)))
+      )
+    })
+  )
+
+  @Effect()
+  setQuestionaire$ = this.actions$.pipe(
+    ofType(FirebaseActionType.SET_QUESTIONAIRE),
+    switchMap((action) => {
+      let { payload: { questionaire, questions } } = action
+      return from(this.questionsService.setQuestionaire(questionaire, questions)).pipe(
+        map(() => new SetQuestionaireSuccess('save success')),
+        catchError(error => of(new SetQuestionaireFailure(error)))
+      )
     })
   )
 
