@@ -12,7 +12,7 @@ export class QuestionsPage implements OnInit {
 
     public questions
     public questionaire
-    public _showStatements: boolean = true
+    public _showStatements: boolean = false
 
     constructor(
       private store: Store<any>,

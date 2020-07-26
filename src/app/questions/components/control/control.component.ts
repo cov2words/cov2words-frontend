@@ -9,6 +9,7 @@ import * as Questions from "../../store/actions/question"
 import { CreateQuestionaireModal } from "./createquestionaire.modal"
 import { EditCategoriesModal } from "./editcategories.modal"
 import { AddQuestionModal } from "./addquestion.modal"
+import { AWSConnectModal } from "./awsconnect.modal"
 
 
 @Component({
@@ -107,6 +108,13 @@ export class ControlComponent implements OnInit {
       component: AddQuestionModal
     })
     return await addQuestionModal.present()
+  }
+
+  async showAWSConnectModal() {
+    let awsConnectModal = await this.modalCtrl.create({
+      component: AWSConnectModal
+    })
+    return await awsConnectModal.present()
   }
 
   downloadAWSConnectJSON() {
