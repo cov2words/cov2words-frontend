@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store'
-import * as Questions from "../../store/questions.actions"
+import * as Questions from "../../store/actions/question"
 import { uuid } from "uuidv4"
 
 @Component({

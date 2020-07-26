@@ -1,0 +1,27 @@
+<ion-grid>
+  <ion-row *ngFor="let sq of selectedQuestions; let i=index; trackBy: trackByFn">
+    <ion-col size="4">
+      {{ sq.id }}: {{ sq.text }}
+    </ion-col>
+    <ion-col size="8">
+      <ion-input placeholder="enter answer value" (ionChange)="changeAnswer(sq, i, $event)"></ion-input>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size=12>
+      <ion-button (click)="handleEvalLogic()">eval</ion-button>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <ion-input placeholder="enter new statement name" value={{newStatementName}}
+        (ionChange)="changeNewStatementName($event)"></ion-input>
+    </ion-col>
+    <ion-col>
+      <ion-button disabled="{{ newStatementName.length <= 0 }}" (click)="addStatement()">add</ion-button>
+    </ion-col>
+  </ion-row>
+  <ion-row *ngFor="let s of statements; let i=index; trackBy: trackByFn" class="statementWrapper">
+    <statement-component [statement]="s"></statement-component>
+  </ion-row>
+</ion-grid>

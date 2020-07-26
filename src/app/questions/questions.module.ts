@@ -7,7 +7,7 @@ import {IonicModule} from '@ionic/angular';
 import { StoreModule, ActionReducer } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { storeLogger } from 'ngrx-store-logger';
-import { rootReducer, undoable } from "./store/questions.reducer"
+import { rootReducer, undoable } from "./store/reducers/root" //"./store/questions.reducer"
 import { QuestionsEffects } from "./store/questions.effects"
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
@@ -19,6 +19,9 @@ import {AddQuestionModal} from "./components/control/addquestion.modal"
 import { EditCategoriesModal } from "./components/control/editcategories.modal"
 import { EditModal } from "./components/question/edit.modal"
 import {TranslateModule} from "@ngx-translate/core";
+import { StatementCatalog } from "./components/statement/statement.catalog"
+import { StatementComponent } from './components/statement/statement.component';
+import { ConditionComponent } from './components/statement/condition.component';
 
 
 export function logger(reducer: ActionReducer<any>): any {
@@ -51,6 +54,9 @@ export const metaReducers = [logger];
       QuestionsPage,
       QuestionComponent,
       ControlComponent,
+      StatementComponent,
+      StatementCatalog,
+      ConditionComponent,
       CreateQuestionaireModal,
       AddQuestionModal,
       EditModal,
@@ -58,7 +64,10 @@ export const metaReducers = [logger];
     ],
     exports: [
       QuestionComponent,
-      ControlComponent
+      ControlComponent,
+      StatementComponent,
+      StatementCatalog,
+      ConditionComponent
     ],
     entryComponents: [
       CreateQuestionaireModal,

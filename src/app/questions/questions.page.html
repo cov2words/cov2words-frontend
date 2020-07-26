@@ -16,7 +16,7 @@
         </div>
       </ion-col>
     </ion-row>
-    <control-component></control-component>
+    <control-component [toggleQuestionsStatements]="toggleQuestionsStatements"></control-component>
     <ion-row *ngIf="questionaire">
       <ion-col>
         Questionaire: {{ questionaire.name }}
@@ -25,13 +25,16 @@
         LastModified: {{ questionaire.modified }}
       </ion-col>
     </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-list size="10">
-        <question-component *ngFor="let question of questions; trackBy:trackByFn"
-          [question]="question" [categories]="questionaire.categories"
-          [questions]="questions"></question-component>
-        </ion-list>
+    <div *ngIf="showStatements && questionaire; else elseBlock">
+      <statement-catalog></statement-catalog>
+    </div>
+    <ng-template #elseBlock>
+      <ion-row>
+        <ion-col>
+          <ion-list size="10">
+            <question-component *ngFor="let question of questions; trackBy:trackByFn" [question]="question"
+              [categories]="questionaire.categories" [questions]="questions"></question-component>
+          </ion-list>
         </ion-col>
         <ion-col size="2">
           <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
@@ -41,6 +44,7 @@
             </ion-item>
           </ion-reorder-group>
         </ion-col>
-    </ion-row>
+      </ion-row>
+    </ng-template>
   </ion-grid>
 </ion-content>

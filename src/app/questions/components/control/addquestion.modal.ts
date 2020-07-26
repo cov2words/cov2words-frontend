@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core'
 import { ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store'
-import * as Questions from "../../store/questions.actions"
+import * as Questions from "../../store/actions/question"
+import * as NewQuestion from "../../store/actions/newquestion"
 import { uuid } from "uuidv4"
 
 @Component({
@@ -35,7 +36,7 @@ export class AddQuestionModal implements OnInit {
   }
 
   changeNewQuestionAttribute(event, attr) {
-    this.store.dispatch(new Questions.ChangeNewQuestionAttribute({attribute: attr, value: event.target.value}))
+    this.store.dispatch(new NewQuestion.ChangeNewQuestionAttribute({attribute: attr, value: event.target.value}))
   }
 
   addQuestion() {

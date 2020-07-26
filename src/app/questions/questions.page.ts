@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {ToastController} from "@ionic/angular";
-import * as Questions from "./store/questions.actions"
+import * as Questions from "./store/actions/question"
 
 @Component({
     selector: 'app-home',
@@ -12,6 +12,7 @@ export class QuestionsPage implements OnInit {
 
     public questions
     public questionaire
+    public _showStatements: boolean = true
 
     constructor(
       private store: Store<any>,
@@ -31,6 +32,14 @@ export class QuestionsPage implements OnInit {
       })
     }
 
+    get showStatements() {
+      return this._showStatements
+    }
+
+    toggleQuestionsStatements = () => {
+      this._showStatements = !this._showStatements
+    }
+
     trackByFn(index,item) {
       return item.uuid
     }
@@ -43,7 +52,6 @@ export class QuestionsPage implements OnInit {
       // Finish the reorder and position the item in the DOM based on
       // where the gesture ended. Update the items variable to the
       // new order of items
-      console.log(ev.detail)
       let { from, to } = ev.detail
       this.store.dispatch(new Questions.MoveQuestionDnD({dragIndex: from, dropIndex: to}))
       ev.detail.complete();

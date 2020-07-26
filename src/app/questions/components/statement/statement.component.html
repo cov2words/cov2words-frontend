@@ -1,0 +1,19 @@
+<ion-col size="12">
+  <b>{{ statement.name }}</b>
+  <ion-input placeholder="enter new condition name" value="{{newConditionName}}"
+    (ionChange)="changeNewConditionName($event)"></ion-input>
+  <ion-button (click)="addCondition()" disabled="{{ newConditionName.length <= 0 }}">add condition</ion-button>
+</ion-col>
+<ion-col size="12">
+  <ion-list>
+    <condition-component *ngFor="let c of conditions; let i=index; trackBy: trackByFn" [statementUUID]="statement.uuid"
+      [condition]="c" [isLastElement]="i == conditions.length - 1" >
+    </condition-component>
+  </ion-list>
+</ion-col>
+<ion-col size="12">
+  <ion-textarea value="{{statement.trueText}}" placeholder="enter true text" (ionChange)="updateStatementTrueText($event)"></ion-textarea>
+</ion-col>
+<ion-col size="12">
+  <ion-textarea value="{{statement.falseText}}" placeholder="enter false text" (ionChange)="updateStatementFalseText($event)"></ion-textarea>
+</ion-col>

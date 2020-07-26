@@ -3,14 +3,13 @@ import { Actions, Effect, ofType } from '@ngrx/effects'
 import { QuestionsService } from '../questions.service'
 import {
   FirebaseActionType,
-  QuestionsActionType,
   GetQuestionairesSuccess,
   GetQuestionairesFailure,
   GetQuestionaireSuccess,
   GetQuestionaireFailure,
   SetQuestionaireSuccess,
   SetQuestionaireFailure,
-} from './questions.actions'
+} from './actions/firebase'
 import { switchMap, catchError, map } from 'rxjs/operators'
 import { of, from } from 'rxjs'
 

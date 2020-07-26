@@ -4,7 +4,8 @@ import { Store } from '@ngrx/store'
 /* import fileDownload from "js-file-download"
 import * as JSZip from "jszip" */
 import { uuid } from "uuidv4"
-import * as Questions from "../../store/questions.actions"
+import * as Firebase from "../../store/actions/firebase"
+import * as Questions from "../../store/actions/question"
 import { CreateQuestionaireModal } from "./createquestionaire.modal"
 import { EditCategoriesModal } from "./editcategories.modal"
 import { AddQuestionModal } from "./addquestion.modal"
@@ -16,6 +17,8 @@ import { AddQuestionModal } from "./addquestion.modal"
   styleUrls: ['./control.component.scss']
 })
 export class ControlComponent implements OnInit {
+
+  @Input() toggleQuestionsStatements: () => {}
 
   public hasFuture: boolean
   public hasPast: boolean
@@ -47,7 +50,7 @@ export class ControlComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.dispatch(new Questions.GetQuestionaires())
+    this.store.dispatch(new Firebase.GetQuestionaires())
     this.store.select(state => state.questions.present).subscribe(response => {
       this._questionaires = response.questionaires
       this._questionaire = response.questionaire
@@ -66,7 +69,7 @@ export class ControlComponent implements OnInit {
     let questionaireUUID = event.target.value
     console.log(questionaireUUID, this._questionaires)
     this._questionaires.some(q => q.uuid == questionaireUUID)
-      ? this.store.dispatch(new Questions.GetQuestionaire({questionaireUUID}))
+      ? this.store.dispatch(new Firebase.GetQuestionaire({questionaireUUID}))
       : null
   }
 
@@ -82,7 +85,7 @@ export class ControlComponent implements OnInit {
   saveQuestionaire() {
     let questionaire = this._questionaire
     let questions = this._questions
-    this.store.dispatch(new Questions.SetQuestionaire({questionaire,questions}))
+    this.store.dispatch(new Firebase.SetQuestionaire({questionaire,questions}))
   }
 
   async showCreateQuestionaireModal() {

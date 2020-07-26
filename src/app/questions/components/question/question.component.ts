@@ -2,7 +2,8 @@ import { Component, Input, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { ModalController } from '@ionic/angular';
 import { Question } from "../../questions.model"
-import * as Questions from "../../store/questions.actions"
+import * as Questions from "../../store/actions/question"
+import * as Options from "../../store/actions/option"
 import { EditModal } from "./edit.modal"
 
 @Component({
@@ -64,7 +65,7 @@ export class QuestionComponent implements OnInit {
 
   changeOptionText = (index: number, text: string) => {
     let { uuid } = this.question
-    this.store.dispatch(new Questions.ChangeOptionText({ uuid, index, text }))
+    this.store.dispatch(new Options.ChangeOptionText({ uuid, index, text }))
   }
 
   changeNextQuestion = (index: number, nextQuestion: string) => {
@@ -75,12 +76,12 @@ export class QuestionComponent implements OnInit {
 
   deleteOption = (index: number) => {
     let { uuid } = this.question
-    this.store.dispatch(new Questions.DeleteOption({ uuid, index }))
+    this.store.dispatch(new Options.DeleteOption({ uuid, index }))
   }
 
   addOption = (option: string) => {
     let { uuid } = this.question
-    this.store.dispatch(new Questions.AddOption({uuid, option}))
+    this.store.dispatch(new Options.AddOption({uuid, option}))
   }
 
   toggleFork = (event) => {
