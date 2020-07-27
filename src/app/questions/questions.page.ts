@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {ToastController} from "@ionic/angular";
+import { Plugins } from '@capacitor/core';
+import { from } from 'rxjs';
 import * as Questions from "./store/actions/question"
+import * as Auth from "./store/actions/auth"
 
 @Component({
     selector: 'app-home',
@@ -12,6 +15,7 @@ export class QuestionsPage implements OnInit {
 
     public questions
     public questionaire
+    public user
     public _showStatements: boolean = false
 
     constructor(
@@ -20,9 +24,15 @@ export class QuestionsPage implements OnInit {
     ) {}
 
     ngOnInit() {
+      from(Plugins.Storage.get({ key: 'authData' })).subscribe(response => {
+        let user = JSON.parse(response.value)
+        this.store.dispatch(new Auth.SetUser({user}))
+      })
+
       this.store.select(state => state.questions.present).subscribe(response => {
         this.questionaire = response.questionaire
         this.questions = response.questions
+        this.user = response.auth
         if (response.message) {
           this.presentToast(response.message)
         }

@@ -16,7 +16,7 @@
         </div>
       </ion-col>
     </ion-row>
-    <control-component [toggleQuestionsStatements]="toggleQuestionsStatements"></control-component>
+    <control-component *ngIf="user.email" [toggleQuestionsStatements]="toggleQuestionsStatements"></control-component>
     <ion-row *ngIf="questionaire">
       <ion-col>
         Questionaire: {{ questionaire.name }}

@@ -12,6 +12,7 @@ import { uuid } from "uuidv4"
 export class CreateQuestionaireModal implements OnInit {
 
   private _name: string = ''
+  private _userEmail
 
   constructor(
     private store: Store<any>,
@@ -26,7 +27,11 @@ export class CreateQuestionaireModal implements OnInit {
     return this._name
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.store.select(state => state.questions.present).subscribe(response => {
+      this._userEmail = response.auth.email
+    })
+  }
 
   changeName(event) {
     this._name = event.target.value
@@ -35,7 +40,7 @@ export class CreateQuestionaireModal implements OnInit {
   addQuestionaire() {
     let questionaire = {
       name: this._name,
-      owner: 'elnerdo',
+      owner: this._userEmail,
       uuid: uuid(),
       categories: []
     }

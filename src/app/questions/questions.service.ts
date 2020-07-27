@@ -8,8 +8,8 @@ export class QuestionsService {
 
   constructor(private db: AngularFireDatabase) {}
 
-  getQuestionaires() {
-    return this.db.list('questionaire').valueChanges()
+  getQuestionaires(owner: string) {
+    return this.db.list('questionaire', ref => ref.orderByChild('metadata/owner').equalTo(owner)).valueChanges()
   }
 
   getQuestionaire(questionaire: string) {

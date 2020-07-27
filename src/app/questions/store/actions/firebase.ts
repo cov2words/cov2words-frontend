@@ -20,7 +20,7 @@ export enum FirebaseActionType {
 
 export class GetQuestionaires implements CustomAction {
   readonly type = FirebaseActionType.GET_QUESTIONAIRES
-  constructor() {}
+  constructor(public payload: {email: string}) {}
 }
 
 export class GetQuestionairesSuccess implements CustomAction {

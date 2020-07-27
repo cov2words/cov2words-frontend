@@ -10,7 +10,7 @@ import {
   SetQuestionaireSuccess,
   SetQuestionaireFailure,
 } from './actions/firebase'
-import { switchMap, catchError, map } from 'rxjs/operators'
+import { switchMap, catchError, map, filter } from 'rxjs/operators'
 import { of, from } from 'rxjs'
 
 import { Questionaire } from '../questions.model'
@@ -26,8 +26,11 @@ export class QuestionsEffects {
   @Effect()
   getQuestionaires$ = this.actions$.pipe(
     ofType(FirebaseActionType.GET_QUESTIONAIRES),
-    switchMap(() => {
-      return this.questionsService.getQuestionaires().pipe(
+    switchMap((action) => {
+      //let email = action.payload.email
+      let { payload: {email} } = action
+      return this.questionsService.getQuestionaires(email).pipe(
+        //filter(Questionaire => Questionaire.metadata.owner == email),
         map((questionaires: Array<Questionaire>) => new GetQuestionairesSuccess(questionaires)),
         catchError(error => of(new GetQuestionairesFailure(error)))
       )

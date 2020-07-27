@@ -11,12 +11,9 @@ export interface ContactFlowQuestionProps {
   errorText: string,
   repeatText: string,
   index: number,
-  /* getState,
-  dispatch, */
   uuidMap: any,
   xxxMap: any,
   question: any,
-  //addKey,
   name: string,
   basename: string,
   positionX?: number,

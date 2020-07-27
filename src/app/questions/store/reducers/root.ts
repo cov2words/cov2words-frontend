@@ -1,3 +1,4 @@
+import { authReducer, initialStateAuth } from "./auth"
 import { categoriesReducer } from "./category"
 import { firebaseReducer } from "./firebase"
 import { newQuestionReducer, initialStateNewQuestion } from "./newquestion"
@@ -8,6 +9,7 @@ import { statementsReducer, initialStateStatements } from "./statement"
 
 import {
   RootActions,
+  AuthActionType,
   QuestionsActionType,
   FirebaseActionType,
   NewQuestionActionType,
@@ -18,6 +20,7 @@ import {
 
 
 export const initialState = {
+  auth: initialStateAuth,
   questionaires: [],
   questionaire: '',
   questions: [],
@@ -30,6 +33,12 @@ export const initialState = {
 
 export function rootReducer(state = initialState, action: RootActions) {
   switch (action.type) {
+    case AuthActionType.SET_USER: {
+      return {
+        ...state,
+        auth: authReducer(state.auth, action)
+      }
+    }
     case FirebaseActionType.GET_QUESTIONAIRES:
     case FirebaseActionType.GET_QUESTIONAIRES_SUCCESS:
     case FirebaseActionType.GET_QUESTIONAIRES_FAILURE:
