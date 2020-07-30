@@ -1,5 +1,7 @@
+import { combineReducers } from "@ngrx/store"
 import { authReducer, initialStateAuth } from "./auth"
-import { categoriesReducer } from "./category"
+import { questionairesReducer } from "./questionaires"
+import { questionaireReducer, initialStateQuestionaire } from "./questionaire"
 import { firebaseReducer } from "./firebase"
 import { newQuestionReducer, initialStateNewQuestion } from "./newquestion"
 import { nextQuestionReducer } from "./nextquestion"
@@ -14,7 +16,7 @@ import {
   FirebaseActionType,
   NewQuestionActionType,
   OptionsActionType,
-  CategoriesActionType,
+  CategoryActionType,
   StatementsActionType
 } from '../actions/root'
 
@@ -22,7 +24,7 @@ import {
 export const initialState = {
   auth: initialStateAuth,
   questionaires: [],
-  questionaire: '',
+  questionaire: initialStateQuestionaire,
   questions: [],
   message: '',
   newQuestionaireName: '',
@@ -30,6 +32,17 @@ export const initialState = {
   statements: initialStateStatements
 };
 
+
+export const rootReducerY = combineReducers({
+  auth: authReducer,
+  questionaires: questionairesReducer,
+  questionaire: questionaireReducer,
+  questions: questionsReducer,
+  //message: messagesReducer,
+  newQuestion: newQuestionReducer,
+  firebase: firebaseReducer,
+  statements: statementsReducer
+})
 
 export function rootReducer(state = initialState, action: RootActions) {
   switch (action.type) {
@@ -40,9 +53,10 @@ export function rootReducer(state = initialState, action: RootActions) {
       }
     }
     case FirebaseActionType.GET_QUESTIONAIRES:
+    case FirebaseActionType.GET_QUESTIONAIRE:
+      return state
     case FirebaseActionType.GET_QUESTIONAIRES_SUCCESS:
     case FirebaseActionType.GET_QUESTIONAIRES_FAILURE:
-    case FirebaseActionType.GET_QUESTIONAIRE:
     case FirebaseActionType.GET_QUESTIONAIRE_SUCCESS:
     case FirebaseActionType.GET_QUESTIONAIRE_FAILURE:
     case FirebaseActionType.SET_QUESTIONAIRE:
@@ -53,12 +67,12 @@ export function rootReducer(state = initialState, action: RootActions) {
         ...firebaseReducer(state, action)
       }
 
-    case CategoriesActionType.ADD_CATEGORY:
-    case CategoriesActionType.DELETE_CATEGORY:
-    case CategoriesActionType.EDIT_CATEGORY:
+    case CategoryActionType.ADD_CATEGORY:
+    case CategoryActionType.DELETE_CATEGORY:
+    case CategoryActionType.EDIT_CATEGORY:
       return {
         ...state,
-        questionaire: categoriesReducer(state.questionaire, action)
+        questionaire: questionaireReducer(state.questionaire, action)
       }
 
     case QuestionsActionType.CHANGE_QUESTIONAIRE_NAME:
@@ -106,10 +120,13 @@ export function rootReducer(state = initialState, action: RootActions) {
       }
 
     case StatementsActionType.ADD_STATEMENT:
+    case StatementsActionType.DELETE_STATEMENT:
+    case StatementsActionType.RENAME_STATEMENT:
     case StatementsActionType.UPDATE_NEWCONDITION_NAME:
     case StatementsActionType.UPDATE_STATEMENT_FALSETEXT:
     case StatementsActionType.UPDATE_STATEMENT_TRUETEXT:
     case StatementsActionType.ADD_CONDITION:
+    case StatementsActionType.RENAME_CONDITION:
     case StatementsActionType.CHANGE_COMBINATION:
     case StatementsActionType.CHANGE_OPERAND:
     case StatementsActionType.CHANGE_SELECTED:

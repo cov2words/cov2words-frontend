@@ -1,23 +1,25 @@
-import { CategoriesActions, CategoriesActionType } from "../actions/category"
+import { CategoryActions, CategoryActionType } from "../actions/category"
 
-export function categoriesReducer(state, action: CategoriesActions) {
+export const initialStateCategories: string[] = []
+
+export function categoriesReducer(state: string[] = initialStateCategories, action: CategoryActions) {
   switch (action.type) {
-    case CategoriesActionType.ADD_CATEGORY:
-      return {
-        ...state,
-        categories: [...state.categories, action.payload.value]
-      }
-    case CategoriesActionType.DELETE_CATEGORY:
-      return {
-        ...state,
-        categories: state.categories.filter((c,i) => i !== action.payload.index)
-      }
-    case CategoriesActionType.EDIT_CATEGORY:
+
+    case CategoryActionType.ADD_CATEGORY: {
+      let { value } = action.payload
+      return [...state, value]
+    }
+
+    case CategoryActionType.DELETE_CATEGORY: {
+      let { index } = action.payload
+      return  state.filter((c,i) => i !== index)
+    }
+
+    case CategoryActionType.EDIT_CATEGORY: {
       let { value, index } = action.payload
-      return {
-        ...state,
-        categories: state.categories.map((c,i) => i == index ? value : c)
-      }
+      return  state.map((c,i) => i == index ? value : c)
+    }
+
     default:
       return state
   }

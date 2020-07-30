@@ -18,6 +18,7 @@ import { defaultText } from "../awsconnect/defaulttext"
 export class AWSConnectModal implements OnInit {
 
   private _questions
+  private _statements
   private _name: string
 
   constructor(
@@ -36,6 +37,7 @@ export class AWSConnectModal implements OnInit {
   ngOnInit() {
     this.store.select(state => state.questions.present).subscribe(response => {
       this._questions = response.questions
+      this._statements = response.statements.statements
       this._name = response.questionaire.name
         .replace(/ /g, "_")
         .toLowerCase()
@@ -118,7 +120,7 @@ export class AWSConnectModal implements OnInit {
     //state = getState()
 
     const staticEndName = `${basename}_end`//`question_end_${language}` "automated_charite_data_end_en"//
-    const staticEnd = ContactFlowStaticEnd({ name: staticEndName, language: language })
+    const staticEnd = ContactFlowStaticEnd({ name: staticEndName, language: language, statements: this._statements })
     amazonConnectData[staticEndName] = staticEnd
     //dispatch(setAmazonConnectData({[staticEndName]: staticEnd}))
     return amazonConnectData

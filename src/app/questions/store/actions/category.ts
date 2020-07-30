@@ -1,32 +1,27 @@
-import { Action, State } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 
-export interface CustomAction extends Action {
-  type: string;
-  payload?: any;
-}
-
-export enum CategoriesActionType {
+export enum CategoryActionType {
   ADD_CATEGORY = "ADD_CATEGORY",
   DELETE_CATEGORY = "DELETE_CATEGORY",
   EDIT_CATEGORY = "EDIT_CATEGORY"
 }
 
-export class AddCategory implements CustomAction {
-  readonly type = CategoriesActionType.ADD_CATEGORY
+export class AddCategory implements Action {
+  readonly type = CategoryActionType.ADD_CATEGORY
   constructor(public payload: {value: string}) {}
 }
 
-export class DeleteCategory implements CustomAction {
-  readonly type = CategoriesActionType.DELETE_CATEGORY
+export class DeleteCategory implements Action {
+  readonly type = CategoryActionType.DELETE_CATEGORY
   constructor(public payload: {index: number}) {}
 }
 
-export class EditCategory implements CustomAction {
-  readonly type = CategoriesActionType.EDIT_CATEGORY
+export class EditCategory implements Action {
+  readonly type = CategoryActionType.EDIT_CATEGORY
   constructor(public payload: {index: number, value: string}) {}
 }
 
-export type CategoriesActions = 
+export type CategoryActions = 
   AddCategory |
   DeleteCategory |
   EditCategory

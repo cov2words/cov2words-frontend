@@ -4,13 +4,6 @@ export interface Metadata {
   uuid: string
 }
 
-export class Questionaire {
-  constructor(
-    public metadata: Metadata,
-    public questions: any
-  ) { }
-}
-
 export class Question {
   constructor(
     public id: string,
@@ -22,3 +15,12 @@ export class Question {
     public uuid: string
   ) { }
 }
+
+export class Questionaire {
+  constructor(
+    public metadata: Metadata,
+    public questions: Question[],
+    public statements: any
+  ) { }
+}
+

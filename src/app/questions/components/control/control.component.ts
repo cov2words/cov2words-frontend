@@ -24,6 +24,7 @@ export class ControlComponent implements OnInit {
   private _questionaires: any[]
   private _questionaire
   private _questions
+  private _statements
   private _newQuestionaireName
   private _userEmail
 
@@ -54,6 +55,7 @@ export class ControlComponent implements OnInit {
       this._questionaires = response.questionaires
       this._questionaire = response.questionaire
       this._questions = response.questions
+      this._statements = response.statements
       this._newQuestionaireName = response.newQuestionaireName
       this._userEmail = response.auth.email
     })
@@ -82,7 +84,8 @@ export class ControlComponent implements OnInit {
   saveQuestionaire() {
     let questionaire = this._questionaire
     let questions = this._questions
-    this.store.dispatch(new Firebase.SetQuestionaire({questionaire,questions}))
+    let statements = this._statements.statements
+    this.store.dispatch(new Firebase.SetQuestionaire({questionaire, questions, statements}))
   }
 
   async showCreateQuestionaireModal() {

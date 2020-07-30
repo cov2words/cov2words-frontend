@@ -50,7 +50,7 @@ export class GetQuestionaireFailure implements CustomAction {
 
 export class SetQuestionaire implements CustomAction {
   readonly type = FirebaseActionType.SET_QUESTIONAIRE
-  constructor(public payload: {questionaire: string, questions: Array<Question>}) {}
+  constructor(public payload: {questionaire: string, questions: Array<Question>, statements: any}) {}
 }
 
 export class SetQuestionaireSuccess implements CustomAction {

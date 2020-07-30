@@ -1,8 +1,11 @@
 <ion-col size="12">
-  <b>{{ statement.name }}</b>
-  <ion-input placeholder="enter new condition name" value="{{newConditionName}}"
-    (ionChange)="changeNewConditionName($event)"></ion-input>
-  <ion-button (click)="addCondition()" disabled="{{ newConditionName.length <= 0 }}">add condition</ion-button>
+  <b (click)="showChangeName()">{{ statement.name }}</b>
+  <ion-button (click)="deleteStatement()">
+    <ion-icon name="trash"></ion-icon>
+  </ion-button>
+  <!-- <ion-input placeholder="enter new condition name" value="{{newConditionName}}"
+    (ionChange)="changeNewConditionName($event)"></ion-input> -->
+  <ion-button (click)="showAddCondition()" >add condition</ion-button>
 </ion-col>
 <ion-col size="12">
   <ion-list>
@@ -12,8 +15,8 @@
   </ion-list>
 </ion-col>
 <ion-col size="12">
-  <ion-textarea value="{{statement.trueText}}" placeholder="enter true text" (ionChange)="updateStatementTrueText($event)"></ion-textarea>
+  <ion-label (click)="showChangeTrueText()">{{statement.trueText}}</ion-label>
 </ion-col>
 <ion-col size="12">
-  <ion-textarea value="{{statement.falseText}}" placeholder="enter false text" (ionChange)="updateStatementFalseText($event)"></ion-textarea>
+  <ion-label (click)="showChangeFalseText()">{{statement.falseText}}</ion-label>
 </ion-col>

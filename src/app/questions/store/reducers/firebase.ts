@@ -51,7 +51,7 @@ export function firebaseReducer(state: any = initialState, action: FirebaseActio
 
     case FirebaseActionType.GET_QUESTIONAIRE_SUCCESS: {
 
-      let { questions, metadata } = action.payload.questionaire
+      let { questions, metadata, statements } = action.payload.questionaire
 
       // firebase ignores empty arrays. create empty questions array if there are no questions
       // create empty options array if there is none and question type is radio
@@ -69,6 +69,7 @@ export function firebaseReducer(state: any = initialState, action: FirebaseActio
         ...state,
         questions: _questions,
         questionaire: _metadata,
+        statements: {statements: statements || [], answers:[]},
         message: 'load questionaire success...'
       }
     }

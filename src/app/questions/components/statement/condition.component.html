@@ -1,27 +1,27 @@
 <ion-item class="conditionComponent">
   <ion-grid>
     <ion-row>
-      <h5>{{condition.name}}</h5>
+      <b (click)="showChangeName()">{{condition.name}}</b>
     </ion-row>
     <ion-row>
-      <ion-col>
+      <ion-col size="6">
         <ion-select value="{{condition.selected}}" placeholder="PLEASE SELECT" (ionChange)="changeSelected($event)">
-          <ion-select-option *ngFor="let q of questions; let i=index; trackBy: trackByFn">{{q.id}}</ion-select-option>
+          <ion-select-option *ngFor="let q of questions; let i=index; trackBy: trackByUUID" value="{{q.uuid}}">{{q.id}}</ion-select-option>
         </ion-select>
       </ion-col>
-      <ion-col>
+      <ion-col size="6">
         <ion-select value="{{condition.operand}}" selectedText="{{condition.operand}}" (ionChange)="changeOperand($event)">
-          <ion-select-option *ngFor="let o of operands; let i=index; trackBy: trackByFn">{{o}}</ion-select-option>
+          <ion-select-option *ngFor="let o of operands; let i=index; trackBy: trackByIndex">{{o}}</ion-select-option>
         </ion-select>
       </ion-col>
-      <ion-col>
-        <ion-input value="{{condition.value}}" (ionChange)="changeValue($event)"></ion-input>
+      <ion-col size="12">
+        <div (click)="showChangeValue()">{{ condition.value }}</div>
       </ion-col>
     </ion-row>
     <ion-row *ngIf="!isLastElement">
-      <ion-col>
+      <ion-col size="12">
         <ion-select value="{{condition.combination}}" placeholder="PLEASE SELECT" (ionChange)="changeCombination($event)">
-          <ion-select-option *ngFor="let c of combinations; let i=index; trackBy: trackByFn">{{c}}</ion-select-option>
+          <ion-select-option *ngFor="let c of combinations; let i=index; trackBy: trackByIndex">{{c}}</ion-select-option>
         </ion-select>
       </ion-col>
     </ion-row>

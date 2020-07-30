@@ -16,11 +16,11 @@ export class QuestionsService {
     return this.db.object(`questionaire/${questionaire}`).valueChanges()
   }
 
-  setQuestionaire(questionaire: {name: string, owner: string, created: string, uuid: string}, questions: []) {
+  setQuestionaire(questionaire: {name: string, owner: string, created: string, uuid: string}, questions: [], statements) {
     // WIP
     let modified = new Date(), created = new Date()
     let metadata = Object.assign({}, questionaire, {modified: modified.toISOString(), created: questionaire.created || created.toISOString()})
-    let data = { metadata, questions }
+    let data = { metadata, questions, statements }
     return this.db.object(`questionaire/${questionaire.uuid}`).set(data)
   }
 

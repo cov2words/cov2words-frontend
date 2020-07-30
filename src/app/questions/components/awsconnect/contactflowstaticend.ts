@@ -8,11 +8,12 @@ import { defaultText } from "./defaulttext"
 
 export interface ContactFlowStaticEndProps {
   language: string,
-  name: string
+  name: string,
+  statements: any
 }
 
 export const ContactFlowStaticEnd = (props: ContactFlowStaticEndProps) => {
-  let { language, name } = props
+  let { language, name, statements } = props
 
   const finishUUID = uuid()
   const endErrorUUID = uuid()
@@ -38,7 +39,8 @@ export const ContactFlowStaticEnd = (props: ContactFlowStaticEndProps) => {
 
   //const finalState = getState()
   //const lambdaKeys = finalState.creator.lambdaKeys.lambdaKeys
-  const lambdaKeys = [] //TODO: send actual lambdakeys
+  //const lambdaKeys = [] //TODO: send actual lambdakeys
+  const lambdaKeys = statements
 
   const lambdaCall = ContactFlowInvokeExternal({
     ownUUID: lambdaUUID,

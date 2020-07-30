@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core'
-import { ModalController } from '@ionic/angular';
+import { Component, OnInit, Input, ViewChild } from '@angular/core'
+import { ModalController, IonTextarea } from '@ionic/angular';
 
 @Component({
   selector: 'edit-modal',
@@ -13,6 +13,7 @@ export class EditModal implements OnInit {
   @Input() labelText: string = 'default text'
   @Input() placeholder: string = 'default placeholder'
   @Input() index: number = -1
+  @ViewChild('input_el', {static: true}) input_el: IonTextarea
 
   private _value
 
@@ -26,6 +27,17 @@ export class EditModal implements OnInit {
 
   ngOnInit() {
     this._value = this.initialValue
+  }
+
+  /* <3 this */
+  ionViewDidEnter() {
+    this.input_el.setFocus()
+    console.log(this.input_el)
+  }
+
+  blyat(event) {
+    console.log(event)
+    console.log(this)
   }
 
   changeValue(event) {

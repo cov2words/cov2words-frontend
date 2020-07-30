@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 //import { ModalController } from '@ionic/angular';
+import { AngularFireFunctions } from '@angular/fire/functions';
 import * as Statements from "../../store/actions/statement"
 import { uuid } from 'uuidv4';
 
@@ -16,9 +17,11 @@ export class StatementCatalog implements OnInit {
   private _answers
   private _selectedQuestions
   private _conditions
+  private _evaluations: string[] = []
 
   constructor(
-    private store: Store<any>
+    private store: Store<any>,
+    private functions: AngularFireFunctions
     //private modalCtrl: ModalController
   ) { }
 
@@ -40,6 +43,14 @@ export class StatementCatalog implements OnInit {
 
   get answers() {
     return this._answers
+  }
+
+  get evaluations() {
+    return this._evaluations
+  }
+
+  get evalDisabled() {
+    return this._selectedQuestions.length !== this._answers.length
   }
 
   ngOnInit() {
@@ -64,7 +75,7 @@ export class StatementCatalog implements OnInit {
   }
 
   changeAnswer(selectedQuestion: any, index: number, event: any) {
-    let answer = {[selectedQuestion.id]: event.detail.value}
+    let answer = {[selectedQuestion.uuid]: event.detail.value}
     this.store.dispatch(new Statements.ChangeAnswer({ index, answer }))
   }
 
@@ -80,11 +91,11 @@ export class StatementCatalog implements OnInit {
       })
     })
 
-    return questions.map(q => state.questions.find(x => x.id === q))
-                    .sort((a,b) => state.questions.findIndex(x => x.id == a.id) - state.questions.findIndex(x => x.id == b.id))
+    return questions.map(q => state.questions.find(x => x.uuid === q))
+                    .sort((a,b) => state.questions.findIndex(x => x.uuid == a.uuid) - state.questions.findIndex(x => x.uuid == b.uuid))
   }
 
-  santasLittleHelper = (value, operand, targetValue) => {
+  evalCondtion = (value, operand, targetValue) => {
 
     switch (operand) {
       case "==":
@@ -105,47 +116,75 @@ export class StatementCatalog implements OnInit {
     }
   }
 
-  handleEvalLogic = () => {
-    // TODO: refactor this
-    this._statements.forEach((statement, i) => {
-      let truthList = []
-      statement.conditions.forEach((condition, j) => {
+  getEvaluations = () => {
 
-        let blyat, conditionTrue
-        let cList = []
+    /*  evaluate each statement's conditions with the answers given. return array of strings */
+
+    let evaluations: string[] = []
+
+    this._statements.forEach(statement => {
+
+      let truthList: boolean[] = []
+
+      statement.conditions.forEach((condition, i: number) => {
+
+        let conditionTruthList: boolean[] = []
+        let conditionTrue: boolean
+
+        /* statement conditions can be chained together. if theres is a follow-up condition, current condition will have combination property */
+
         if (condition.hasOwnProperty("combination")) {
-          let nextcondition = statement.conditions[j + 1]
-          let nahui, nextconditionTrue
-          let cList2 = []
-          nextcondition.selected.forEach((sel, k) => {
-            nahui = this._answers.find(a => a.hasOwnProperty(sel))[sel]
-            nextconditionTrue = this.santasLittleHelper(nahui, nextcondition.operand, nextcondition.value)
-            cList2.push(nextconditionTrue)
-          })
-          condition.selected.forEach((sel, k) => {
-            blyat = this._answers.find(a => a.hasOwnProperty(sel))[sel]
-            conditionTrue = this.santasLittleHelper(blyat, condition.operand, condition.value)
-            cList.push(conditionTrue)
-          })
-          let cListTrue = cList.every(c => c === true)
-          let cList2True = cList2.every(c => c === true)
 
-          conditionTrue = this.santasLittleHelper(cListTrue, condition.combination, cList2True)
-        }
-        else {
-          condition.selected.forEach((sel, k) => {
-            blyat = this._answers.find(a => a.hasOwnProperty(sel))[sel]
-            conditionTrue = this.santasLittleHelper(blyat, condition.operand, condition.value)
-            cList.push(conditionTrue)
+          let nextcondition = statement.conditions[i+1]
+          let nextcondtionTruthList: boolean[] = []
+
+          nextcondition.selected.forEach(sel => {
+            let answer = this._answers.find(a => a.hasOwnProperty(sel))[sel]
+            let { operand, value} = nextcondition
+            let nextconditionTrue = this.evalCondtion(answer, operand, value)
+
+            nextcondtionTruthList.push(nextconditionTrue)
           })
-          conditionTrue = cList.every(c => c === true)
+
+          condition.selected.forEach(sel => {
+            let answer = this._answers.find(a => a.hasOwnProperty(sel))[sel]
+            let { operand, value} = condition
+            let conditionTrue = this.evalCondtion(answer, operand, value)
+
+            conditionTruthList.push(conditionTrue)
+          })
+
+          conditionTrue = this.evalCondtion(
+            conditionTruthList, condition.combination, nextcondtionTruthList
+          )
         }
-        if (j + 1 !== statement.conditions.length || j === 0) {
+
+        else {
+
+          condition.selected.forEach(sel => {
+            let answer = this._answers.find(a => a.hasOwnProperty(sel))[sel]
+            let { operand, value} = condition
+            let conditionTrue = this.evalCondtion(answer, operand, value)
+            conditionTruthList.push(conditionTrue)
+          })
+
+          conditionTrue = conditionTruthList.every(c => c === true)
+        }
+
+        if (i + 1 !== statement.conditions.length || i === 0) {
           truthList.push(conditionTrue)
         }
+
       })
-      truthList.every(t => t === true) ? alert(statement.trueText) : alert(statement.falseText)
+
+      truthList.every(t => t === true) ? evaluations.push(statement.trueText) : evaluations.push(statement.falseText)
+
     })
 
+    console.log({evaluations})
+
+    this._evaluations = evaluations
+
+    return evaluations
   }
 }

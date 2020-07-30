@@ -10,6 +10,7 @@ import { storeLogger } from 'ngrx-store-logger';
 import { rootReducer, undoable } from "./store/reducers/root" //"./store/questions.reducer"
 import { QuestionsEffects } from "./store/questions.effects"
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import {AngularFireFunctionsModule} from '@angular/fire/functions';
 
 import {QuestionsPage} from './questions.page';
 import {QuestionComponent} from "./components/question/question.component"
@@ -49,7 +50,8 @@ export const metaReducers = [logger];
                 component: QuestionsPage
             }
         ]),
-        TranslateModule.forChild()
+        TranslateModule.forChild(),
+        AngularFireFunctionsModule
     ],
     declarations: [
       QuestionsPage,

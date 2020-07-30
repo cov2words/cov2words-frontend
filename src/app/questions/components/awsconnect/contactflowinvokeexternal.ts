@@ -2,7 +2,7 @@ export interface ContactFlowInvokeExternalProps {
   ownUUID: string,
   transitionUUID: string,
   errorUUID: string,
-  lambdaKeys: string[]
+  lambdaKeys: any[]
   positionX?: number
   positionY?: number
   endPoint?: string
@@ -21,8 +21,8 @@ export const ContactFlowInvokeExternal = (props: ContactFlowInvokeExternalProps)
   lambdaKeys.forEach((key, i) => {
     let dynamicParamter = {
       name: "Parameter",
-      key: key,
-      value: `$.Attributes.${key}`,
+      key: key.name,
+      value: `$.Attributes.${key.name}`,
       namespace: null
     }
     //let dynamicMetadata = {[key]: false} woopsie
