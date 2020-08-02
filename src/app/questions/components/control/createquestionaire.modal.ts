@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store'
-import * as Questions from "../../store/actions/question"
+import * as Questionaire from "../../store/actions/questionaire"
 import { uuid } from "uuidv4"
 
 @Component({
@@ -44,7 +44,7 @@ export class CreateQuestionaireModal implements OnInit {
       uuid: uuid(),
       categories: []
     }
-    this.store.dispatch(new Questions.CreateQuestionaire({...questionaire}))
+    this.store.dispatch(new Questionaire.CreateQuestionaire({...questionaire}))
     this.modalCtrl.dismiss()
   }
 

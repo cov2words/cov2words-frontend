@@ -1,12 +1,12 @@
 <ion-grid>
   <ion-row>
-    <ion-input placeholder="enter question id" (ionChange)='changeNewQuestionAttribute($event, "id")'></ion-input>
+    <ion-input placeholder="enter question id" (ionChange)='changeNewQuestionId($event)'></ion-input>
   </ion-row>
   <ion-row>
-    <ion-textarea placeholder="enter question text" (ionChange)='changeNewQuestionAttribute($event, "text")'></ion-textarea>
+    <ion-textarea placeholder="enter question text" (ionChange)='changeNewQuestionText($event)'></ion-textarea>
   </ion-row>
   <ion-select placeholder="select question type" value='{{newQuestionType}}' selectedText='{{newQuestionType}}'
-    (ionChange)='changeNewQuestionAttribute($event, "inputType")'>
+    (ionChange)='changeNewQuestionType($event)'>
     <ion-select-option *ngFor='let questiontype of questionTypes' value='{{questiontype}}'>{{questiontype}}
     </ion-select-option>
   </ion-select>

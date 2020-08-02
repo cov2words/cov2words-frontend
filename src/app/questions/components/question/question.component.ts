@@ -47,20 +47,19 @@ export class QuestionComponent implements OnInit {
     this.store.dispatch(new Questions.MoveQuestion({ uuid, direction }))
   }
 
-  changeQuestionId = (id: string) => {
-    let { uuid } = this.question
-    this.store.dispatch(new Questions.ChangeQuestionId({ uuid, id }))
+  changeQuestionId = (value: string) => {
+    let { uuid } = this.question, attr = "id"
+    this.store.dispatch(new Questions.ChangeQuestionAttribute({attr, value, uuid}))
   }
 
-  changeQuestionText = (text: string) => {
-    let { uuid } = this.question
-    this.store.dispatch(new Questions.ChangeQuestionText({ uuid, text }))
+  changeQuestionText = (value: string) => {
+    let { uuid } = this.question, attr = "text"
+    this.store.dispatch(new Questions.ChangeQuestionAttribute({ attr, value, uuid }))
   }
 
   changeCategory = (event) => {
-    let { uuid } = this.question
-    let category = event.target.value
-    this.store.dispatch(new Questions.ChangeQuestionCategory({uuid, category}))
+    let { uuid } = this.question, value = event.target.value, attr = "category"
+    this.store.dispatch(new Questions.ChangeQuestionAttribute({attr, value, uuid}))
   }
 
   changeOptionText = (index: number, text: string) => {

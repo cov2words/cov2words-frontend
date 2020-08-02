@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-//import { ModalController } from '@ionic/angular';
-import { AngularFireFunctions } from '@angular/fire/functions';
 import * as Statements from "../../store/actions/statement"
 import { uuid } from 'uuidv4';
 
@@ -20,9 +18,7 @@ export class StatementCatalog implements OnInit {
   private _evaluations: string[] = []
 
   constructor(
-    private store: Store<any>,
-    private functions: AngularFireFunctions
-    //private modalCtrl: ModalController
+    private store: Store<any>
   ) { }
 
   get statements() {
@@ -55,9 +51,12 @@ export class StatementCatalog implements OnInit {
 
   ngOnInit() {
     this.store.select(state => state.questions.present).subscribe(response => {
-      this._statements = response.statements.statements
-      this._answers = response.statements.answers
-      this._selectedQuestions = this.getQuestions(response)
+      let { statements, answers } = response.questionaire.statements
+      let { questions } = response.questionaire
+      
+      this._statements = statements
+      this._answers = answers
+      this._selectedQuestions = this.getSelectedQuestions(statements, questions)
     })
   }
 
@@ -79,20 +78,18 @@ export class StatementCatalog implements OnInit {
     this.store.dispatch(new Statements.ChangeAnswer({ index, answer }))
   }
 
-  getQuestions = state => {
-    const statements = state.statements.statements
-
-    const questions = []
+  getSelectedQuestions = (statements, questions) => {
+    const selectedQuestions = []
     statements.forEach((statement, i) => {
       statement.conditions.forEach(condition => {
         condition.selected.forEach(s =>
-          questions.includes(s) || ["", undefined].includes(s) ? null : questions.push(s)
+          questions.includes(s) || ["", undefined].includes(s) ? null : selectedQuestions.push(s)
         )
       })
     })
 
-    return questions.map(q => state.questions.find(x => x.uuid === q))
-                    .sort((a,b) => state.questions.findIndex(x => x.uuid == a.uuid) - state.questions.findIndex(x => x.uuid == b.uuid))
+    return selectedQuestions.map(q => questions.find(x => x.uuid === q))
+                    .sort((a,b) => questions.findIndex(x => x.uuid == a.uuid) - questions.findIndex(x => x.uuid == b.uuid))
   }
 
   evalCondtion = (value, operand, targetValue) => {

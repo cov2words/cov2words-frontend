@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store'
-import * as Firebase from "../../store/actions/firebase"
+import * as Questionaires from "../../store/actions/questionaires"
+import * as Questionaire from "../../store/actions/questionaire"
 import * as Questions from "../../store/actions/question"
 import { CreateQuestionaireModal } from "./createquestionaire.modal"
 import { EditCategoriesModal } from "./editcategories.modal"
@@ -54,12 +55,12 @@ export class ControlComponent implements OnInit {
     this.store.select(state => state.questions.present).subscribe(response => {
       this._questionaires = response.questionaires
       this._questionaire = response.questionaire
-      this._questions = response.questions
-      this._statements = response.statements
+      this._questions = response.questionaire.questions
+      this._statements = response.questionaire.statements
       this._newQuestionaireName = response.newQuestionaireName
       this._userEmail = response.auth.email
     })
-    this.store.dispatch(new Firebase.GetQuestionaires({email:this._userEmail}))
+    this.store.dispatch(new Questionaires.GetQuestionaires({email:this._userEmail}))
     this.store.select(state => state.questions.future).subscribe(response => {
       this.hasFuture = response.length ? true : false
     })
@@ -72,20 +73,20 @@ export class ControlComponent implements OnInit {
     let questionaireUUID = event.target.value
     console.log(questionaireUUID, this._questionaires)
     this._questionaires.some(q => q.uuid == questionaireUUID)
-      ? this.store.dispatch(new Firebase.GetQuestionaire({questionaireUUID}))
+      ? this.store.dispatch(new Questionaire.GetQuestionaire({questionaireUUID}))
       : null
   }
 
   changeNewQuestionaireName(event) {
     let name = event.target.value
-    this.store.dispatch(new Questions.ChangeQuestionaireName({name}))
+    this.store.dispatch(new Questionaire.ChangeQuestionaireName({name}))
   }
 
   saveQuestionaire() {
     let questionaire = this._questionaire
     let questions = this._questions
     let statements = this._statements.statements
-    this.store.dispatch(new Firebase.SetQuestionaire({questionaire, questions, statements}))
+    this.store.dispatch(new Questionaire.SetQuestionaire({questionaire, questions, statements}))
   }
 
   async showCreateQuestionaireModal() {

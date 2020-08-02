@@ -7,14 +7,10 @@ export enum StatementsActionType {
   RENAME_STATEMENT = "RENAME_STATEMENT",
   ADD_CONDITION = "ADD_CONDITION",
   DELETE_CONDITION = "DELETE_CONDITION",
-  RENAME_CONDITION = "RENAME_CONDITION",
-  UPDATE_NEWCONDITION_NAME = "UPDATE_NEWCONDITION_NAME", // ?!
   UPDATE_STATEMENT_TRUETEXT = "UPDATE_STATEMENT_TRUETEXT",
   UPDATE_STATEMENT_FALSETEXT = "UPDATE_STATEMENT_FALSETEXT",
-  CHANGE_OPERAND = "CHANGE_OPERAND",
-  CHANGE_SELECTED = "CHANGED_SELECTED",
-  CHANGE_VALUE = "CHANGE_VALUE",
-  CHANGE_COMBINATION = "CHANGE_COMBINATION",
+  CHANGE_CONDITION_ATTRIBUTE = "CHANGE_CONDITION_ATTRIBUTE",
+  CHANGE_SELECTED = "CHANGE_SELECTED",
   CHANGE_ANSWER = "CHANGE_ANSWER"
 }
 
@@ -38,16 +34,6 @@ export class AddCondition implements Action {
   constructor(public payload: {condition: any, statementUUID: string}) {}
 }
 
-export class RenameCondition implements Action {
-  readonly type = StatementsActionType.RENAME_CONDITION
-  constructor(public payload: {statementUUID: string, conditionUUID: string, name: string}) {}
-}
-
-export class UpdateNewConditionName implements Action {
-  readonly type = StatementsActionType.UPDATE_NEWCONDITION_NAME
-  constructor(public payload: { name: string, statementUUID: string}) {}
-}
-
 export class UpdateStatementTrueText implements Action {
   readonly type = StatementsActionType.UPDATE_STATEMENT_TRUETEXT
   constructor(public payload: { value: string, statementUUID: string }) {}
@@ -58,24 +44,15 @@ export class UpdateStatementFalseText implements Action {
   constructor(public payload: { value: string, statementUUID: string}) {}
 }
 
-export class ChangeOperand implements Action {
-  readonly type = StatementsActionType.CHANGE_OPERAND
-  constructor(public payload: {operand: string, conditionUUID: string, statementUUID: string}) {}
+export class ChangeConditionAttribute implements Action {
+  readonly type = StatementsActionType.CHANGE_CONDITION_ATTRIBUTE
+  constructor(public payload: {attr: string, value: string, conditionUUID: string, statementUUID: string}) {}
 }
+
 
 export class ChangeSelected implements Action {
   readonly type = StatementsActionType.CHANGE_SELECTED
   constructor(public payload: {selected: string[], conditionUUID: string, statementUUID: string}) {}
-}
-
-export class ChangeValue implements Action {
-  readonly type = StatementsActionType.CHANGE_VALUE
-  constructor(public payload: {value: string, conditionUUID: string, statementUUID: string}) {}
-}
-
-export class ChangeCombination implements Action {
-  readonly type = StatementsActionType.CHANGE_COMBINATION
-  constructor(public payload: {combination: string, conditionUUID: string, statementUUID: string}) {}
 }
 
 export class ChangeAnswer implements Action {
@@ -88,12 +65,8 @@ export type StatementsActions =
   DeleteStatement |
   RenameStatement |
   AddCondition |
-  RenameCondition |
-  UpdateNewConditionName |
   UpdateStatementTrueText |
   UpdateStatementFalseText |
-  ChangeOperand |
+  ChangeConditionAttribute |
   ChangeSelected |
-  ChangeValue |
-  ChangeCombination |
   ChangeAnswer

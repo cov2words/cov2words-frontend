@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core'
 import { ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store'
 import * as Questions from "../../store/actions/question"
-import * as NewQuestion from "../../store/actions/newquestion"
 import { uuid } from "uuidv4"
 
 @Component({
@@ -13,9 +12,9 @@ import { uuid } from "uuidv4"
 export class AddQuestionModal implements OnInit {
   @Input() questionTypes: string[] = ['radio', 'date']
 
-  private _id
-  private _text
-  private _inputType
+  private _id: string
+  private _text: string
+  private _inputType: string
 
   constructor(
     private store: Store<any>,
@@ -23,20 +22,22 @@ export class AddQuestionModal implements OnInit {
   ) { }
 
   get complete() {
-    //console.log(this._id && this._text && this._inputType)
     return this._id && this._text && this._inputType
   }
 
   ngOnInit() {
-    this.store.select(state => state.questions.present.newQuestion).subscribe(response => {
-      this._id = response.id
-      this._text = response.text
-      this._inputType = response.inputType
-    })
   }
 
-  changeNewQuestionAttribute(event, attr) {
-    this.store.dispatch(new NewQuestion.ChangeNewQuestionAttribute({attribute: attr, value: event.target.value}))
+  changeNewQuestionId(event) {
+    this._id = event.target.value
+  }
+
+  changeNewQuestionText(event) {
+    this._text = event.target.value
+  }
+
+  changeNewQuestionType(event) {
+    this._inputType = event.target.value
   }
 
   addQuestion() {

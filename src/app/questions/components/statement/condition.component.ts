@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Store, State } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { ModalController } from '@ionic/angular';
 import * as Statements from "../../store/actions/statement"
 import { EditModal } from "../question/edit.modal"
@@ -44,7 +44,7 @@ export class ConditionComponent implements OnInit {
 
   ngOnInit() {
     this.store.select(state => state.questions.present).subscribe(response => {
-      this._questions = response.questions
+      this._questions = response.questionaire.questions
     }, error => {
       console.log(error)
     })
@@ -58,38 +58,29 @@ export class ConditionComponent implements OnInit {
     return index
   }
 
-  renameCondition = (name: string) => {
-    let conditionUUID = this.condition.uuid
-    let statementUUID = this.statementUUID
-    this.store.dispatch(new Statements.RenameCondition({statementUUID, conditionUUID, name}))
+  renameCondition = (value: string) => {
+    let attr = "name", conditionUUID = this.condition.uuid, statementUUID = this.statementUUID
+    this.store.dispatch(new Statements.ChangeConditionAttribute({attr, value, statementUUID, conditionUUID,}))
   }
 
   changeOperand(event) {
-    let operand = event.detail.value
-    let conditionUUID = this.condition.uuid
-    let statementUUID = this.statementUUID
-    this.store.dispatch(new Statements.ChangeOperand({operand, statementUUID, conditionUUID}))
+    let attr = "operand", value = event.detail.value, conditionUUID = this.condition.uuid, statementUUID = this.statementUUID
+    this.store.dispatch(new Statements.ChangeConditionAttribute({attr, value, statementUUID, conditionUUID}))
   }
 
   changeSelected(event) {
-    // question
-    let selected = [event.detail.value]
-    let conditionUUID = this.condition.uuid
-    let statementUUID = this.statementUUID
+    let selected = event.detail.value, conditionUUID = this.condition.uuid, statementUUID = this.statementUUID
     this.store.dispatch(new Statements.ChangeSelected({selected, statementUUID, conditionUUID}))
   }
 
   changeValue = (value: string) => {
-    let conditionUUID = this.condition.uuid
-    let statementUUID = this.statementUUID
-    this.store.dispatch(new Statements.ChangeValue({value, statementUUID, conditionUUID}))
+    let attr = "value",  conditionUUID = this.condition.uuid, statementUUID = this.statementUUID
+    this.store.dispatch(new Statements.ChangeConditionAttribute({attr, value, statementUUID, conditionUUID}))
   }
 
   changeCombination(event) {
-    let combination = event.detail.value
-    let conditionUUID = this.condition.uuid
-    let statementUUID = this.statementUUID
-    this.store.dispatch(new Statements.ChangeCombination({combination, statementUUID, conditionUUID}))
+    let attr = "combination", value = event.detail.value, conditionUUID = this.condition.uuid, statementUUID = this.statementUUID
+    this.store.dispatch(new Statements.ChangeConditionAttribute({attr, value, statementUUID, conditionUUID}))
   }
 
   async showChangeName() {

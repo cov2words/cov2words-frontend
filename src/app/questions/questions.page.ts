@@ -13,7 +13,7 @@ import * as Auth from "./store/actions/auth"
 })
 export class QuestionsPage implements OnInit {
 
-    public questions
+    //public questions
     public questionaire
     public user
     public _showStatements: boolean = false
@@ -31,7 +31,7 @@ export class QuestionsPage implements OnInit {
 
       this.store.select(state => state.questions.present).subscribe(response => {
         this.questionaire = response.questionaire
-        this.questions = response.questions
+        //this.questions = response.questions
         this.user = response.auth
         if (response.message) {
           this.presentToast(response.message)
@@ -40,6 +40,10 @@ export class QuestionsPage implements OnInit {
       }, error => {
         console.log(error)
       })
+    }
+
+    get questions() {
+      return this.questionaire.questions
     }
 
     get showStatements() {

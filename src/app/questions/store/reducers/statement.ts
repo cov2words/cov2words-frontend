@@ -1,16 +1,16 @@
 import { StatementsActions, StatementsActionType } from "../actions/statement"
 
-export interface initialStateStatements {
+export interface InitialStateStatements {
   statements: any[],
   answers: any[]
 }
 
-export const initialStateStatements = {
+export const initialState = {
   statements: [],
   answers: []
 }
 
-export const statementsReducer = (state: initialStateStatements = initialStateStatements, action: StatementsActions) => {
+export const statementsReducer = (state: InitialStateStatements = initialState, action: StatementsActions) => {
 
   switch (action.type) {
     case StatementsActionType.ADD_STATEMENT: {
@@ -56,28 +56,12 @@ export const statementsReducer = (state: initialStateStatements = initialStateSt
       }
     }
 
-    case StatementsActionType.RENAME_CONDITION: {
-      let { statementUUID, conditionUUID, name } = action.payload
-      return {
-        ...state,
-        statements: state.statements.map(s => s.uuid !== statementUUID
-          ? s
-          : Object.assign({}, s, {
-            conditions: s.conditions.map(c => c.uuid !== conditionUUID
-              ? c
-              : Object.assign({}, c, { name })
-            )
-          })
-        )
-      }
-    }
-
     case StatementsActionType.UPDATE_STATEMENT_TRUETEXT: {
       let { value, statementUUID } = action.payload
       let statements = state.statements.map(s => s.uuid !== statementUUID ? s : Object.assign({}, s, { trueText: value }))
       return {
         ...state,
-        statements: [...statements]
+        statements
       }
     }
 
@@ -86,56 +70,10 @@ export const statementsReducer = (state: initialStateStatements = initialStateSt
       let statements = state.statements.map(s => s.uuid !== statementUUID ? s : Object.assign({}, s, { falseText: value }))
       return {
         ...state,
-        statements: [...statements]
-      }
-    }
-
-    case StatementsActionType.CHANGE_OPERAND: {
-      let { operand, statementUUID, conditionUUID } = action.payload
-
-      let statements = state.statements.map(s => {
-        if (s.uuid !== statementUUID) {
-          return s
-        } else {
-          let conditions = s.conditions.map(c => {
-            if (c.uuid !== conditionUUID) {
-              return c
-            } else {
-              return Object.assign({}, c, { operand })
-            }
-          })
-          return Object.assign({}, s, { conditions })
-        }
-      })
-      return {
-        ...state,
         statements
       }
     }
 
-    case StatementsActionType.CHANGE_COMBINATION: {
-
-      let { combination, statementUUID, conditionUUID } = action.payload
-
-      let statements = state.statements.map(s => {
-        if (s.uuid !== statementUUID) {
-          return s
-        } else {
-          let conditions = s.conditions.map(c => {
-            if (c.uuid !== conditionUUID) {
-              return c
-            } else {
-              return Object.assign({}, c, { combination })
-            }
-          })
-          return Object.assign({}, s, { conditions })
-        }
-      })
-      return {
-        ...state,
-        statements
-      }
-    }
     case StatementsActionType.CHANGE_SELECTED: {
       let { selected, statementUUID, conditionUUID } = action.payload
 
@@ -147,7 +85,7 @@ export const statementsReducer = (state: initialStateStatements = initialStateSt
             if (c.uuid !== conditionUUID) {
               return c
             } else {
-              return Object.assign({}, c, { selected })
+              return Object.assign({}, c, { selected: [selected] }) // possible bug
             }
           })
           return Object.assign({}, s, { conditions })
@@ -159,9 +97,9 @@ export const statementsReducer = (state: initialStateStatements = initialStateSt
       }
     }
 
-    case StatementsActionType.CHANGE_VALUE: {
-      let { value, statementUUID, conditionUUID } = action.payload
-
+    case StatementsActionType.CHANGE_CONDITION_ATTRIBUTE: {
+      let { attr, value, statementUUID, conditionUUID } = action.payload
+      console.log(action.payload)
       return {
         ...state,
         statements: state.statements.map(s => s.uuid !== statementUUID
@@ -169,7 +107,7 @@ export const statementsReducer = (state: initialStateStatements = initialStateSt
           : Object.assign({}, s, {
             conditions: s.conditions.map(c => c.uuid !== conditionUUID
               ? c
-              : Object.assign({}, c, { value })
+              : Object.assign({}, c, { [attr]: value })
             )
           })
         )

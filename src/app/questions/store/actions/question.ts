@@ -1,96 +1,66 @@
-import { Action, State } from '@ngrx/store';
-import { Questionaire, Question } from "../../questions.model"
-
-export interface CustomAction extends Action {
-  type: string;
-  payload?: any;
-}
+import { Action } from '@ngrx/store';
+import { OptionsActions } from './option';
 
 export enum QuestionsActionType {
-  CHANGE_QUESTIONAIRE_NAME = "CHANGE_QUESTIONAIRE_NAME",
-  CREATE_QUESTIONAIRE = "CREATE_QUESTIONAIRE",
   ADD_QUESTION = "ADD_QUESTION",
   DELETE_QUESTION = "DELETE_QUESTION",
   MOVE_QUESTION = "MOVE_QUESTION",
   MOVE_QUESTION_DND = "MOVE_QUESTION_DND",
-  CHANGE_QUESTION_ID = "CHANGE_QUESTION_ID",
-  CHANGE_QUESTION_TEXT = "CHANGE_QUESTION_TEXT",
-  CHANGE_QUESTION_CATEGORY = "CHANGE_QUESTION_CATEGORY",
+  CHANGE_QUESTION_ATTRIBUTE = "CHANGE_QUESTION_ATTRIBUTE",
   CHANGE_NEXT_QUESTION = "CHANGE_NEXT_QUESTION",
   DELETE_NEXT_QUESTIONMAP = "DELETE_NEXT_QUESTIONMAP",
   ADD_NEXT_QUESTIONMAP = "ADD_NEXT_QUESTIONMAP"
 }
 
-export class ChangeQuestionaireName implements CustomAction {
-  readonly type = QuestionsActionType.CHANGE_QUESTIONAIRE_NAME
-  constructor(public payload: {name: string}) {}
-}
 
-export class CreateQuestionaire implements CustomAction {
-  readonly type = QuestionsActionType.CREATE_QUESTIONAIRE
-  constructor(public payload: {name: string, owner: string, uuid: string}) {}
-}
 
-export class AddQuestion implements CustomAction {
+export class AddQuestion implements Action {
   readonly type = QuestionsActionType.ADD_QUESTION
   constructor(public payload: {question: any}) {}
 }
 
-export class DeleteQuestion implements CustomAction {
+export class DeleteQuestion implements Action {
   readonly type = QuestionsActionType.DELETE_QUESTION
   constructor(public payload: {uuid: string}) {}
 }
 
-export class MoveQuestion implements CustomAction {
+export class MoveQuestion implements Action {
   readonly type = QuestionsActionType.MOVE_QUESTION
   constructor(public payload: {uuid: string, direction: number}) {}
 }
 
-export class MoveQuestionDnD implements CustomAction {
+export class MoveQuestionDnD implements Action {
   readonly type = QuestionsActionType.MOVE_QUESTION_DND
   constructor(public payload: {dragIndex: number, dropIndex: number}) {}
 }
 
-export class ChangeQuestionId implements CustomAction {
-  readonly type = QuestionsActionType.CHANGE_QUESTION_ID
-  constructor(public payload: {uuid: string, id: string}) {}
+export class ChangeQuestionAttribute implements Action {
+  readonly type = QuestionsActionType.CHANGE_QUESTION_ATTRIBUTE
+  constructor(public payload: {uuid: string, attr: string, value: string}) {}
 }
 
-export class ChangeQuestionText implements CustomAction {
-  readonly type = QuestionsActionType.CHANGE_QUESTION_TEXT
-  constructor(public payload: {uuid: string, text: string}) {}
-}
-
-export class ChangeQuestionCategory implements CustomAction {
-  readonly type = QuestionsActionType.CHANGE_QUESTION_CATEGORY
-  constructor(public payload: {uuid: string, category: string}) {}
-}
-
-export class ChangeNextQuestion implements CustomAction {
+export class ChangeNextQuestion implements Action {
   readonly type = QuestionsActionType.CHANGE_NEXT_QUESTION
   constructor(public payload: {uuid: string, index: number, nextQuestion: string}) {}
 }
 
-export class DeleteNextQuestionMap implements CustomAction {
+export class DeleteNextQuestionMap implements Action {
   readonly type = QuestionsActionType.DELETE_NEXT_QUESTIONMAP
   constructor(public payload: {uuid: string}) {}
 }
 
-export class AddNextQuestionMap implements CustomAction {
+export class AddNextQuestionMap implements Action {
   readonly type = QuestionsActionType.ADD_NEXT_QUESTIONMAP
   constructor(public payload: {uuid: string}) {}
 }
 
 export type QuestionsActions =
-  ChangeQuestionaireName |
-  CreateQuestionaire |
   AddQuestion |
   DeleteQuestion |
   MoveQuestion |
   MoveQuestionDnD |
-  ChangeQuestionId |
-  ChangeQuestionText |
-  ChangeQuestionCategory |
+  ChangeQuestionAttribute |
   ChangeNextQuestion |
   DeleteNextQuestionMap |
-  AddNextQuestionMap
+  AddNextQuestionMap |
+  OptionsActions
