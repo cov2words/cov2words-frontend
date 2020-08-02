@@ -99,7 +99,6 @@ export const statementsReducer = (state: InitialStateStatements = initialState, 
 
     case StatementsActionType.CHANGE_CONDITION_ATTRIBUTE: {
       let { attr, value, statementUUID, conditionUUID } = action.payload
-      console.log(action.payload)
       return {
         ...state,
         statements: state.statements.map(s => s.uuid !== statementUUID

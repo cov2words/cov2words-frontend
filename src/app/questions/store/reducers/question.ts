@@ -67,6 +67,7 @@ export function questionsReducer(state: InitialStateQuestions = initialState, ac
       let nextQuestionMap = question.nextQuestionMap.map((opt, i) => i == index ? nextQuestion : opt)
 
       // early return redo/undo
+      // check this! might be uneccessary now
       if (nextQuestionMap.every((q, i) => q == question.nextQuestionMap[i])) {
         return state
       }
@@ -79,7 +80,6 @@ export function questionsReducer(state: InitialStateQuestions = initialState, ac
 
     case QuestionsActionType.DELETE_NEXT_QUESTIONMAP: {
       let { uuid } = action.payload
-      console.log(uuid)
       let questions = [...state]
 
       let questionIndex = questions.findIndex(question => question.uuid == uuid)

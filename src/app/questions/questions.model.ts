@@ -1,7 +1,8 @@
 export interface Metadata {
   name: string,
   owner: string,
-  uuid: string
+  uuid: string,
+  categories?: string[]
 }
 
 export class Question {

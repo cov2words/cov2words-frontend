@@ -1,3 +1,5 @@
+import { combineReducers } from "@ngrx/store"
+import { authReducer } from "./auth"
 import { QuestionaireActions, QuestionaireActionType } from "../actions/questionaire"
 import { CategoryActionType } from "../actions/category"
 import { QuestionsActionType } from "../actions/question"
@@ -7,14 +9,12 @@ import { statementsReducer, InitialStateStatements, initialState as initialState
 import { questionsReducer } from "./question"
 import { OptionsActionType } from "../actions/root"
 
-
+// TODO: make use of combineReducers?
 
 export interface InitialStateQuestionaire {
-  name: string,
+  name: string
   owner: string
   uuid: string
-  modified: string
-  created: string
   categories: string[]
   questions: any[]
   statements: InitialStateStatements
@@ -24,12 +24,47 @@ export const initialState = {
   name: '',
   owner: '',
   uuid: '',
-  modified: '',
-  created: '',
   categories: initialStateCategories,
   questions: [],
   statements: initialStateStatements
 }
+
+/* export function _questionaireReducer(state, action) {
+  switch (action.type) {
+    case QuestionaireActionType.GET_QUESTIONAIRE_SUCCESS: {
+
+      let { questions, metadata, statements } = action.payload.questionaire
+
+      let _questions = questions.map(q =>
+        q.inputType == 'radio' && q.options == undefined
+          ? Object.assign({}, q, { options: [] })
+          : q
+      ) || []
+
+      let _metadata = metadata.hasOwnProperty("categories")
+        ? metadata
+        : Object.assign({}, metadata, { categories: [] })
+
+      return {
+        ..._metadata,
+        questions: _questions,
+        statements: { statements: statements || [], answers: [] }
+      }
+    }
+    case QuestionaireActionType.CHANGE_QUESTIONAIRE_NAME:
+    case QuestionaireActionType.CREATE_QUESTIONAIRE:
+    case QuestionaireActionType.GET_QUESTIONAIRE:
+    default:
+      return state
+  }
+}
+
+export const questionaireReducer = combineReducers({
+  categories: categoriesReducer,
+  questions: questionsReducer,
+  statements: statementsReducer,
+  questionaire: _questionaireReducer
+}) */
 
 export function questionaireReducer(state: InitialStateQuestionaire = initialState, action: QuestionaireActions) {
   switch (action.type) {
@@ -75,18 +110,18 @@ export function questionaireReducer(state: InitialStateQuestionaire = initialSta
 
       let _questions = questions.map(q =>
         q.inputType == 'radio' && q.options == undefined
-          ? Object.assign({}, q, {options: []})
+          ? Object.assign({}, q, { options: [] })
           : q
       ) || []
 
       let _metadata = metadata.hasOwnProperty("categories")
         ? metadata
-        : Object.assign({}, metadata, {categories: []})
+        : Object.assign({}, metadata, { categories: [] })
 
       return {
         ..._metadata,
         questions: _questions,
-        statements: {statements: statements || [], answers:[]}
+        statements: { statements: statements || [], answers: [] }
       }
     }
     case QuestionaireActionType.CHANGE_QUESTIONAIRE_NAME:
