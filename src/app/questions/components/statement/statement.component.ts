@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Store, State } from '@ngrx/store';
 import { ModalController } from '@ionic/angular';
 import * as Statements from "../../store/actions/statement"
+import * as Conditions from "../../store/actions/condition"
 import { EditModal } from "../question/edit.modal"
 import {uuid} from "uuidv4"
 
@@ -25,7 +26,7 @@ export class StatementComponent implements OnInit {
   get conditions() {
     return this.statement.conditions
   }
-
+      
   get newConditionName() {
     return this._newConditionName
   }
@@ -33,28 +34,27 @@ export class StatementComponent implements OnInit {
   ngOnInit() {}
 
   trackByFn(index, item) {
-    return item.uuid
+    return index
   }
 
-  renameStatement = (name: string) => {
-    let statementUUID = this.statement.uuid
-    this.store.dispatch(new Statements.RenameStatement({statementUUID,name}))
+  renameStatement = (value: string) => {
+    let uuid = this.statement.uuid, attr="name"
+    this.store.dispatch(new Statements.ChangeStatementAttribute({uuid,attr,value}))
   }
 
   deleteStatement() {
-    let statementUUID = this.statement.uuid
-    this.store.dispatch(new Statements.DeleteStatement({statementUUID}))
+    let statement = this.statement
+    this.store.dispatch(new Statements.DeleteStatement({statement}))
   }
 
   addCondition = (name: string) => {
     let condition = {
-      //name: this._newConditionName,
       name,
       selected: [],
       uuid: uuid()
     }
     let statementUUID = this.statement.uuid
-    this.store.dispatch(new Statements.AddCondition({condition, statementUUID}))
+    this.store.dispatch(new Conditions.AddCondition({condition, statementUUID}))
   }
 
   changeNewConditionName(event) {
@@ -62,13 +62,13 @@ export class StatementComponent implements OnInit {
   }
 
   updateStatementTrueText = (value: string) => {
-    let statementUUID = this.statement.uuid
-    this.store.dispatch(new Statements.UpdateStatementTrueText({value, statementUUID}))
+    let uuid = this.statement.uuid, attr = "trueText"
+    this.store.dispatch(new Statements.ChangeStatementAttribute({value, uuid, attr}))
   }
 
   updateStatementFalseText = (value: string) => {
-    let statementUUID = this.statement.uuid
-    this.store.dispatch(new Statements.UpdateStatementFalseText({value, statementUUID}))
+    let uuid = this.statement.uuid, attr = "falseText"
+    this.store.dispatch(new Statements.ChangeStatementAttribute({value, uuid, attr}))
   }
 
   async showAddCondition() {

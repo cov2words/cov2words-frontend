@@ -1,6 +1,6 @@
 import {
-  QuestionsActionType, AddQuestion, DeleteQuestion, MoveQuestion,
-  MoveQuestionDnD, ChangeQuestionAttribute, ChangeNextQuestion,
+  QuestionsActionType, AddQuestion, DeleteQuestion,
+  ChangeQuestionAttribute, ChangeNextQuestion,
   DeleteNextQuestionMap, AddNextQuestionMap
 } from "./question"
 
@@ -40,31 +40,6 @@ describe("DeleteQuestion", () => {
   })
 })
 
-describe("MoveQuestion", () => {
-  it("has expected properties", () => {
-    let action = new MoveQuestion({ uuid: "foo", direction: 1 })
-    expect(action.hasOwnProperty("type")).toBeTruthy()
-    expect(action.type).toEqual(QuestionsActionType.MOVE_QUESTION)
-    expect(action.hasOwnProperty("payload")).toBeTruthy()
-    expect(action.payload.hasOwnProperty("uuid")).toBeTruthy()
-    expect(action.payload.uuid).toEqual("foo")
-    expect(action.payload.hasOwnProperty("direction")).toBeTruthy()
-    expect(action.payload.direction).toEqual(1)
-  })
-})
-
-describe("MoveQuestionDnD", () => {
-  it("has expected properties", () => {
-    let action = new MoveQuestionDnD({ dragIndex: 0, dropIndex: 1 })
-    expect(action.hasOwnProperty("type")).toBeTruthy()
-    expect(action.type).toEqual(QuestionsActionType.MOVE_QUESTION_DND)
-    expect(action.hasOwnProperty("payload")).toBeTruthy()
-    expect(action.payload.hasOwnProperty("dragIndex")).toBeTruthy()
-    expect(action.payload.dragIndex).toEqual(0)
-    expect(action.payload.hasOwnProperty("dropIndex")).toBeTruthy()
-    expect(action.payload.dropIndex).toEqual(1)
-  })
-})
 
 describe("ChangeQuestionAttribute", () => {
   it("has expected properties", () => {

@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
 import { Questionaire, Question } from "../../questions.model"
-import { CategoryActions } from "./category"
 import { QuestionsActions } from "./question"
 import { StatementsActions } from "./statement"
 
@@ -12,7 +11,14 @@ export enum QuestionaireActionType {
   SET_QUESTIONAIRE_SUCCESS = "SET_QUESTIONAIRE_SUCCESS",
   SET_QUESTIONAIRE_FAILURE = "SET_QUESTIONAIRE_FAILURE",
   CHANGE_QUESTIONAIRE_NAME = "CHANGE_QUESTIONAIRE_NAME",
-  CREATE_QUESTIONAIRE = "CREATE_QUESTIONAIRE"
+  CREATE_QUESTIONAIRE = "CREATE_QUESTIONAIRE",
+  ADD_CATEGORY = "ADD_CATEGORY",
+  DELETE_CATEGORY = "DELETE_CATEGORY",
+  EDIT_CATEGORY = "EDIT_CATEGORY",
+  ADD_QUESTION = "ADD_QUESTION",
+  DELETE_QUESTION = "DELETE_QUESTION",
+  MOVE_QUESTION = "MOVE_QUESTION",
+  MOVE_QUESTION_DND = "MOVE_QUESTION_DND"
 }
 
 export class GetQuestionaire implements Action {
@@ -32,7 +38,7 @@ export class GetQuestionaireFailure implements Action {
 
 export class SetQuestionaire implements Action {
   readonly type = QuestionaireActionType.SET_QUESTIONAIRE
-  constructor(public payload: {questionaire: string, questions: Array<Question>, statements: any}) {}
+  constructor(public payload: {questionaire: string, questions: Array<Question>, statements: any, conditions: any}) {}
 }
 
 export class SetQuestionaireSuccess implements Action {
@@ -55,6 +61,41 @@ export class CreateQuestionaire implements Action {
   constructor(public payload: {name: string, owner: string, uuid: string}) {}
 }
 
+export class AddCategory implements Action {
+  readonly type = QuestionaireActionType.ADD_CATEGORY
+  constructor(public payload: {value: string}) {}
+}
+
+export class DeleteCategory implements Action {
+  readonly type = QuestionaireActionType.DELETE_CATEGORY
+  constructor(public payload: {index: number}) {}
+}
+
+export class EditCategory implements Action {
+  readonly type = QuestionaireActionType.EDIT_CATEGORY
+  constructor(public payload: {index: number, value: string}) {}
+}
+
+export class AddQuestion implements Action {
+  readonly type = QuestionaireActionType.ADD_QUESTION
+  constructor(public payload: {question: any}) {}
+}
+
+export class DeleteQuestion implements Action {
+  readonly type = QuestionaireActionType.DELETE_QUESTION
+  constructor(public payload: {uuid: string}) {}
+}
+
+export class MoveQuestion implements Action {
+  readonly type = QuestionaireActionType.MOVE_QUESTION
+  constructor(public payload: {uuid: string, direction: number}) {}
+}
+
+export class MoveQuestionDnD implements Action {
+  readonly type = QuestionaireActionType.MOVE_QUESTION_DND
+  constructor(public payload: {dragIndex: number, dropIndex: number}) {}
+}
+
 export type QuestionaireActions = 
   GetQuestionaire |
   GetQuestionaireSuccess |
@@ -64,6 +105,12 @@ export type QuestionaireActions =
   SetQuestionaireFailure |
   ChangeQuestionaireName |
   CreateQuestionaire |
-  CategoryActions |
+  AddCategory |
+  DeleteCategory |
+  EditCategory |
+  AddQuestion |
+  DeleteQuestion |
+  MoveQuestion |
+  MoveQuestionDnD |
   QuestionsActions |
   StatementsActions

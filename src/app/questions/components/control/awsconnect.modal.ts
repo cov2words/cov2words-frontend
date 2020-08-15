@@ -19,6 +19,7 @@ export class AWSConnectModal implements OnInit {
 
   private _questions
   private _statements
+  private _conditions
   private _name: string
 
   constructor(
@@ -37,7 +38,8 @@ export class AWSConnectModal implements OnInit {
   ngOnInit() {
     this.store.select(state => state.questions.present).subscribe(response => {
       this._questions = response.questions
-      this._statements = response.statements.statements
+      this._statements = response.statements
+      this._conditions = response.conditions
       this._name = response.questionaire.name
         .replace(/ /g, "_")
         .toLowerCase()
@@ -52,7 +54,24 @@ export class AWSConnectModal implements OnInit {
     let language = "de"
     let basename = this._name
     let questions = this._questions
-    let scoreMap = {}
+    // TODO: change datatype of selected or make use of array.
+    let conditionMap = Object.assign(
+      {}, ...this._conditions.map(c => (
+        {[c.name]: Object.assign(
+          {}, c,
+          {selected: c.selected.map(x => `${questions.find(q => q.uuid === x).category}_${questions.find(q => q.uuid === x).id}`)}
+          )}
+      ))
+    )
+    let statementMap = Object.assign(
+      {}, ...this._statements.map(statement => (
+        {[statement.name]: statement}
+      ))
+    )
+    let scoreMap = {
+      conditions: conditionMap,
+      statements: statementMap
+    }
     let amazonConnectData = {}
     const questionIDList = []
     questions.forEach(question => {
@@ -120,7 +139,12 @@ export class AWSConnectModal implements OnInit {
     //state = getState()
 
     const staticEndName = `${basename}_end`//`question_end_${language}` "automated_charite_data_end_en"//
-    const staticEnd = ContactFlowStaticEnd({ name: staticEndName, language: language, statements: this._statements })
+
+    let fuck = this._conditions.map(c => Object.assign(
+      {}, c, 
+      {selected: c.selected.map(x => `${questions.find(q => q.uuid === x).category}_${questions.find(q => q.uuid === x).id}`)}))
+
+    const staticEnd = ContactFlowStaticEnd({ name: staticEndName, language: language, statements: fuck })
     amazonConnectData[staticEndName] = staticEnd
     //dispatch(setAmazonConnectData({[staticEndName]: staticEnd}))
     return amazonConnectData

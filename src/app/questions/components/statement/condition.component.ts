@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ModalController } from '@ionic/angular';
 import * as Statements from "../../store/actions/statement"
+import * as Conditions from "../../store/actions/condition"
 import { EditModal } from "../question/edit.modal"
 
 
@@ -11,10 +12,11 @@ import { EditModal } from "../question/edit.modal"
   styleUrls: ['./statement.component.scss']
 })
 export class ConditionComponent implements OnInit {
-  @Input() condition: any
+  @Input() conditionUUID: string
   @Input() statementUUID: string
   @Input() isLastElement: boolean
 
+  public condition
   private _categories: string[]
   private _operands: string[] = ["==", "<=", ">=", "!="]
   private _combinations: string[] = ["&&", "||"]
@@ -34,6 +36,11 @@ export class ConditionComponent implements OnInit {
     return this._questions
   }
 
+  // TODO: category: {uuid: "", name: ""}. atm its just string
+  /* get conditionChoices() {
+    return [...this._categories, ...this._questions]
+  } */
+
   get operands() {
     return this._operands
   }
@@ -42,9 +49,14 @@ export class ConditionComponent implements OnInit {
     return this._combinations
   }
 
+  get questionChoices() {
+    return this._questions.find(q => q.uuid === this.condition.selected[0]).options
+  }
+
   ngOnInit() {
     this.store.select(state => state.questions.present).subscribe(response => {
-      this._questions = response.questionaire.questions
+      this._questions = response.questions
+      this.condition = response.conditions.find(cond => cond.uuid === this.conditionUUID)
     }, error => {
       console.log(error)
     })
@@ -59,28 +71,34 @@ export class ConditionComponent implements OnInit {
   }
 
   renameCondition = (value: string) => {
-    let attr = "name", conditionUUID = this.condition.uuid, statementUUID = this.statementUUID
-    this.store.dispatch(new Statements.ChangeConditionAttribute({attr, value, statementUUID, conditionUUID,}))
+    let attr = "name", uuid = this.condition.uuid, statementUUID = this.statementUUID
+    this.store.dispatch(new Conditions.ChangeConditionAttribute({attr, value, statementUUID, uuid}))
   }
 
   changeOperand(event) {
-    let attr = "operand", value = event.detail.value, conditionUUID = this.condition.uuid, statementUUID = this.statementUUID
-    this.store.dispatch(new Statements.ChangeConditionAttribute({attr, value, statementUUID, conditionUUID}))
+    let attr = "operand", value = event.detail.value, uuid = this.condition.uuid, statementUUID = this.statementUUID
+    this.store.dispatch(new Conditions.ChangeConditionAttribute({attr, value, statementUUID, uuid}))
   }
 
   changeSelected(event) {
-    let selected = event.detail.value, conditionUUID = this.condition.uuid, statementUUID = this.statementUUID
-    this.store.dispatch(new Statements.ChangeSelected({selected, statementUUID, conditionUUID}))
+    let attr= "selected", value = [event.detail.value], uuid = this.conditionUUID, statementUUID = this.statementUUID
+    this.store.dispatch(new Conditions.ChangeConditionAttribute({attr, value, statementUUID, uuid}))
   }
 
-  changeValue = (value: string) => {
-    let attr = "value",  conditionUUID = this.condition.uuid, statementUUID = this.statementUUID
-    this.store.dispatch(new Statements.ChangeConditionAttribute({attr, value, statementUUID, conditionUUID}))
+  changeValue = (event) => {//questiondUUID: string) => {
+    let attr = "value",  uuid = this.condition.uuid, statementUUID = this.statementUUID
+    let val = event.detail.value
+    console.log("the val", val)
+    let display = this._questions.find(q => q.uuid === this.condition.selected[0]).options[val]
+    console.log(this._questions)
+    console.log(display)
+    let value = {val, display}
+    this.store.dispatch(new Conditions.ChangeConditionAttribute({attr, value, statementUUID, uuid}))
   }
 
   changeCombination(event) {
-    let attr = "combination", value = event.detail.value, conditionUUID = this.condition.uuid, statementUUID = this.statementUUID
-    this.store.dispatch(new Statements.ChangeConditionAttribute({attr, value, statementUUID, conditionUUID}))
+    let attr = "combination", value = event.detail.value, uuid = this.condition.uuid, statementUUID = this.statementUUID
+    this.store.dispatch(new Conditions.ChangeConditionAttribute({attr, value, statementUUID, uuid}))
   }
 
   async showChangeName() {

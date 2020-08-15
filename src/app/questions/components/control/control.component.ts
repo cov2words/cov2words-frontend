@@ -26,6 +26,7 @@ export class ControlComponent implements OnInit {
   private _questionaire
   private _questions
   private _statements
+  private _conditions
   private _newQuestionaireName
   private _userEmail
 
@@ -55,8 +56,9 @@ export class ControlComponent implements OnInit {
     this.store.select(state => state.questions.present).subscribe(response => {
       this._questionaires = response.questionaires
       this._questionaire = response.questionaire
-      this._questions = response.questionaire.questions
-      this._statements = response.questionaire.statements
+      this._questions = response.questions
+      this._statements = response.statements
+      this._conditions = response.conditions
       this._newQuestionaireName = response.newQuestionaireName
       this._userEmail = response.auth.email
     })
@@ -71,7 +73,6 @@ export class ControlComponent implements OnInit {
 
   changeQuestionaire(event) {
     let questionaireUUID = event.target.value
-    console.log(questionaireUUID, this._questionaires)
     this._questionaires.some(q => q.uuid == questionaireUUID)
       ? this.store.dispatch(new Questionaire.GetQuestionaire({questionaireUUID}))
       : null
@@ -83,10 +84,13 @@ export class ControlComponent implements OnInit {
   }
 
   saveQuestionaire() {
-    let questionaire = this._questionaire
-    let questions = this._questions
-    let statements = this._statements.statements
-    this.store.dispatch(new Questionaire.SetQuestionaire({questionaire, questions, statements}))
+    // TODO: rename stuff? 
+    let {questions, ...questionaire} = this._questionaire
+    let _questions = this._questions
+    let statements = this._statements
+    let conditions = this._conditions
+    
+    this.store.dispatch(new Questionaire.SetQuestionaire({questionaire, questions: _questions, statements, conditions}))
   }
 
   async showCreateQuestionaireModal() {

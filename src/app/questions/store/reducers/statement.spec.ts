@@ -1,130 +1,91 @@
 import { initialState, statementsReducer } from "./statement"
 import {
-  AddStatement, DeleteStatement, RenameStatement, AddCondition,
-  UpdateStatementTrueText, UpdateStatementFalseText, ChangeSelected, ChangeConditionAttribute, ChangeAnswer
+  AddStatement, DeleteStatement, ChangeStatementAttribute
 } from "../actions/statement"
+import { AddCondition, DeleteCondition } from "../actions/condition"
+import { GetQuestionaireSuccess } from "../actions/questionaire"
 
 describe("initialState", () => {
   it("has expexted keys & values", () => {
-    expect(initialState.hasOwnProperty("statements")).toBeTruthy()
-    expect(initialState.hasOwnProperty("answers")).toBeTruthy()
-    expect(initialState).toEqual({ statements: [], answers: [] })
+    expect(initialState).toEqual([])
   })
 })
 
 describe("statementsReducer", () => {
-  let populatedState
-  beforeEach(() => {
-    populatedState = {
-      answers: [],
-      statements: [
-        {
-          uuid: "foo",
-          conditions: [
-            { uuid: "bar" },
-            { uuid: "baz" }
-          ]
-        },
-        {
-          uuid: "woot",
-          conditions: []
-        }
-      ]
-    }
-  })
   it("ignores random action", () => {
     let action = { type: undefined, payload: undefined }
     expect(statementsReducer(undefined, action)).toEqual(initialState)
   })
   it("should handle AddStatement", () => {
-    let action = new AddStatement({ statement: "foo" })
-    expect(statementsReducer(undefined, action)).toEqual({ statements: ["foo"], answers: [] })
+    let action = new AddStatement({statement: {uuid:"foo"}})
+    expect(statementsReducer(undefined, action)).toEqual([{uuid: "foo"}])
   })
   it("should handle DeleteStatement", () => {
-    let action = new DeleteStatement({ statementUUID: "foo" })
-    let state = { answers: [], statements: [{ uuid: "foo" }] }
-    expect(statementsReducer(state, action)).toEqual({ answers: [], statements: [] })
+    let action = new DeleteStatement({statement: {uuid:"foo"}})
+    let state = [{uuid: "foo"}, {uuid: "bar"}]
+    expect(statementsReducer(state, action)).toEqual([{uuid: "bar"}])
   })
-  it("should handle RenameStatement", () => {
-    let action = new RenameStatement({ statementUUID: "foo", name: "bar" })
-    expect(statementsReducer(populatedState, action)).toEqual({
-      answers: [],
-      statements: [{ uuid: "foo", name: "bar", conditions: [{ uuid: "bar" }, { uuid: "baz" }] }, { uuid: "woot", conditions: [] }]
+  it("should handle ChangeStatementAttribute", () => {
+    let action = new ChangeStatementAttribute({
+      uuid: "foo", attr: "bar", value: "baz"
     })
+    let state = [{uuid: "foo"}, {uuid: "bar"}]
+    expect(statementsReducer(state, action)).toEqual([
+      {uuid: "foo", bar: "baz"},
+      {uuid: "bar"}
+    ])
   })
   it("should handle AddCondition", () => {
-    let action = new AddCondition({ condition: { uuid: "blin" }, statementUUID: "foo" })
-    expect(statementsReducer(populatedState, action)).toEqual({
-      answers: [],
-      statements: [{ uuid: "foo", conditions: [{ uuid: "bar" }, { uuid: "baz" }, { uuid: "blin" }] }, { uuid: "woot", conditions: [] }]
-    })
+    let action = new AddCondition({condition: {uuid: "blin"}, statementUUID: "foo"})
+    let state = [{uuid: "foo", conditions: []}, {uuid: "bar", conditions: ["miau"]}]
+    expect(statementsReducer(state, action)).toEqual([
+      {uuid: "foo", conditions: ["blin"]},
+      {uuid: "bar", conditions: ["miau"]}
+    ])
   })
-  it("should handle UpdateStatementTrueText", () => {
-    let action = new UpdateStatementTrueText({ value: "blin", statementUUID: "foo" })
-    expect(statementsReducer(populatedState, action)).toEqual({
-      answers: [],
-      statements: [
-        { uuid: "foo", conditions: [{uuid: "bar"}, {uuid: "baz"}], trueText: "blin" },
-        { uuid: "woot", conditions: [] }
-      ]
-    })
+  it("should handle DeleteCondition", () => {
+    let action = new DeleteCondition({uuid: "miau", statementUUID: "bar"})
+    let state = [{uuid: "foo", conditions: []}, {uuid: "bar", conditions: ["miau"]}]
+    expect(statementsReducer(state, action)).toEqual([
+      {uuid: "foo", conditions: []},
+      {uuid: "bar", conditions: []}
+    ])
   })
-  it("should handle UpdateStatementFalseText", () => {
-    let action = new UpdateStatementFalseText({ value: "blin", statementUUID: "foo" })
-    expect(statementsReducer(populatedState, action)).toEqual({
-      answers: [],
-      statements: [
-        { uuid: "foo", conditions: [{ uuid: "bar" }, { uuid: "baz" }], falseText: "blin" },
-        { uuid: "woot", conditions: [] }
-      ]
-    })
-  })
-  it("should handle ChangeSelected", () => {
-    let action = new ChangeSelected({ selected: ["mi", "au"], conditionUUID: "bar", statementUUID: "foo" })
-    expect(statementsReducer(populatedState, action)).toEqual({
-      answers: [],
-      statements: [
-        {
-          uuid: "foo",
-          conditions: [
-            { uuid: "bar", selected: [["mi", "au"]] },
-            { uuid: "baz" }
-          ]
+  it("should handle GetQuestionaireSuccess, no statements", () => {
+    let action = new GetQuestionaireSuccess({
+      questionaire: {
+        metadata: {
+          uuid: "",
+          name: "",
+          owner: "",
+          categories: []
         },
-        {
-          uuid: "woot",
-          conditions: []
-        }
-      ]
+        questions: [],
+        statements: [{uuid: "foo", conditions: []}, {uuid: "bar"}],
+        conditions: []
+      }
     })
+    expect(statementsReducer(undefined, action)).toEqual([
+      {uuid: "foo", conditions: []},
+      {uuid: "bar", conditions: []}
+    ])
   })
-  it("should handle ChangeConditionAttribute", () => {
-    let action = new ChangeConditionAttribute(
-      { attr: "name", value: "blin", conditionUUID: "bar", statementUUID: "foo" }
-    )
-    expect(statementsReducer(populatedState, action)).toEqual({
-      answers: [],
-      statements: [
-        {
-          uuid: "foo",
-          conditions: [
-            { uuid: "bar", name: "blin" },
-            { uuid: "baz" }
-          ]
+  it("should handle GetQuestionaireSuccess, no statements", () => {
+    let action = new GetQuestionaireSuccess({
+      questionaire: {
+        metadata: {
+          uuid: "",
+          name: "",
+          owner: "",
+          categories: []
         },
-        {
-          uuid: "woot",
-          conditions: []
-        }
-      ]
+        questions: [],
+        statements: undefined,
+        conditions: []
+      }
     })
-  })
-  it("should handle ChangeAnswer", () => {
-    let action = new ChangeAnswer({ index: 0, answer: "miau" })
-    let state = { statements: [], answers: ["wuff", "blubb"] }
-    expect(statementsReducer(state, action)).toEqual({
-      statements: [],
-      answers: ["miau", "blubb"]
-    })
+    expect(statementsReducer(undefined, action)).toEqual([
+      
+    ])
   })
 })

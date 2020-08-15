@@ -11,12 +11,14 @@ const routes: Routes = [
     {
         path: '',
         loadChildren: './home/home.module#HomePageModule',
-        canLoad: [AuthGuard]
+        canLoad: [AuthGuard],
+        canActivate: [AuthGuard]
     },
     {
         path: 'questions',
         loadChildren: './questions/questions.module#QuestionsPageModule',
-        canLoad: [AuthGuard]
+        canLoad: [AuthGuard],
+        canActivate: [AuthGuard]
     }
 ];
 

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {ToastController} from "@ionic/angular";
+import { Router } from '@angular/router';
 import { Plugins } from '@capacitor/core';
 import { from } from 'rxjs';
-import * as Questions from "./store/actions/question"
+import {AuthService} from "../auth/auth.service"
+import * as Questionaire from "./store/actions/questionaire"
 import * as Auth from "./store/actions/auth"
 
 @Component({
@@ -13,14 +15,15 @@ import * as Auth from "./store/actions/auth"
 })
 export class QuestionsPage implements OnInit {
 
-    //public questions
     public questionaire
     public user
     public _showStatements: boolean = false
 
     constructor(
       private store: Store<any>,
-      private toastController: ToastController
+      private toastController: ToastController,
+      private auth: AuthService,
+      private router: Router
     ) {}
 
     ngOnInit() {
@@ -31,8 +34,7 @@ export class QuestionsPage implements OnInit {
 
       this.store.select(state => state.questions.present).subscribe(response => {
         this.questionaire = response.questionaire
-        //this.questions = response.questions
-        this.user = response.auth
+        this.user = response.auth.email
         if (response.message) {
           this.presentToast(response.message)
         }
@@ -55,7 +57,7 @@ export class QuestionsPage implements OnInit {
     }
 
     trackByFn(index,item) {
-      return item.uuid
+      return item
     }
 
     doReorder(ev: any) {
@@ -67,11 +69,18 @@ export class QuestionsPage implements OnInit {
       // where the gesture ended. Update the items variable to the
       // new order of items
       let { from, to } = ev.detail
-      this.store.dispatch(new Questions.MoveQuestionDnD({dragIndex: from, dropIndex: to}))
+      this.store.dispatch(new Questionaire.MoveQuestionDnD({dragIndex: from, dropIndex: to}))
       ev.detail.complete();
   
       // After complete is called the items will be in the new order
 
+    }
+
+    logout() {
+      //this.store.dispatch(new Auth.SetUser({user: {}}))
+      this.store.dispatch({type: 'LOGOUT'})
+      this.auth.logout()
+      this.router.navigateByUrl('/auth')
     }
 
     async presentToast(message: string) {

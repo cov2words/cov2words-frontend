@@ -1,7 +1,8 @@
 import { initialState, questionsReducer } from "./question"
 import { DeleteOption, AddOption, ChangeOptionText } from "../actions/option"
 import { optionsReducer } from "./option"
-import { AddQuestion, DeleteQuestion, MoveQuestion, MoveQuestionDnD, ChangeQuestionAttribute, ChangeNextQuestion, DeleteNextQuestionMap, AddNextQuestionMap } from "../actions/question"
+import { AddQuestion, DeleteQuestion, ChangeQuestionAttribute, ChangeNextQuestion, DeleteNextQuestionMap, AddNextQuestionMap } from "../actions/question"
+import { GetQuestionaireSuccess } from "../actions/questionaire"
 
 describe("initialState", () => {
   it("should have expected keys & values", () => {
@@ -21,6 +22,22 @@ describe("questionReducer", () => {
     expect(questionsReducer(undefined, {type: undefined, payload: undefined}))
       .toEqual(initialState)
   })
+  it("should handle GetQuestionaireSuccess", () => {
+    let action = new GetQuestionaireSuccess({
+      questionaire: {
+        metadata: {
+          owner: "",
+          name: "",
+          uuid: "",
+          categories: [],
+        },
+        questions: [],
+        statements: [],
+        conditions: []
+      }
+    })
+    expect(questionsReducer(undefined, action)).toEqual([])
+  })
   it("should handle DeleteOption", () => {
     let action = new DeleteOption({uuid: "foo", index: 0})
     expect(questionsReducer(populatedState, action))
@@ -29,12 +46,21 @@ describe("questionReducer", () => {
         {uuid: "bar", options: []}
       ])
   })
+
   it("should handle AddOption", () => {
     let action = new AddOption({uuid: "bar", option: "bla"})
     expect(questionsReducer(populatedState, action))
       .toEqual([
         {uuid: "foo", options: ["a", "b"], nextQuestionMap: ["bla", "blo"]},
         {uuid: "bar", options: optionsReducer([], action)}
+      ])
+  })
+
+  it("should handle AddOption no options", () => {
+    let action = new AddOption({uuid: "foo", option: "bla"})
+    expect(questionsReducer([{uuid: "foo"}], action))
+      .toEqual([
+        {uuid: "foo", options: optionsReducer([], action)}
       ])
   })
   it("should handle ChangeOptionText", () => {
@@ -56,40 +82,6 @@ describe("questionReducer", () => {
     let action = new DeleteQuestion({uuid: "foo"})
     expect(questionsReducer(populatedState, action))
       .toEqual([{uuid: "bar", options: []}])
-  })
-  it("should handle MoveQuestion downwards", () => {
-    let action = new MoveQuestion({uuid: "foo", direction: 1})
-    expect(questionsReducer(populatedState, action))
-      .toEqual([
-        {uuid: "bar", options: []},
-        {uuid: "foo", options: ["a", "b"], nextQuestionMap: ["bla", "blo"]}
-      ])
-  })
-  it("should handle MoveQuestion downwards ignore", () => {
-    let action = new MoveQuestion({uuid: "bar", direction: 1})
-    expect(questionsReducer(populatedState, action))
-      .toEqual(populatedState)
-  })
-  it("should handle MoveQuestion upwards", () => {
-    let action = new MoveQuestion({uuid: "bar", direction: -1})
-    expect(questionsReducer(populatedState, action))
-      .toEqual([
-        {uuid: "bar", options: []},
-        {uuid: "foo", options: ["a", "b"], nextQuestionMap: ["bla", "blo"]}
-      ])
-  })
-  it("should handle MoveQuestion upwards ignore", () => {
-    let action = new MoveQuestion({uuid: "foo", direction: -1})
-    expect(questionsReducer(populatedState, action))
-      .toEqual(populatedState)
-  })
-  it("should handle MoveQuestionDnD", () => {
-    let action = new MoveQuestionDnD({dragIndex: 0, dropIndex: 1})
-    expect(questionsReducer(populatedState, action))
-      .toEqual([
-        {uuid: "bar", options: []},
-        {uuid: "foo", options: ["a", "b"], nextQuestionMap: ["bla", "blo"]}
-      ])
   })
   it("should handle ChangeQuestionAttribute", () => {
     let action = new ChangeQuestionAttribute({
@@ -128,10 +120,14 @@ describe("questionReducer", () => {
   })
   it("should handle AddNextQuestionMap", () => {
     let action = new AddNextQuestionMap({uuid: "bar"})
-    expect(questionsReducer(populatedState, action))
+    let state = [
+      {uuid: "foo", options: ["a", "b"], nextQuestionMap: ["bla", "blo"]},
+      {uuid: "bar", options: ["x"]}
+    ]
+    expect(questionsReducer(state, action))
       .toEqual([
         {uuid: "foo", options: ["a", "b"], nextQuestionMap: ["bla", "blo"]},
-        {uuid: "bar", options: [], nextQuestionMap: []}
+        {uuid: "bar", options: ["x"], nextQuestionMap: [""]}
       ])
   })
 })

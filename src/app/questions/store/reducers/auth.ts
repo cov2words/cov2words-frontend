@@ -10,6 +10,7 @@ export function authReducer(state=initialStateAuth, action: AuthActions) {
         ...user
       }
     }
+
     default:
       return state
   }

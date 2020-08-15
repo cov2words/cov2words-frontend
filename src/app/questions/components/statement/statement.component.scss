@@ -4,10 +4,18 @@ ion-input {
   border: solid rgb(15, 172, 106) 2px;
 }
 
-ion-select, ion-label {
+ion-select, ion-label, .foobarbaz {
   border: solid rgb(15, 172, 106) 2px;
 }
 
 .statementWrapper {
   border: solid green 5px;
+}
+
+.statementComponent {
+  border: solid red 1px;
+}
+
+.conditionComponent {
+  border: solid blue 1px;
 }

@@ -2,12 +2,20 @@ import { combineReducers } from "@ngrx/store"
 import { authReducer } from "./auth"
 import { questionairesReducer } from "./questionaires"
 import { questionaireReducer } from "./questionaire"
+import { questionsReducer } from "./question"
+import { statementsReducer } from "./statement"
+import { conditionReducer } from "./condition"
+import { answerReducer } from "./answer"
 
 
 export const rootReducer = combineReducers({
   auth: authReducer,
   questionaires: questionairesReducer,
-  questionaire: questionaireReducer
+  questionaire: questionaireReducer,
+  questions: questionsReducer,
+  statements: statementsReducer,
+  conditions: conditionReducer,
+  answers: answerReducer
 })
 
 
@@ -24,6 +32,9 @@ export function undoable(reducer) {
     const { past, present, future } = state
 
     switch (action.type) {
+      case 'LOGOUT': {
+        return initialState
+      }
       case 'UNDO':
         const previous = past[past.length - 1]
         const newPast = past.slice(0, past.length - 1)

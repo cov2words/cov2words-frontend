@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { ModalController } from '@ionic/angular';
 import { Question } from "../../questions.model"
+import * as Questionaire from "../../store/actions/questionaire"
 import * as Questions from "../../store/actions/question"
 import * as Options from "../../store/actions/option"
 import { EditModal } from "./edit.modal"
@@ -13,9 +14,11 @@ import { EditModal } from "./edit.modal"
 })
 export class QuestionComponent implements OnInit {
 
-  @Input() question: Question
+  @Input() questionUUID: Question
   @Input() questions: Question[]
   @Input() categories: string[]
+
+  public question
 
   constructor(
     private store: Store<any>,
@@ -27,6 +30,9 @@ export class QuestionComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.store.select(state => state.questions.present).subscribe(response => {
+      this.question = response.questions.find(q => q.uuid === this.questionUUID)
+    })
   }
 
   trackByFn(index, item) {
@@ -35,16 +41,16 @@ export class QuestionComponent implements OnInit {
 
   deleteQuestion(uuid: string) {
     this.store.dispatch(new Questions.DeleteQuestion({uuid}))
-    this.store.select('questions').subscribe(response => {
+    /* this.store.select('questions').subscribe(response => {
       this.questions = response.questions
     }, error => {
       console.log(error)
-    })
+    }) */
   }
 
   moveQuestion = (direction: number) => {
     let { uuid } = this.question
-    this.store.dispatch(new Questions.MoveQuestion({ uuid, direction }))
+    this.store.dispatch(new Questionaire.MoveQuestion({ uuid, direction }))
   }
 
   changeQuestionId = (value: string) => {

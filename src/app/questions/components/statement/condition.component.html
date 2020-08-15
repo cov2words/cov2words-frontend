@@ -1,8 +1,13 @@
 <ion-item class="conditionComponent">
   <ion-grid>
-    <ion-row>
+    <!-- <ion-row>
+      <ion-col>
       <b (click)="showChangeName()">{{condition.name}}</b>
-    </ion-row>
+      <ion-button>
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
+    </ion-col>
+    </ion-row> -->
     <ion-row>
       <ion-col size="6">
         <ion-select value="{{condition.selected}}" placeholder="PLEASE SELECT" (ionChange)="changeSelected($event)">
@@ -14,8 +19,13 @@
           <ion-select-option *ngFor="let o of operands; let i=index; trackBy: trackByIndex">{{o}}</ion-select-option>
         </ion-select>
       </ion-col>
+      <!-- <ion-col size="12">
+        <div class="foobarbaz" (click)="showChangeValue()">{{ condition.value }}</div>
+      </ion-col> -->
       <ion-col size="12">
-        <div (click)="showChangeValue()">{{ condition.value }}</div>
+        <ion-select value="{{condition.value.val}}" selectedText="{{condition.value.display}}" (ionChange)="changeValue($event)">
+          <ion-select-option *ngFor="let o of questionChoices; let i=index; trackBy: trackByIndex" value="{{ i }}" >{{o}}</ion-select-option>
+        </ion-select>
       </ion-col>
     </ion-row>
     <ion-row *ngIf="!isLastElement">

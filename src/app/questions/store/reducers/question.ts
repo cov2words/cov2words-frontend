@@ -1,4 +1,5 @@
 import { QuestionsActions, QuestionsActionType } from "../actions/question"
+import { QuestionaireActionType } from "../actions/questionaire"
 import { OptionsActionType } from "../actions/option"
 import { optionsReducer } from "./option"
 
@@ -10,13 +11,18 @@ export function questionsReducer(state: InitialStateQuestions = initialState, ac
 
   switch (action.type) {
 
+    case QuestionaireActionType.GET_QUESTIONAIRE_SUCCESS: {
+      let { questions } = action.payload.questionaire
+      return questions
+    }
+
     case OptionsActionType.DELETE_OPTION:
-    case OptionsActionType.ADD_OPTION:
+    case OptionsActionType.ADD_OPTION: 
     case OptionsActionType.CHANGE_OPTION_TEXT: {
       let { uuid } = action.payload
       return state.map(q => q.uuid !== uuid
         ? q
-        : Object.assign({}, q, {options: optionsReducer(q.options, action)})
+        : Object.assign({}, q, {options: optionsReducer(q.options || [], action)})
       )
     }
 
@@ -27,28 +33,6 @@ export function questionsReducer(state: InitialStateQuestions = initialState, ac
     case QuestionsActionType.DELETE_QUESTION: {
       let { uuid } = action.payload
       return state.filter(question => question.uuid !== uuid)
-    }
-
-    case QuestionsActionType.MOVE_QUESTION: {
-      // what is this mess?!
-      let { uuid, direction } = action.payload
-      let questions = [...state]
-
-      let index = questions.findIndex(question => question.uuid === uuid)
-      let newIndex = index + direction
-
-      if (newIndex < 0 || newIndex >= questions.length) {
-        return state
-      }
-      questions.splice(newIndex, 0, questions.splice(index, 1)[0])
-      return questions.map(question => Object.assign({}, JSON.parse(JSON.stringify(question))))
-    }
-
-    case QuestionsActionType.MOVE_QUESTION_DND: {
-      let { dragIndex, dropIndex } = action.payload
-      let questions = [...state]
-      questions.splice(dropIndex, 0, questions.splice(dragIndex, 1)[0])
-      return [...questions]
     }
 
     case QuestionsActionType.CHANGE_QUESTION_ATTRIBUTE: {
@@ -99,7 +83,9 @@ export function questionsReducer(state: InitialStateQuestions = initialState, ac
       let questionIndex = questions.findIndex(question => question.uuid == uuid)
       let question = questions.find(question => question.uuid == uuid)
 
-      let updatedQuestion = Object.assign({}, question, { nextQuestionMap: question.options.map(opt => '') })
+      let updatedQuestion = Object.assign(
+        {}, question, { nextQuestionMap: question.options.map(opt => '') }
+      )
       questions[questionIndex] = Object.assign({}, updatedQuestion)
 
       return [...questions]

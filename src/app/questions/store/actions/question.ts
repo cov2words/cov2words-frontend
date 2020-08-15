@@ -1,5 +1,7 @@
 import { Action } from '@ngrx/store';
+import { GetQuestionaireSuccess } from "./questionaire"
 import { OptionsActions } from './option';
+
 
 export enum QuestionsActionType {
   ADD_QUESTION = "ADD_QUESTION",
@@ -12,8 +14,6 @@ export enum QuestionsActionType {
   ADD_NEXT_QUESTIONMAP = "ADD_NEXT_QUESTIONMAP"
 }
 
-
-
 export class AddQuestion implements Action {
   readonly type = QuestionsActionType.ADD_QUESTION
   constructor(public payload: {question: any}) {}
@@ -22,16 +22,6 @@ export class AddQuestion implements Action {
 export class DeleteQuestion implements Action {
   readonly type = QuestionsActionType.DELETE_QUESTION
   constructor(public payload: {uuid: string}) {}
-}
-
-export class MoveQuestion implements Action {
-  readonly type = QuestionsActionType.MOVE_QUESTION
-  constructor(public payload: {uuid: string, direction: number}) {}
-}
-
-export class MoveQuestionDnD implements Action {
-  readonly type = QuestionsActionType.MOVE_QUESTION_DND
-  constructor(public payload: {dragIndex: number, dropIndex: number}) {}
 }
 
 export class ChangeQuestionAttribute implements Action {
@@ -57,10 +47,9 @@ export class AddNextQuestionMap implements Action {
 export type QuestionsActions =
   AddQuestion |
   DeleteQuestion |
-  MoveQuestion |
-  MoveQuestionDnD |
   ChangeQuestionAttribute |
   ChangeNextQuestion |
   DeleteNextQuestionMap |
   AddNextQuestionMap |
+  GetQuestionaireSuccess |
   OptionsActions

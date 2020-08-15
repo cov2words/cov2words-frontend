@@ -1,9 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
     <ion-title>{{ 'application.title' | translate }}</ion-title>
+    <ion-button slot="end" (click)="logout()">logout</ion-button>
   </ion-toolbar>
 </ion-header>
 
@@ -16,8 +14,8 @@
         </div>
       </ion-col>
     </ion-row>
-    <control-component *ngIf="user.email" [toggleQuestionsStatements]="toggleQuestionsStatements"></control-component>
-    <ion-row *ngIf="questionaire">
+    <control-component *ngIf="user" [toggleQuestionsStatements]="toggleQuestionsStatements"></control-component>
+    <ion-row *ngIf="questionaire && user">
       <ion-col>
         Questionaire: {{ questionaire.name }}
         Owner: {{ questionaire.owner }}
@@ -32,7 +30,7 @@
       <ion-row>
         <ion-col>
           <ion-list size="10">
-            <question-component *ngFor="let question of questions; trackBy:trackByFn" [question]="question"
+            <question-component *ngFor="let question of questions; trackBy:trackByFn" [questionUUID]="question"
               [categories]="questionaire.categories" [questions]="questions"></question-component>
           </ion-list>
         </ion-col>

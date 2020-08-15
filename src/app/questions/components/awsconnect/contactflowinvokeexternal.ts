@@ -18,16 +18,19 @@ export const ContactFlowInvokeExternal = (props: ContactFlowInvokeExternalProps)
   let dynamicParameters = []
   let dynamicMetadata = {}
 
+  console.log({lambdaKeys})
+
   lambdaKeys.forEach((key, i) => {
+    console.log("lambdakey", key)
     let dynamicParamter = {
       name: "Parameter",
-      key: key.name,
-      value: `$.Attributes.${key.name}`,
+      key: key.selected[0],
+      value: `$.Attributes.${key.selected[0]}`,
       namespace: null
     }
     //let dynamicMetadata = {[key]: false} woopsie
     dynamicParameters.push(dynamicParamter)
-    dynamicMetadata[key] = false
+    dynamicMetadata[key.selected[0]] = false
   })
 
   console.log({ dynamicMetadata })

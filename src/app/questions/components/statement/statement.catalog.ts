@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as Statements from "../../store/actions/statement"
+import * as Answers from "../../store/actions/answer"
 import { uuid } from 'uuidv4';
 
 @Component({
@@ -51,11 +52,12 @@ export class StatementCatalog implements OnInit {
 
   ngOnInit() {
     this.store.select(state => state.questions.present).subscribe(response => {
-      let { statements, answers } = response.questionaire.statements
-      let { questions } = response.questionaire
+
+      let { statements, conditions, questions, answers } = response
       
-      this._statements = statements
-      this._answers = answers
+      this._statements = statements || []
+      this._answers = answers || []
+      this._conditions = conditions || []
       this._selectedQuestions = this.getSelectedQuestions(statements, questions)
     })
   }
@@ -75,17 +77,20 @@ export class StatementCatalog implements OnInit {
 
   changeAnswer(selectedQuestion: any, index: number, event: any) {
     let answer = {[selectedQuestion.uuid]: event.detail.value}
-    this.store.dispatch(new Statements.ChangeAnswer({ index, answer }))
+    this.store.dispatch(new Answers.ChangeAnswer({ index, answer }))
   }
 
   getSelectedQuestions = (statements, questions) => {
+    console.log("blin", {statements, questions})
     const selectedQuestions = []
     statements.forEach((statement, i) => {
-      statement.conditions.forEach(condition => {
-        condition.selected.forEach(s =>
-          questions.includes(s) || ["", undefined].includes(s) ? null : selectedQuestions.push(s)
-        )
-      })
+        statement.conditions.forEach(c => {
+          let condition = this._conditions.find(cond => cond.uuid === c)
+          condition.selected.forEach(s =>
+            questions.includes(s) || ["", undefined].includes(s) ? null : selectedQuestions.push(s)
+          )
+        })
+      
     })
 
     return selectedQuestions.map(q => questions.find(x => x.uuid === q))
@@ -123,8 +128,9 @@ export class StatementCatalog implements OnInit {
 
       let truthList: boolean[] = []
 
-      statement.conditions.forEach((condition, i: number) => {
+      statement.conditions.forEach((conditionUUID, i: number) => {
 
+        let condition = this._conditions.find(cond => cond.uuid === conditionUUID)
         let conditionTruthList: boolean[] = []
         let conditionTrue: boolean
 
@@ -177,8 +183,6 @@ export class StatementCatalog implements OnInit {
       truthList.every(t => t === true) ? evaluations.push(statement.trueText) : evaluations.push(statement.falseText)
 
     })
-
-    console.log({evaluations})
 
     this._evaluations = evaluations
 

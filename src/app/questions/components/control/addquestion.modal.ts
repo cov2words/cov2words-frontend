@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core'
 import { ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store'
 import * as Questions from "../../store/actions/question"
+import * as Questionaire from "../../store/actions/questionaire"
 import { uuid } from "uuidv4"
 
 @Component({
@@ -47,7 +48,8 @@ export class AddQuestionModal implements OnInit {
       inputType: this._inputType,
       uuid: uuid()
     }
-    this.store.dispatch(new Questions.AddQuestion({question}))
+    question = this._inputType !== 'radio' ? question : Object.assign({}, question, {options: []}) 
+    this.store.dispatch(new Questionaire.AddQuestion({question}))
     this.modalCtrl.dismiss()
   }
 
