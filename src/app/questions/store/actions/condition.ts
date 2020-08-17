@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store'
-import { GetQuestionaireSuccess, GetQuestionaireFailure } from "./questionaire"
+import { GetQuestionaireSuccess, GetQuestionaireFailure,CreateQuestionaire } from "./questionaire"
 import { DeleteStatement } from "./statement"
 
 export enum ConditionActionType {
@@ -29,4 +29,5 @@ export type ConditionActions =
   DeleteCondition |
   ChangeConditionAttribute |
   GetQuestionaireSuccess |
+  CreateQuestionaire |
   DeleteStatement

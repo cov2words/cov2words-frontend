@@ -16,6 +16,7 @@ import * as Auth from "./store/actions/auth"
 export class QuestionsPage implements OnInit {
 
     public questionaire
+    public questions
     public user
     public _showStatements: boolean = false
 
@@ -34,6 +35,7 @@ export class QuestionsPage implements OnInit {
 
       this.store.select(state => state.questions.present).subscribe(response => {
         this.questionaire = response.questionaire
+        this.questions = response.questions
         this.user = response.auth.email
         if (response.message) {
           this.presentToast(response.message)
@@ -44,12 +46,16 @@ export class QuestionsPage implements OnInit {
       })
     }
 
-    get questions() {
+    /* get questions() {
       return this.questionaire.questions
-    }
+    } */
 
     get showStatements() {
       return this._showStatements
+    }
+
+    get shit() {
+      return this.questionaire.questions.map(q => this.questions.find(x => x.uuid === q))
     }
 
     toggleQuestionsStatements = () => {
@@ -58,6 +64,14 @@ export class QuestionsPage implements OnInit {
 
     trackByFn(index,item) {
       return item
+    }
+
+    trackByUUID(index, item) {
+      return item.uuid
+    }
+
+    trackByIndex(index, item) {
+      return index
     }
 
     doReorder(ev: any) {

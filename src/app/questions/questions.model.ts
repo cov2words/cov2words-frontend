@@ -20,7 +20,9 @@ export interface NumberQuestion {
   id: string,
   category: string,
   text: string,
-  inputType: string
+  inputType: string,
+  options?: string[],
+  nextQuestionMap?: string[]
 }
 
 /* export class Question {

@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { AddCondition, DeleteCondition } from "./condition"
-import { GetQuestionaireSuccess } from "./questionaire"
+import { GetQuestionaireSuccess, CreateQuestionaire } from "./questionaire"
 
 export enum StatementsActionType {
   ADD_STATEMENT = "ADD_STATEMENT",
@@ -30,4 +30,5 @@ export type StatementsActions =
   ChangeStatementAttribute |
   AddCondition |
   DeleteCondition |
-  GetQuestionaireSuccess
+  GetQuestionaireSuccess |
+  CreateQuestionaire

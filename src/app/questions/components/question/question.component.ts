@@ -14,11 +14,14 @@ import { EditModal } from "./edit.modal"
 })
 export class QuestionComponent implements OnInit {
 
-  @Input() questionUUID: Question
-  @Input() questions: Question[]
+  @Input() questionUUID: string
+  @Input() question: Question
+  //@Input() questions: Question[]
   @Input() categories: string[]
+  @Input() index: number
 
-  public question
+  public questions
+  public validNextQuestions
 
   constructor(
     private store: Store<any>,
@@ -32,11 +35,21 @@ export class QuestionComponent implements OnInit {
   ngOnInit() {
     this.store.select(state => state.questions.present).subscribe(response => {
       this.question = response.questions.find(q => q.uuid === this.questionUUID)
+      this.questions = response.questions
+      this.validNextQuestions = response.questions.filter((q,i) => i > this.index)
     })
   }
 
   trackByFn(index, item) {
     return item
+  }
+
+  trackByIndex(index, item) {
+    return index
+  }
+
+  trackByUUID(index, item) {
+    return item.uuid
   }
 
   deleteQuestion(uuid: string) {
@@ -73,7 +86,9 @@ export class QuestionComponent implements OnInit {
     this.store.dispatch(new Options.ChangeOptionText({ uuid, index, text }))
   }
 
-  changeNextQuestion = (index: number, nextQuestion: string) => {
+  changeNextQuestion = (index: number, event: any) => {
+    let nextQuestion = event.detail.value
+    console.log(index, nextQuestion)
     let { uuid } = this.question
     
     this.store.dispatch(new Questions.ChangeNextQuestion({ uuid, index, nextQuestion }))

@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { GetQuestionaireSuccess } from "./questionaire"
+import { GetQuestionaireSuccess, CreateQuestionaire } from "./questionaire"
 import { OptionsActions } from './option';
 
 
@@ -52,4 +52,5 @@ export type QuestionsActions =
   DeleteNextQuestionMap |
   AddNextQuestionMap |
   GetQuestionaireSuccess |
+  CreateQuestionaire |
   OptionsActions

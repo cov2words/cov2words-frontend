@@ -16,6 +16,10 @@ export function questionsReducer(state: InitialStateQuestions = initialState, ac
       return questions
     }
 
+    case QuestionaireActionType.CREATE_QUESTIONAIRE: {
+      return initialState
+    }
+
     case OptionsActionType.DELETE_OPTION:
     case OptionsActionType.ADD_OPTION: 
     case OptionsActionType.CHANGE_OPTION_TEXT: {
@@ -83,8 +87,12 @@ export function questionsReducer(state: InitialStateQuestions = initialState, ac
       let questionIndex = questions.findIndex(question => question.uuid == uuid)
       let question = questions.find(question => question.uuid == uuid)
 
+      let defaults = questionIndex + 1 >= questions.length
+        ? question.options.map(o => '')
+        : question.options.map(o => questions[questionIndex + 1].id)
+
       let updatedQuestion = Object.assign(
-        {}, question, { nextQuestionMap: question.options.map(opt => '') }
+        {}, question, { nextQuestionMap: question.options.map((opt,i) => defaults[i]) }
       )
       questions[questionIndex] = Object.assign({}, updatedQuestion)
 

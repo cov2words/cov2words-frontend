@@ -47,10 +47,11 @@ export function questionaireReducer(state: InitialStateQuestionaire = initialSta
     case QuestionaireActionType.CREATE_QUESTIONAIRE: {
       let { name, owner, uuid } = action.payload
       return {
-        ...state,
         name,
         owner,
         uuid,
+        categories: [],
+        questions: []
       }
     }
 
@@ -105,6 +106,7 @@ export function questionaireReducer(state: InitialStateQuestionaire = initialSta
 
       // question is first or last element. cant be moved outside
       if (newIndex < 0 || newIndex >= questions.length) {
+        console.log("oh boy blyat")
         return state
       }
       questions.splice(newIndex, 0, questions.splice(index, 1)[0])
@@ -117,7 +119,9 @@ export function questionaireReducer(state: InitialStateQuestionaire = initialSta
     case QuestionaireActionType.MOVE_QUESTION_DND: {
       let { dragIndex, dropIndex } = action.payload
       let questions = [...state.questions]
+      console.log(dragIndex, dropIndex, questions)
       questions.splice(dropIndex, 0, questions.splice(dragIndex, 1)[0])
+      console.log(questions)
       return {
         ...state,
         questions

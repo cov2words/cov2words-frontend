@@ -1,20 +1,13 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>{{ 'application.title' | translate }}</ion-title>
+    <control-component *ngIf="user" [toggleQuestionsStatements]="toggleQuestionsStatements"></control-component>
     <ion-button slot="end" (click)="logout()">logout</ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
   <ion-grid>
-    <ion-row>
-      <ion-col>
-        <div class="ion-text-center" style="margin: auto;">
-          <img src="assets/images/undraw_doctor_kw5l.svg" style="max-height: 200px; margin: 20px auto;" />
-        </div>
-      </ion-col>
-    </ion-row>
-    <control-component *ngIf="user" [toggleQuestionsStatements]="toggleQuestionsStatements"></control-component>
     <ion-row *ngIf="questionaire && user">
       <ion-col>
         Questionaire: {{ questionaire.name }}
@@ -30,14 +23,14 @@
       <ion-row>
         <ion-col>
           <ion-list size="10">
-            <question-component *ngFor="let question of questions; trackBy:trackByFn" [questionUUID]="question"
-              [categories]="questionaire.categories" [questions]="questions"></question-component>
+            <question-component *ngFor="let question of questionaire.questions; let i=index; trackBy:trackByFn" [questionUUID]="question"
+              [categories]="questionaire.categories" [index]="i" ></question-component>
           </ion-list>
         </ion-col>
         <ion-col size="2">
-          <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
-            <ion-item *ngFor="let question of questions; let i=index; trackBy:trackByFn">
-              <ion-label>{{ i }}: {{ question.id }}</ion-label>
+          <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false"  class="scrollfixed">
+            <ion-item *ngFor="let question of shit; let i=index; trackBy:trackByIndex">
+              <ion-label>{{ i }}: {{ question.text }}</ion-label>
               <ion-reorder slot="end"></ion-reorder>
             </ion-item>
           </ion-reorder-group>

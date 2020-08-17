@@ -17,6 +17,7 @@ export class ConditionComponent implements OnInit {
   @Input() isLastElement: boolean
 
   public condition
+  private _questionChoices
   private _categories: string[]
   private _operands: string[] = ["==", "<=", ">=", "!="]
   private _combinations: string[] = ["&&", "||"]
@@ -50,13 +51,16 @@ export class ConditionComponent implements OnInit {
   }
 
   get questionChoices() {
-    return this._questions.find(q => q.uuid === this.condition.selected[0]).options
+    return this._questionChoices
   }
 
   ngOnInit() {
     this.store.select(state => state.questions.present).subscribe(response => {
+      // wtf is going on here?
       this._questions = response.questions
-      this.condition = response.conditions.find(cond => cond.uuid === this.conditionUUID)
+      let condition = response.conditions.find(cond => cond.uuid === this.conditionUUID)
+      this.condition = condition
+      this._questionChoices = condition ? response.questions.find(q => condition.selected.includes(q.uuid)).options : []
     }, error => {
       console.log(error)
     })
@@ -70,6 +74,10 @@ export class ConditionComponent implements OnInit {
     return index
   }
 
+  trackByItem(index, item) {
+    return item
+  }
+
   renameCondition = (value: string) => {
     let attr = "name", uuid = this.condition.uuid, statementUUID = this.statementUUID
     this.store.dispatch(new Conditions.ChangeConditionAttribute({attr, value, statementUUID, uuid}))
@@ -81,7 +89,8 @@ export class ConditionComponent implements OnInit {
   }
 
   changeSelected(event) {
-    let attr= "selected", value = [event.detail.value], uuid = this.conditionUUID, statementUUID = this.statementUUID
+    let attr = "selected", value = [event.detail.value], uuid = this.conditionUUID, statementUUID = this.statementUUID
+    console.log(value)
     this.store.dispatch(new Conditions.ChangeConditionAttribute({attr, value, statementUUID, uuid}))
   }
 

@@ -27,7 +27,7 @@
   </ion-col>
   <ion-col size="12" *ngIf="question.inputType == 'radio'">
     <ion-list>
-      <ion-item *ngFor="let option of question.options; let i=index; trackBy:trackByFn">
+      <ion-item *ngFor="let option of question.options; let i=index; trackBy:trackByIndex">
         <label class="modal-toggle" (click)="showChangeOption(i)">{{ option }}</label>
         <ion-button (click)="deleteOption(i)">
           <ion-icon name="trash"></ion-icon>
@@ -40,9 +40,9 @@
   </ion-col>
   <ion-col size="12" *ngIf="fork">
     <ion-list>
-      <ion-select *ngFor="let nextQuestion of question.nextQuestionMap; let i=index; trackBy:trackByFn"
-        value='{{nextQuestion}}' selectedText='{{nextQuestion}}' (ionChange)='changeNextQuestion(index, $event)'>
-        <ion-select-option *ngFor='let option of questions' value='{{option.id}}'>{{option.id}}</ion-select-option>
+      <ion-select *ngFor="let nextQuestion of question.nextQuestionMap; let i=index; trackBy:trackByIndex"
+        value='{{nextQuestion}}' selectedText='{{nextQuestion}}' (ionChange)='changeNextQuestion(i, $event)'>
+        <ion-select-option *ngFor='let option of questions; trackBy:trackByUUID' value='{{option.id}}'>{{option.id}}</ion-select-option>
       </ion-select>
     </ion-list>
   </ion-col>

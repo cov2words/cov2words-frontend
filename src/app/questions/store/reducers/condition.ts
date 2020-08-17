@@ -46,6 +46,10 @@ export function conditionReducer(state: InitialStateConditions = initialState, a
       return conditions
     }
 
+    case QuestionaireActionType.CREATE_QUESTIONAIRE: {
+      return initialState
+    }
+
     case StatementsActionType.DELETE_STATEMENT: {
       let { conditions } = action.payload.statement
       return state.filter(condition => !conditions.includes(condition.uuid))

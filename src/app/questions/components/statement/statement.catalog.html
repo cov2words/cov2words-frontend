@@ -1,5 +1,5 @@
 <ion-grid>
-  <!-- <ion-row *ngFor="let sq of selectedQuestions; let i=index; trackBy: trackByFn">
+  <ion-row *ngFor="let sq of selectedQuestions; let i=index; trackBy: trackByFn">
     <ion-col size="4">
       {{ sq.id }}: {{ sq.text }}
     </ion-col>
@@ -15,7 +15,7 @@
     <ion-col size="4">
       {{ evaluations[i] || "" }}
     </ion-col>
-  </ion-row> -->
+  </ion-row>
   <ion-row>
     <ion-col size=12>
       <ion-button (click)="getEvaluations()" disabled={{evalDisabled}}>eval</ion-button>

@@ -37,6 +37,10 @@ export class StatementComponent implements OnInit {
     return index
   }
 
+  trackByitem(index, item) {
+    return item
+  }
+
   renameStatement = (value: string) => {
     let uuid = this.statement.uuid, attr="name"
     this.store.dispatch(new Statements.ChangeStatementAttribute({uuid,attr,value}))
@@ -51,7 +55,8 @@ export class StatementComponent implements OnInit {
     let condition = {
       name,
       selected: [],
-      uuid: uuid()
+      uuid: uuid(),
+      value: {}
     }
     let statementUUID = this.statement.uuid
     this.store.dispatch(new Conditions.AddCondition({condition, statementUUID}))

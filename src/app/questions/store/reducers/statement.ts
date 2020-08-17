@@ -47,6 +47,10 @@ export const statementsReducer = (state: InitialStateStatements = initialState, 
       return statements.map(s => s.hasOwnProperty("conditions") ? s : Object.assign({}, s, {conditions: []}))
     }
 
+    case QuestionaireActionType.CREATE_QUESTIONAIRE: {
+      return initialState
+    }
+
     default:
       return state
   }
