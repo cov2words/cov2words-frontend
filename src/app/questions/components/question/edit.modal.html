@@ -2,8 +2,14 @@
   <ion-item class="center">
     <ion-label>{{labelText}}</ion-label>
   </ion-item>
-  <ion-item>
-    <ion-textarea (ionFocus)='blyat($event)' autofocus="true" value="{{value}}" placeholder="{{placeholder}}" (ionChange)='changeValue($event)' #input_el></ion-textarea>
+  <ion-item  *ngIf="numberPattern; else elseBlock" >
+    <ion-input type="number" inputmode="numeric" (ionFocus)='blyat($event)' autofocus="true" value="{{value}}" placeholder="{{placeholder}}" (ionChange)='changeValue($event)' #input_el></ion-input>
   </ion-item>
+  <ng-template #elseBlock>
+    <ion-item>
+      <ion-textarea (ionFocus)='blyat($event)' autofocus="true" value="{{value}}" placeholder="{{placeholder}}" (ionChange)='changeValue($event)' #input_el></ion-textarea>
+    </ion-item>
+  </ng-template>
+  
   <ion-button (click)="onSetValue()" disabled="{{!value}}">OK</ion-button>
 </ion-list>

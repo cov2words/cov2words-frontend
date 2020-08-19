@@ -36,6 +36,11 @@
       <ion-button (click)="redo()" [disabled]="!hasFuture">
         <ion-icon slot="icon-only" name="arrow-forward"></ion-icon>
       </ion-button>
+      <ion-button (click)="showHelpModal()">
+        <ion-icon slot="icon-only" name="help"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-col>
+  <input type="file" accept="application/json" (change)="importQuestionaire($event)" />
+  <button (click)="exportQuestionaire()">export</button>
 </ion-row>

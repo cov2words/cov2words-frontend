@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import * as Statements from "../../store/actions/statement"
 import * as Answers from "../../store/actions/answer"
 import { uuid } from 'uuidv4';
-import { mockIndex, answersToStatements } from "./deleteme"
+import { answersToStatements } from "./deleteme"
 
 @Component({
   selector: 'statement-catalog',
@@ -66,6 +66,10 @@ export class StatementCatalog implements OnInit {
     })
   }
 
+  trackByUUID(index, item) {
+    return item.uuid
+  }
+
   addStatement() {
     let statement = {
       name: this._newStatementName,
@@ -81,13 +85,11 @@ export class StatementCatalog implements OnInit {
   }
 
   changeAnswer(selectedQuestion: any, index: number, event: any) {
-    console.log(selectedQuestion, index, event.detail.value)
     let answer = {[selectedQuestion.uuid]: event.detail.value}
     this.store.dispatch(new Answers.ChangeAnswer({ index, answer }))
   }
 
   getSelectedQuestions = (statements, questions) => {
-    console.log("blin", {statements, questions})
     const selectedQuestions = []
     statements.forEach((statement, i) => {
         statement.conditions.forEach(c => {
@@ -148,14 +150,12 @@ export class StatementCatalog implements OnInit {
       Object.keys(a).forEach(k => {
         let question = this._questions.find(q => q.uuid === k)
         let key = `${question.category}_${question.id}`
-        answers[key] = question.options.indexOf(a[k]) + 1 // fuck my life....
+        answers[key] = question.inputType === 'radio' ? question.options.indexOf(a[k]) : parseInt(a[k])// fuck my life....
       })
     })
-    //console.log(JSON.stringify(JSON.parse(scoreMap), null, 4))
 
-    //console.log("FUCK THIS", answers, scoreMap)
     let rec = answersToStatements(answers, scoreMap)
-    console.log("recommendation", rec)
+    this._evaluations = rec
   }
 
 }

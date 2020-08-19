@@ -5,7 +5,8 @@ import { DeleteStatement } from "./statement"
 export enum ConditionActionType {
   ADD_CONDITION = "ADD_CONDITION",
   DELETE_CONDITION = "DELETE_CONDITION",
-  CHANGE_CONDITION_ATTRIBUTE = "CHANGE_CONDITION_ATTRIBUTE"
+  CHANGE_CONDITION_ATTRIBUTE = "CHANGE_CONDITION_ATTRIBUTE",
+  CHANGE_CONDITION_SELECTED = "CHANGE_CONDITION_SELECTED"
 }
 
 export class AddCondition implements Action {
@@ -23,11 +24,17 @@ export class ChangeConditionAttribute implements Action {
   constructor(public payload: {attr: string, value: any, uuid: string, statementUUID: string}) {}
 }
 
+export class ChangeConditionSelected implements Action {
+  readonly type = ConditionActionType.CHANGE_CONDITION_SELECTED
+  constructor(public payload: {value: any, uuid: string, statementUUID: string}) {}
+}
+
 
 export type ConditionActions =
   AddCondition |
   DeleteCondition |
   ChangeConditionAttribute |
+  ChangeConditionSelected |
   GetQuestionaireSuccess |
   CreateQuestionaire |
   DeleteStatement

@@ -91,7 +91,7 @@ export class AWSConnectModal implements OnInit {
 
     questions.forEach((question, i) => {
 
-      const contactFlowName = `${basename}_${i}`//`question_${i}_${language}`
+      const contactFlowName = `${basename}_${i}`
       let contactFlow
       if (question.inputType === 'radio') {
         contactFlow = ContactFlowQuestion({
@@ -121,11 +121,9 @@ export class AWSConnectModal implements OnInit {
 
       qCount++
       amazonConnectData[contactFlowName] = contactFlow
-      //dispatch(setAmazonConnectData({[contactFlowName]: contactFlow}))
     })
-    //dispatch(setQuestionCount(qCount))
 
-    const staticStartName = `${basename}_start`//`question_start_${language}` "automated_charite_data_start_en"//
+    const staticStartName = `${basename}_start`
     const staticStart = ContactFlowStaticStart({
       name: staticStartName,
       text: defaultText.greetingText[language],
@@ -134,19 +132,16 @@ export class AWSConnectModal implements OnInit {
       scoreMap: scoreMap
     })
     amazonConnectData[staticStartName] = staticStart
-    //dispatch(setAmazonConnectData({[staticStartName]: staticStart}))    
 
-    //state = getState()
 
-    const staticEndName = `${basename}_end`//`question_end_${language}` "automated_charite_data_end_en"//
+    const staticEndName = `${basename}_end`
 
-    let fuck = this._conditions.map(c => Object.assign(
+    let conditions = this._conditions.map(c => Object.assign(
       {}, c, 
       {selected: c.selected.map(x => `${questions.find(q => q.uuid === x).category}_${questions.find(q => q.uuid === x).id}`)}))
 
-    const staticEnd = ContactFlowStaticEnd({ name: staticEndName, language: language, statements: fuck })
+    const staticEnd = ContactFlowStaticEnd({ name: staticEndName, language: language, statements: conditions }) // rename this stuff...
     amazonConnectData[staticEndName] = staticEnd
-    //dispatch(setAmazonConnectData({[staticEndName]: staticEnd}))
     return amazonConnectData
   }
 

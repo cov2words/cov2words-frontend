@@ -29,7 +29,15 @@ export function conditionReducer(state: InitialStateConditions = initialState, a
 
     case ConditionActionType.DELETE_CONDITION: {
       let { uuid } = action.payload
-      return state.filter(condition => condition.uuid !== uuid)
+      let conditions = state.filter(condition => condition.uuid !== uuid)
+      return conditions.map((c,i) => {
+        if (i === conditions.length - 1) {
+          let { combination, ...condition } = c
+          return condition
+        } else {
+          return c
+        }
+      })
     }
 
     case ConditionActionType.CHANGE_CONDITION_ATTRIBUTE: {
@@ -39,6 +47,15 @@ export function conditionReducer(state: InitialStateConditions = initialState, a
         : Object.assign({}, condition, {[attr]: value})
       )
     }
+    
+    case ConditionActionType.CHANGE_CONDITION_SELECTED: {
+      let { uuid, value } = action.payload
+      return state.map(condition => condition.uuid !== uuid
+        ? condition
+        : Object.assign({}, condition, {selected: value, value: {val: '', display: ''}})
+      )
+    }
+
     case QuestionaireActionType.GET_QUESTIONAIRE_SUCCESS: {
       let conditions = action.payload.questionaire.conditions || []
       conditions = conditions.map(c => c.hasOwnProperty("selected") ? c : Object.assign({}, c, {selected: []}))

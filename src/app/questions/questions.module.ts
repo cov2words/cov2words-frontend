@@ -19,6 +19,7 @@ import { CreateQuestionaireModal } from "./components/control/createquestionaire
 import {AddQuestionModal} from "./components/control/addquestion.modal"
 import { EditCategoriesModal } from "./components/control/editcategories.modal"
 import { AWSConnectModal } from "./components/control/awsconnect.modal"
+import { HelpModal } from "./components/control/help.modal"
 import { EditModal } from "./components/question/edit.modal"
 import {TranslateModule} from "@ngx-translate/core";
 import { StatementCatalog } from "./components/statement/statement.catalog"
@@ -64,6 +65,7 @@ export const metaReducers = [logger];
       AddQuestionModal,
       EditModal,
       AWSConnectModal,
+      HelpModal,
       EditCategoriesModal
     ],
     exports: [
@@ -78,6 +80,7 @@ export const metaReducers = [logger];
       AddQuestionModal,
       EditModal,
       AWSConnectModal,
+      HelpModal,
       EditCategoriesModal
     ]
 })

@@ -55,7 +55,7 @@ export const ContactFlowStaticEnd = (props: ContactFlowStaticEndProps) => {
     transitionUUID: finishUUID,
     errorUUID: endErrorUUID,
     textToSpechType: "text",
-    text: "$.External.word1 und $.External.word2"
+    text: "$.External.word1 und $.External.word2. Empfehlung: $.External.recommendation"
   })
   endModules.push(recomVoice)
 

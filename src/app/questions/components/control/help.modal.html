@@ -1,0 +1,19 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>Modal Content</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen>
+  <ion-list>
+    <ion-item *ngFor="let exp of explanations">
+      <ion-icon name="{{ exp.icon }}"></ion-icon>
+      <ion-label>
+        <h2>{{exp.name}}</h2>
+        <p>{{exp.explanation}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

@@ -78,17 +78,15 @@ const getEvaluations = (statements, conditions, answers) => {
 
         let nextconditionUUID = statement.conditions[i+1]
         let nextcondition = conditions.find(cond => cond.uuid === nextconditionUUID)
-        console.log("woot", nextcondition)
         let nextcondtionTruthList = []
 
         nextcondition.selected.forEach(sel => {
-          console.log("answers", answers, sel)
           //let answer = answers.find(a => a.hasOwnProperty(sel))[sel]
           let answer = answers[sel]
           console.log(answer)
           let { operand, value} = nextcondition
           let {val} = value
-          answer = parseInt(answer) - 1
+          answer = parseInt(answer)
           val = parseInt(val)
           let nextconditionTrue = evalCondtion(answer, operand, val)
           console.log(`${answer} ${operand} ${val} is ${nextconditionTrue}`)
@@ -100,7 +98,7 @@ const getEvaluations = (statements, conditions, answers) => {
           let answer = answers[sel]
           let { operand, value} = condition
           let {val} = value
-          answer = parseInt(answer) - 1
+          answer = parseInt(answer)
           val = parseInt(val)
           let conditionTrue = evalCondtion(answer, operand, val)
           console.log(`${answer} ${operand} ${val} is ${conditionTrue}`)
@@ -121,29 +119,25 @@ const getEvaluations = (statements, conditions, answers) => {
         condition.selected.forEach(sel => {
           //let answer = answers.find(a => a.hasOwnProperty(sel))[sel]
           let answer = answers[sel]
-          console.log("the motherfucking answer", answer, sel)
           let { operand, value} = condition
           let {val} = value
-          answer = parseInt(answer) - 1
+          answer = parseInt(answer)
           val = parseInt(val)
           let conditionTrue = evalCondtion(answer, operand, val)
-          console.log(`${answer} ${operand} ${val} is a bitch ${conditionTrue}`)
+          console.log(`${answer} ${operand} ${val} is ${conditionTrue}`)
           conditionTruthList.push(conditionTrue)
         })
 
         conditionTrue = conditionTruthList.every(c => c === true)
-        /* console.log("WTF ELSE", conditionTrue) */
+
       }
 
       if (i + 1 !== statement.conditions.length || i === 0) {
-        console.log("blyat?!", conditionTrue)
         truthList.push(conditionTrue)
       }
 
     })
 
-    /* console.log("the traash", truthList)
-    console.log("aye",truthList.every(t => t === true)) */
     truthList.every(t => t === true) ? evaluations.push(statement.trueText) : evaluations.push(statement.falseText)
 
   })
@@ -157,18 +151,7 @@ export const answersToStatements = (answers, scoreMap) => {
 const { conditions, statements } = JSON.parse(scoreMap);
 let k = Object.keys(statements).map(o => statements[o]),
     s = Object.keys(conditions).map(l => conditions[l]),
-    c = answers//Object.keys(answers).map(e => answers[e])
+    c = answers
 
-return getEvaluations(k, s, c).join('') // ole ole
+return getEvaluations(k, s, c)
 };
-
-export const mockIndex = () => {
-  /* var data = JSON.stringify(event);
-    console.log(data);
-
-    var patientData = JSON.parse(data);
-  var patientData = JSON.parse(connectData); */
-  var { scoreMap, ...answers } = patientData.Details.ContactData.Attributes;
-  var recommendationTerm = answersToStatements(answers, scoreMap)
-  console.log(recommendationTerm)
-}

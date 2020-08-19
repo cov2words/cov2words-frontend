@@ -2,6 +2,7 @@ import { QuestionsActions, QuestionsActionType } from "../actions/question"
 import { QuestionaireActionType } from "../actions/questionaire"
 import { OptionsActionType } from "../actions/option"
 import { optionsReducer } from "./option"
+import {nextQuestionReducer} from "./nextquestion"
 
 export type InitialStateQuestions = any[]
 
@@ -26,7 +27,7 @@ export function questionsReducer(state: InitialStateQuestions = initialState, ac
       let { uuid } = action.payload
       return state.map(q => q.uuid !== uuid
         ? q
-        : Object.assign({}, q, {options: optionsReducer(q.options || [], action)})
+        : Object.assign({}, q, {options: optionsReducer(q.options || [], action), nextQuestionMap: nextQuestionReducer(q.nextQuestionMap || [], action)})
       )
     }
 

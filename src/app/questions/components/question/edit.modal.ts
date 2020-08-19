@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core'
-import { ModalController, IonTextarea } from '@ionic/angular';
+import { ModalController, IonTextarea, IonInput } from '@ionic/angular';
 
 @Component({
   selector: 'edit-modal',
@@ -9,11 +9,12 @@ import { ModalController, IonTextarea } from '@ionic/angular';
 export class EditModal implements OnInit {
 
   @Input() setValue: (val: any, index?: number) => {}
+  @Input() pattern: string = 'text'
   @Input() initialValue: string = ''
   @Input() labelText: string = 'default text'
   @Input() placeholder: string = 'default placeholder'
   @Input() index: number = -1
-  @ViewChild('input_el', {static: true}) input_el: IonTextarea
+  @ViewChild('input_el', {static: false}) input_el: IonTextarea
 
   private _value
 
@@ -23,6 +24,10 @@ export class EditModal implements OnInit {
 
   get value() {
     return this._value
+  }
+
+  get numberPattern() {
+    return this.pattern === 'number'
   }
 
   ngOnInit() {

@@ -54,7 +54,7 @@ export class QuestionsPage implements OnInit {
       return this._showStatements
     }
 
-    get shit() {
+    get questionsList() {
       return this.questionaire.questions.map(q => this.questions.find(x => x.uuid === q))
     }
 

@@ -37,6 +37,16 @@ export class ConditionComponent implements OnInit {
     return this._questions
   }
 
+  get isRadioQuestion() {
+    //console.log(this._questions.find(q => this.condition.selected.includes(q.uuid)))
+    let isRadio = this.condition.selected.length <= 0
+      ? true
+      : this._questions.find(q => this.condition.selected.includes(q.uuid)).inputType === 'radio'
+    //console.log(isRadio)
+    return isRadio
+   //return this._questions.find(q => this.condition.selected.includes(q.uuid))//.inputType === 'radio'
+  }
+
   // TODO: category: {uuid: "", name: ""}. atm its just string
   /* get conditionChoices() {
     return [...this._categories, ...this._questions]
@@ -60,7 +70,9 @@ export class ConditionComponent implements OnInit {
       this._questions = response.questions
       let condition = response.conditions.find(cond => cond.uuid === this.conditionUUID)
       this.condition = condition
-      this._questionChoices = condition ? response.questions.find(q => condition.selected.includes(q.uuid)).options : []
+      let question =  condition ? response.questions.find(q => condition.selected.includes(q.uuid)) : undefined
+      //this._questionChoices = condi ? response.questions.find(q => condi.selected.includes(q.uuid)).options : []
+      this._questionChoices = question ? question.options : []
     }, error => {
       console.log(error)
     })
@@ -78,6 +90,11 @@ export class ConditionComponent implements OnInit {
     return item
   }
 
+  deleteCondition = () => {
+    let { uuid } = this.condition, statementUUID = this.statementUUID
+    this.store.dispatch(new Conditions.DeleteCondition({uuid, statementUUID }))
+  }
+
   renameCondition = (value: string) => {
     let attr = "name", uuid = this.condition.uuid, statementUUID = this.statementUUID
     this.store.dispatch(new Conditions.ChangeConditionAttribute({attr, value, statementUUID, uuid}))
@@ -91,17 +108,20 @@ export class ConditionComponent implements OnInit {
   changeSelected(event) {
     let attr = "selected", value = [event.detail.value], uuid = this.conditionUUID, statementUUID = this.statementUUID
     console.log(value)
+    this.store.dispatch(new Conditions.ChangeConditionSelected({value, statementUUID, uuid}))
+  }
+
+  changeValueRadio = (event) => {//questiondUUID: string) => {
+    let attr = "value",  uuid = this.condition.uuid, statementUUID = this.statementUUID
+    let val = event.detail.value
+    let display = this._questions.find(q => q.uuid === this.condition.selected[0]).options[val]
+    let value = {val, display, offset: 1}
     this.store.dispatch(new Conditions.ChangeConditionAttribute({attr, value, statementUUID, uuid}))
   }
 
-  changeValue = (event) => {//questiondUUID: string) => {
+  changeValueNumber = (val) => {
     let attr = "value",  uuid = this.condition.uuid, statementUUID = this.statementUUID
-    let val = event.detail.value
-    console.log("the val", val)
-    let display = this._questions.find(q => q.uuid === this.condition.selected[0]).options[val]
-    console.log(this._questions)
-    console.log(display)
-    let value = {val, display}
+    let value = {val: parseInt(val), display: val, offset: 0}
     this.store.dispatch(new Conditions.ChangeConditionAttribute({attr, value, statementUUID, uuid}))
   }
 
@@ -127,10 +147,11 @@ export class ConditionComponent implements OnInit {
     let modal = await this.modalCtrl.create({
       component: EditModal,
       componentProps: {
-        setValue: this.changeValue,
-        initialValue: this.condition.value,
+        setValue: this.changeValueNumber,
+        initialValue: this.condition.value.val,
         labelText: `change value of condition ${this.condition.name}`,
-        placeholder: 'enter value'
+        placeholder: 'enter value',
+        pattern: 'number'
       }
     })
     return await modal.present()

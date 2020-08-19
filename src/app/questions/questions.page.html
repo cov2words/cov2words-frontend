@@ -21,15 +21,15 @@
     </div>
     <ng-template #elseBlock>
       <ion-row>
-        <ion-col>
-          <ion-list size="10">
+        <ion-col size="10">
+          <ion-list>
             <question-component *ngFor="let question of questionaire.questions; let i=index; trackBy:trackByFn" [questionUUID]="question"
               [categories]="questionaire.categories" [index]="i" ></question-component>
           </ion-list>
         </ion-col>
         <ion-col size="2">
           <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false"  class="scrollfixed">
-            <ion-item *ngFor="let question of shit; let i=index; trackBy:trackByIndex">
+            <ion-item *ngFor="let question of questionsList; let i=index; trackBy:trackByIndex">
               <ion-label>{{ i }}: {{ question.text }}</ion-label>
               <ion-reorder slot="end"></ion-reorder>
             </ion-item>

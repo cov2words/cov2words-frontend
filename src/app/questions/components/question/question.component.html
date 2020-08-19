@@ -1,14 +1,16 @@
 <ion-row class="question">
   <ion-col size="2">
-    <label class="modal-toggle" (click)="showChangeQuestionId()">{{ question.id }}</label>
+    <ion-chip>
+      <ion-label (click)="showChangeQuestionId()">{{ question.id }}</ion-label>
+    </ion-chip>
   </ion-col>
   <ion-col size="5">
-    <label class="modal-toggle" (click)="showChangeQuestionText()">{{ question.text }}</label>
-    <ion-select value='{{question.category}}' selectedText='{{question.category}}' (ionChange)='changeCategory($event)'>
+    <ion-label class="modal-toggle" (click)="showChangeQuestionText()">{{ question.text }}</ion-label>
+    <!-- <ion-select value='{{question.category}}' selectedText='{{question.category}}' (ionChange)='changeCategory($event)'>
       <ion-select-option *ngFor='let cat of categories' value='{{cat}}'>{{cat}}</ion-select-option>
-    </ion-select>
+    </ion-select> -->
   </ion-col>
-  <ion-col size="5">
+  <ion-col size="10">
     <ion-buttons>
       <ion-button (click)="deleteQuestion(question.uuid)">
         <ion-icon slot="icon-only" name="trash"></ion-icon>
@@ -28,7 +30,7 @@
   <ion-col size="12" *ngIf="question.inputType == 'radio'">
     <ion-list>
       <ion-item *ngFor="let option of question.options; let i=index; trackBy:trackByIndex">
-        <label class="modal-toggle" (click)="showChangeOption(i)">{{ option }}</label>
+        <ion-label class="modal-toggle" (click)="showChangeOption(i)">{{ option }}</ion-label>
         <ion-button (click)="deleteOption(i)">
           <ion-icon name="trash"></ion-icon>
         </ion-button>

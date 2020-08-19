@@ -37,7 +37,7 @@ export class StatementComponent implements OnInit {
     return index
   }
 
-  trackByitem(index, item) {
+  trackByItem(index, item) {
     return item
   }
 

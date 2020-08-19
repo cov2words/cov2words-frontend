@@ -22,6 +22,8 @@ export function questionaireReducer(state: InitialStateQuestionaire = initialSta
 
     case QuestionaireActionType.GET_QUESTIONAIRE_SUCCESS: {
 
+      console.log(action.payload)
+
       let { questions, metadata } = action.payload.questionaire
 
       let _questions = questions.map(q => q.uuid)
@@ -36,6 +38,12 @@ export function questionaireReducer(state: InitialStateQuestionaire = initialSta
         questions: _questions
       }
     }
+
+    case QuestionaireActionType.IMPORT_QUESTIONAIRE: {
+      console.log(action.payload.questionaire)
+      return action.payload.questionaire
+    }
+
     case QuestionaireActionType.CHANGE_QUESTIONAIRE_NAME: {
       let { name } = action.payload
       return {
