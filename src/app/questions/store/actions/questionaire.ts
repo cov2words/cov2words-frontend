@@ -12,6 +12,7 @@ export enum QuestionaireActionType {
   SET_QUESTIONAIRE_FAILURE = "SET_QUESTIONAIRE_FAILURE",
   IMPORT_QUESTIONAIRE = "IMPORT_QUESTIONAIRE",
   EXPORT_QUESTIONAIRE = "EXPORT_QUESTIONAIRE",
+  CHANGE_QUESTIONAIRE_ATTRIBUTE = "CHANGE_QUESTIONAIRE_ATTRIBUTE",
   CHANGE_QUESTIONAIRE_NAME = "CHANGE_QUESTIONAIRE_NAME",
   CREATE_QUESTIONAIRE = "CREATE_QUESTIONAIRE",
   ADD_CATEGORY = "ADD_CATEGORY",
@@ -56,6 +57,11 @@ export class SetQuestionaireFailure implements Action {
 export class ImportQuestionaire implements Action {
   readonly type = QuestionaireActionType.IMPORT_QUESTIONAIRE
   constructor(public payload: {questionaire: Questionaire}) {}
+}
+
+export class ChangeQuestionaireAttribute implements Action {
+  readonly type = QuestionaireActionType.CHANGE_QUESTIONAIRE_ATTRIBUTE
+  constructor(public payload: {attr: string, value: any}) {}
 }
 
 export class ChangeQuestionaireName implements Action {
@@ -111,6 +117,7 @@ export type QuestionaireActions =
   SetQuestionaireSuccess |
   SetQuestionaireFailure |
   ImportQuestionaire |
+  ChangeQuestionaireAttribute |
   ChangeQuestionaireName |
   CreateQuestionaire |
   AddCategory |

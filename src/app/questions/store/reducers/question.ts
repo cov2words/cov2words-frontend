@@ -27,7 +27,14 @@ export function questionsReducer(state: InitialStateQuestions = initialState, ac
       let { uuid } = action.payload
       return state.map(q => q.uuid !== uuid
         ? q
-        : Object.assign({}, q, {options: optionsReducer(q.options || [], action), nextQuestionMap: nextQuestionReducer(q.nextQuestionMap || [], action)})
+        : q.nextQuestionMap
+          ? Object.assign({}, q, {
+              options: optionsReducer(q.options || [], action),
+              nextQuestionMap: nextQuestionReducer(q.nextQuestionMap, action)}
+            )
+          : Object.assign({}, q, {
+              options: optionsReducer(q.options || [], action)}
+            )
       )
     }
 

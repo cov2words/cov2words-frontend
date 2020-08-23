@@ -1,46 +1,58 @@
-<ion-row>
-  <ion-col size="6">
-    <ion-select value='{{questionaire.name}}' selectedText='{{questionaire.name}}'
-      (ionChange)='changeQuestionaire($event)' placeholder='select existing questionaire'>
-      <ion-select-option *ngFor='let q of questionaires' value='{{q.uuid}}'>{{q.name}}</ion-select-option>
-    </ion-select>
-  </ion-col>
-  <ion-col size="6">
-    <ion-button (click)="showCreateQuestionaireModal()">
-      create new
-    </ion-button>
-  </ion-col>
-</ion-row>
+<ion-segment>
+  <ion-select value='{{questionaire.name}}' selectedText='{{questionaire.name}}'
+    (ionChange)='changeQuestionaire($event)' placeholder='select existing questionaire'>
+    <ion-select-option *ngFor='let q of questionaires' value='{{q.uuid}}'>{{q.name}}</ion-select-option>
+  </ion-select>
+  <ion-button (click)="showCreateQuestionaireModal()">
+    create new
+  </ion-button>
+</ion-segment>
 
-<ion-row *ngIf="questionaire">
-  <ion-col>
-    <ion-buttons>
-      <ion-button (click)="saveQuestionaire()" disabled="{{ questions.length <= 0 }}">
-        <ion-icon slot="icon-only" name="save"></ion-icon>
-      </ion-button>
-      <ion-button (click)="showEditCategoriesModal()">
-        <ion-icon slot="icon-only" name="hammer"></ion-icon>
-      </ion-button>
-      <ion-button (click)="showAddQuestionModal()">
-        <ion-icon slot="icon-only" name="add"></ion-icon>
-      </ion-button>
-      <ion-button (click)="toggleQuestionsStatements()">
-        <ion-icon slot="icon-only" name="bulb"></ion-icon>
-      </ion-button>
-      <ion-button (click)="showAWSConnectModal()">
-        <ion-icon slot="icon-only" name="document"></ion-icon>
-      </ion-button>
-      <ion-button (click)="undo()" [disabled]="!hasPast">
-        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
-      </ion-button>
-      <ion-button (click)="redo()" [disabled]="!hasFuture">
-        <ion-icon slot="icon-only" name="arrow-forward"></ion-icon>
-      </ion-button>
-      <ion-button (click)="showHelpModal()">
-        <ion-icon slot="icon-only" name="help"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-col>
-  <input type="file" accept="application/json" (change)="importQuestionaire($event)" />
-  <button (click)="exportQuestionaire()">export</button>
-</ion-row>
+<ion-toolbar *ngIf="questionaire">
+  <ion-buttons>
+    <ion-button (click)="saveQuestionaire()" disabled="{{ questions.length <= 0 }}">
+      <ion-label>save</ion-label>
+      <ion-icon slot="icon-only" name="save"></ion-icon>
+    </ion-button>
+    <ion-button (click)="showEditCategoriesModal()">
+      <ion-label>cats</ion-label>
+      <ion-icon slot="icon-only" name="hammer"></ion-icon>
+    </ion-button>
+    <ion-button (click)="showAddQuestionModal()">
+      <ion-label>add question</ion-label>
+      <ion-icon slot="icon-only" name="add"></ion-icon>
+    </ion-button>
+    <ion-button (click)="toggleQuestionsStatements()">
+      <ion-label>recom</ion-label>
+      <ion-icon slot="icon-only" name="bulb"></ion-icon>
+    </ion-button>
+    <ion-button (click)="showAWSConnectModal()">
+      <ion-label>dl</ion-label>
+      <ion-icon slot="icon-only" name="document"></ion-icon>
+    </ion-button>
+    <ion-button (click)="undo()" [disabled]="!hasPast">
+      <ion-label>rwd</ion-label>
+      <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+    </ion-button>
+    <ion-button (click)="redo()" [disabled]="!hasFuture">
+      <ion-label>fwd</ion-label>
+      <ion-icon slot="icon-only" name="arrow-forward"></ion-icon>
+    </ion-button>
+    <ion-button (click)="exportQuestionaire()">
+      <ion-label>export</ion-label>
+      <ion-icon slot="icon-only" name="cloud-upload"></ion-icon>
+    </ion-button>
+    <input type="file" accept="application/json" (change)="importQuestionaire($event)" class="questionaireImport"
+      #questionaireImport />
+    <ion-button (click)="questionaireImport.click()">
+      <ion-label>import</ion-label>
+      <ion-icon slot="icon-only" name="cloud-download"></ion-icon>
+    </ion-button>
+    <ion-button (click)="showHelpModal()">
+      <ion-icon slot="icon-only" name="help"></ion-icon>
+    </ion-button>
+
+  </ion-buttons>
+
+
+</ion-toolbar>

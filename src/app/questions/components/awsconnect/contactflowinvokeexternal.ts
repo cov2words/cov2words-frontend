@@ -13,7 +13,7 @@ export const ContactFlowInvokeExternal = (props: ContactFlowInvokeExternalProps)
     ownUUID, transitionUUID, errorUUID, lambdaKeys,
     positionX = 337,
     positionY = 35,
-    endPoint = "arn:aws:lambda:eu-west-2:260148551992:function:determineWordsForCovApp",
+    endPoint = "xoxol"//"arn:aws:lambda:eu-west-2:260148551992:function:determineWordsForCovApp",
   } = props
   let dynamicParameters = []
   let dynamicMetadata = {}

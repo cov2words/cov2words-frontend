@@ -2,7 +2,9 @@ export interface Metadata {
   name: string,
   owner: string,
   uuid: string,
+  lambdaEndpoint: string
   categories?: string[]
+  preludeText?: string
 }
 
 export interface RadioQuestion {

@@ -1,2 +1,4 @@
 <ion-input value="{{name}}" (ionChange)="changeName($event)"></ion-input>
+<ion-textarea (ionChange)="changePreludeText($event)" value="{{preludeText}}" placeholder="enter preludex text"></ion-textarea>
+<ion-input (ionChange)="changeLambdaEndpoint($event)" value="{{lambdaEndpoint}}" placeholder="enter lambda endpoint"></ion-input>
 <ion-button (click)="downloadJSONFiles()">download</ion-button>

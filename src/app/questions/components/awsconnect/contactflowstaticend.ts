@@ -9,11 +9,12 @@ import { defaultText } from "./defaulttext"
 export interface ContactFlowStaticEndProps {
   language: string,
   name: string,
-  statements: any
+  statements: any,
+  endPoint: string
 }
 
 export const ContactFlowStaticEnd = (props: ContactFlowStaticEndProps) => {
-  let { language, name, statements } = props
+  let { language, name, statements, endPoint } = props
 
   const finishUUID = uuid()
   const endErrorUUID = uuid()
@@ -46,7 +47,8 @@ export const ContactFlowStaticEnd = (props: ContactFlowStaticEndProps) => {
     ownUUID: lambdaUUID,
     errorUUID: endErrorUUID,
     lambdaKeys: lambdaKeys,
-    transitionUUID: recomSpeechUUID
+    transitionUUID: recomSpeechUUID,
+    endPoint
   })
   endModules.push(lambdaCall)
 

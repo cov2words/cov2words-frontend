@@ -16,12 +16,12 @@ export class QuestionComponent implements OnInit {
 
   @Input() questionUUID: string
   @Input() question: Question
-  //@Input() questions: Question[]
   @Input() categories: string[]
   @Input() index: number
 
   public questions
   public validNextQuestions
+  private _fork: boolean
 
   constructor(
     private store: Store<any>,
@@ -29,7 +29,7 @@ export class QuestionComponent implements OnInit {
   ) { }
 
   get fork() {
-    return this.question.nextQuestionMap !== undefined
+    return this._fork
   }
 
   ngOnInit() {
@@ -37,6 +37,7 @@ export class QuestionComponent implements OnInit {
       this.question = response.questions.find(q => q.uuid === this.questionUUID)
       this.questions = response.questions
       this.validNextQuestions = response.questions.filter((q,i) => i > this.index)
+      this._fork = this.question.nextQuestionMap !== undefined && this.question.nextQuestionMap.some(x => x !== "")
     })
   }
 
@@ -54,11 +55,6 @@ export class QuestionComponent implements OnInit {
 
   deleteQuestion(uuid: string) {
     this.store.dispatch(new Questions.DeleteQuestion({uuid}))
-    /* this.store.select('questions').subscribe(response => {
-      this.questions = response.questions
-    }, error => {
-      console.log(error)
-    }) */
   }
 
   moveQuestion = (direction: number) => {
@@ -88,7 +84,6 @@ export class QuestionComponent implements OnInit {
 
   changeNextQuestion = (index: number, event: any) => {
     let nextQuestion = event.detail.value
-    console.log(index, nextQuestion)
     let { uuid } = this.question
     
     this.store.dispatch(new Questions.ChangeNextQuestion({ uuid, index, nextQuestion }))
@@ -106,16 +101,20 @@ export class QuestionComponent implements OnInit {
 
   toggleFork = (event) => {
     let { uuid } = this.question
-    console.log(this.question.inputType)
+    console.log(this.question.inputType, event.detail.checked, this.question)
+    // please dont beat me up for this :/
     if (
-      (event.detail.checked && this.question.hasOwnProperty("nextQuestionMap")) ||
-      (!event.detail.checked && !this.question.hasOwnProperty("nextQuestionMap"))
+      (event.detail.checked && this.question.hasOwnProperty("nextQuestionMap") && this.question.nextQuestionMap.length > 0) ||
+      (!event.detail.checked && (!this.question.hasOwnProperty("nextQuestionMap") || this.question.nextQuestionMap.length == 0))
     ) {
+      console.log("oh boy blyat")
       return
     }
-    this.question.hasOwnProperty("nextQuestionMap")
+    this._fork = !this._fork
+    this.question.hasOwnProperty("nextQuestionMap") && this.question.nextQuestionMap.length > 0
       ? this.store.dispatch(new Questions.DeleteNextQuestionMap({ uuid }))
       : this.store.dispatch(new Questions.AddNextQuestionMap({ uuid }))
+    
   }
 
   async showChangeQuestionId () {

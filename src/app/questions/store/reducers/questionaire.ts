@@ -6,6 +6,8 @@ export interface InitialStateQuestionaire {
   uuid: string
   categories: string[]
   questions: string[]
+  preludeText: string
+  lambdaEndpoint: string
 }
 
 export const initialState = {
@@ -13,7 +15,9 @@ export const initialState = {
   owner: '',
   uuid: '',
   categories: [],
-  questions: []
+  questions: [],
+  preludeText: '',
+  lambdaEndpoint: ''
 }
 
 
@@ -42,6 +46,14 @@ export function questionaireReducer(state: InitialStateQuestionaire = initialSta
     case QuestionaireActionType.IMPORT_QUESTIONAIRE: {
       console.log(action.payload.questionaire)
       return action.payload.questionaire
+    }
+
+    case QuestionaireActionType.CHANGE_QUESTIONAIRE_ATTRIBUTE: {
+      let {attr, value} = action.payload
+      return {
+        ...state,
+        [attr]: value
+      }
     }
 
     case QuestionaireActionType.CHANGE_QUESTIONAIRE_NAME: {

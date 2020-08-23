@@ -4,6 +4,7 @@ import { ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store'
 import fileDownload from "js-file-download"
 import * as JSZip from "jszip"
+import * as Questionaire from "../../store/actions/questionaire"
 import { ContactFlowQuestion } from "../awsconnect/contactflowquestion"
 import { ContactFlowQuestionDate } from "../awsconnect/contactflowquestiondate"
 import { ContactFlowStaticStart } from "../awsconnect/contactflowstaticstart"
@@ -21,6 +22,8 @@ export class AWSConnectModal implements OnInit {
   private _statements
   private _conditions
   private _name: string
+  private _preludeText: string
+  private _lambdaEndpoint: string
 
   constructor(
     private store: Store<any>,
@@ -31,18 +34,29 @@ export class AWSConnectModal implements OnInit {
     return this._name
   }
 
+  get preludeText() {
+    return this._preludeText
+  }
+
+  get lambdaEndpoint() {
+    return this._lambdaEndpoint
+  }
+
   trackByFn(index, item) {
     return index
   }
 
   ngOnInit() {
     this.store.select(state => state.questions.present).subscribe(response => {
+      console.log({response})
       this._questions = response.questions
       this._statements = response.statements
       this._conditions = response.conditions
       this._name = response.questionaire.name
         .replace(/ /g, "_")
         .toLowerCase()
+      this._preludeText = response.questionaire.preludeText || ""
+      this._lambdaEndpoint = response.questionaire.lambdaEndpoint || ""
     })
   }
 
@@ -50,10 +64,21 @@ export class AWSConnectModal implements OnInit {
     this._name = event.detail.value
   }
 
+  changePreludeText(event: any) {
+    let attr = "preludeText",  value = event.detail.value
+    this.store.dispatch(new Questionaire.ChangeQuestionaireAttribute({attr, value}))
+  }
+
+  changeLambdaEndpoint(event: any) {
+    let attr = "lambdaEndpoint", value = event.detail.value
+    this.store.dispatch(new Questionaire.ChangeQuestionaireAttribute({attr, value}))
+  }
+
   createContactFlows() {
     let language = "de"
     let basename = this._name
     let questions = this._questions
+    let endPoint = this._lambdaEndpoint
     // TODO: change datatype of selected or make use of array.
     let conditionMap = Object.assign(
       {}, ...this._conditions.map(c => (
@@ -140,25 +165,24 @@ export class AWSConnectModal implements OnInit {
       {}, c, 
       {selected: c.selected.map(x => `${questions.find(q => q.uuid === x).category}_${questions.find(q => q.uuid === x).id}`)}))
 
-    const staticEnd = ContactFlowStaticEnd({ name: staticEndName, language: language, statements: conditions }) // rename this stuff...
+    const staticEnd = ContactFlowStaticEnd({ name: staticEndName, language: language, statements: conditions, endPoint }) // rename this stuff...
     amazonConnectData[staticEndName] = staticEnd
     return amazonConnectData
   }
 
   downloadJSONFiles() {
     const zip = new JSZip();
-
-    console.log("good")
     let jsonMap = this.createContactFlows()
-    console.log("?!?")
+    let name = this._name
 
     Object.keys(jsonMap).forEach((key, x) => {
       zip.file(`${key}.json`, JSON.stringify(jsonMap[key], null, 4))
 
     })
     zip.generateAsync({ type: "blob" }).then(function (content) {
-      fileDownload(content, "example.zip")
+      fileDownload(content, `${name}.zip`)
     })
+    this.modalCtrl.dismiss()
   }
 
 }

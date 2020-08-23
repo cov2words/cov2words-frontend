@@ -7,7 +7,7 @@ export const greetingText = {
 }
 
 export const repeatText = {
-  de: `<speak>Die Frage wird nun wiederholt.</spea>`,
+  de: `<speak>Die Frage wird nun wiederholt.</speak>`,
   en: `<speak>The question is now repeated.</speak>`
 }
 
