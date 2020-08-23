@@ -116,10 +116,11 @@ export class ControlComponent implements OnInit {
       statements: this._statements,
       conditions: this._conditions
     }
+    let name = this._questionaire.name
     const zip = new JSZip();
     zip.file(`${this._questionaire.name}.json`, JSON.stringify(questionaire, null, 4))
     zip.generateAsync({ type: "blob" }).then(function (content) {
-      fileDownload(content, `${this._questionaire.name}.zip`)
+      fileDownload(content, `${name}.zip`)
     })
   }
 
