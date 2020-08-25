@@ -13,9 +13,10 @@ import {uuid} from "uuidv4"
   styleUrls: ['./statement.component.scss']
 })
 export class StatementComponent implements OnInit {
-  @Input() statement: any
+  @Input() statementUUID: string
 
   //private _newConditionName: string = ''
+  public statement
 
   constructor(
     private store: Store<any>,
@@ -24,14 +25,16 @@ export class StatementComponent implements OnInit {
 
 
   get conditions() {
-    return this.statement.conditions
+    return this.statement.conditions || []
   }
       
-  /* get newConditionName() {
-    return this._newConditionName
-  } */
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.store.select(state => state.questions.present).subscribe(response => {
+      this.statement = response.statements.find(s => s.uuid === this.statementUUID)
+      console.log(this.statement)
+    })
+  }
 
   trackByFn(index, item) {
     return index
@@ -40,11 +43,6 @@ export class StatementComponent implements OnInit {
   trackByItem(index, item) {
     return item
   }
-
-  /* renameStatement = (value: string) => {
-    let uuid = this.statement.uuid, attr="name"
-    this.store.dispatch(new Statements.ChangeStatementAttribute({uuid,attr,value}))
-  } */
 
   deleteStatement() {
     let statement = this.statement

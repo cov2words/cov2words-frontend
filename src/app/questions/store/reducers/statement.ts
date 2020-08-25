@@ -43,23 +43,7 @@ export const statementsReducer = (state: InitialStateStatements = initialState, 
       }
     } */
 
-    case StatementsActionType.MOVE_STATEMENT_DND: {
-      let { dragIndex, dropIndex } = action.payload
-      /* let questions = [...state.questions]
-      questions.splice(dropIndex, 0, questions.splice(dragIndex, 1)[0])
-      return {
-        ...state,
-        questions
-      } */
-      let statements = state.map(s => Object.assign({}, s))
-
-      let foo = statements.splice(dragIndex, 1)[0]
-      console.log(foo)
-      let bar = statements.splice(dropIndex, 0, foo)
-      console.log(bar)
-      console.log(statements)
-      return statements.splice(dropIndex, 0, statements.splice(dragIndex, 1)[0])
-    }
+    
 
     case ConditionActionType.ADD_CONDITION: {
       let { condition, statementUUID } = action.payload

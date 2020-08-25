@@ -13,6 +13,7 @@ import { answersToStatements } from "./deleteme"
 })
 export class StatementCatalog implements OnInit {
 
+  private _statementsList
   private _statements
   private _newStatementName: string = ''
   private _answers
@@ -27,7 +28,7 @@ export class StatementCatalog implements OnInit {
   ) { }
 
   get statements() {
-    return this._statements
+    return this._statementsList
   }
 
   get conditions() {
@@ -39,7 +40,10 @@ export class StatementCatalog implements OnInit {
   }
 
   get selectedQuestions() {
-    return this._selectedQuestions
+    //return this._selectedQuestions
+    let blyat = this.getSelectedQuestions()
+    console.log({blyat})
+    return blyat
   }
 
   get answers() {
@@ -51,6 +55,7 @@ export class StatementCatalog implements OnInit {
   }
 
   get evalDisabled() {
+    //console.log("fuck you", this._answers)
     return this._answers.some(a => a === "")
   }
 
@@ -65,18 +70,27 @@ export class StatementCatalog implements OnInit {
   ngOnInit() {
     this.store.select(state => state.questions.present).subscribe(response => {
 
-      let { statements, conditions, questions, answers } = response
+      let { statements, conditions, questions, answers, questionaire } = response
 
+      this._statementsList = questionaire.statements || []
       this._statements = statements || []
       this._answers = answers || []
       this._conditions = conditions || []
       this._questions = questions
-      this._selectedQuestions = this.getSelectedQuestions(statements, questions)
+      //this._selectedQuestions = this.getSelectedQuestions(questionaire.statements || [], statements, questions)
     })
   }
 
   trackByUUID(index, item) {
     return item.uuid
+  }
+
+  trackByItem(index, item) {
+    return item
+  }
+
+  trackByIndex(index, item) {
+    return index
   }
 
   toggleAnswerVisibility() {
@@ -102,9 +116,10 @@ export class StatementCatalog implements OnInit {
     this.store.dispatch(new Answers.ChangeAnswer({ index, answer }))
   }
 
-  getSelectedQuestions = (statements, questions) => {
+  getSelectedQuestions = () => {
     const selectedQuestions = []
-    statements.forEach((statement, i) => {
+    this._statementsList.forEach((statementUUID, i) => {
+      let statement = this._statements.find(s => s.uuid === statementUUID)
       statement.conditions.forEach(c => {
         let condition = this._conditions.find(cond => cond.uuid === c)
         condition.selected.forEach(s => {
@@ -114,8 +129,8 @@ export class StatementCatalog implements OnInit {
 
     })
 
-    return selectedQuestions.map(q => questions.find(x => x.uuid === q))
-      .sort((a, b) => questions.findIndex(x => x.uuid == a.uuid) - questions.findIndex(x => x.uuid == b.uuid))
+    return selectedQuestions.map(q => this._questions.find(x => x.uuid === q))
+      //.sort((a, b) => this._questions.findIndex(x => x.uuid == a.uuid) - this._questions.findIndex(x => x.uuid == b.uuid))
   }
 
   evalCondtion = (value, operand, targetValue) => {
@@ -175,6 +190,10 @@ export class StatementCatalog implements OnInit {
     })
 
     let rec = answersToStatements(answers, scoreMap)
+    /* this._evaluations = rec.sort((a, b) => {
+      console.log("the a and the b", a, b)
+      return this._questions.findIndex(x => x.id == a) - this._questions.findIndex(x => x.id == b)
+    }) */
     this._evaluations = rec
   }
 

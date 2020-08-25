@@ -8,8 +8,11 @@ export const initialState = []
 export function answerReducer(state: InitialStateAnswers = initialState, action: AnswerActions) {
   switch(action.type) {
     case QuestionaireActionType.GET_QUESTIONAIRE_SUCCESS: {
-      let conditions = action.payload.questionaire.conditions || []
-      return conditions.map(s => "")
+      //let conditions = action.payload.questionaire.conditions || []
+      let uniqueConditions = new Set(action.payload.questionaire.conditions.map(c => c.selected[0]))
+      console.log("uC", uniqueConditions)
+      //return conditions.map(s => "")
+      return Array.from(uniqueConditions).map(x => "")
     }
     case AnswerActionType.CHANGE_ANSWER: {
       let { index, answer } = action.payload

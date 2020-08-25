@@ -152,6 +152,6 @@ const { conditions, statements } = JSON.parse(scoreMap);
 let k = Object.keys(statements).map(o => statements[o]),
     s = Object.keys(conditions).map(l => conditions[l]),
     c = answers
-
+console.log("the c", c)
 return getEvaluations(k, s, c)
 };

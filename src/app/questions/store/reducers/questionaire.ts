@@ -17,7 +17,6 @@ export const initialStateX = {
   name: '',
   owner: '',
   uuid: '',
-  //categories: [],
   questions: [],
   statements: [],
   preludeText: '',
@@ -78,6 +77,7 @@ export function questionaireReducer(state: InitialStateQuestionaire = initialSta
         questions: [],
         statements: [],
         preludeText: '',
+        postludeText: '',
         lambdaEndpoint: ''
       }
     }
@@ -161,6 +161,7 @@ export function questionaireReducer(state: InitialStateQuestionaire = initialSta
     case QuestionaireActionType.MOVE_STATEMENT_DND: {
       let { dragIndex, dropIndex } = action.payload
       let statements = [...state.statements]
+      console.log("WTF?????????????", state)
       statements.splice(dropIndex, 0, statements.splice(dragIndex, 1)[0])
       return {
         ...state,
