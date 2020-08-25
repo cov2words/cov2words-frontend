@@ -48,8 +48,9 @@ export class AddQuestionModal implements OnInit {
       inputType: this._inputType,
       uuid: uuid()
     }
-    question = this._inputType !== 'radio' ? question : Object.assign({}, question, {options: []}) 
-    this.store.dispatch(new Questionaire.AddQuestion({question}))
+    question = this._inputType !== 'radio' ? question : Object.assign({}, question, { options: [] })
+    //this.store.dispatch(new Questionaire.AddQuestion({question}))
+    this.store.dispatch(new Questions.AddQuestion({question}))
     this.modalCtrl.dismiss()
   }
 

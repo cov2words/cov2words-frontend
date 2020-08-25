@@ -5,7 +5,9 @@ import { GetQuestionaireSuccess, CreateQuestionaire } from "./questionaire"
 export enum StatementsActionType {
   ADD_STATEMENT = "ADD_STATEMENT",
   DELETE_STATEMENT = "DELETE_STATEMENT",
-  CHANGE_STATEMENT_ATTRIBUTE = "CHANGE_STATEMENT_ATTRIBUTE"
+  CHANGE_STATEMENT_ATTRIBUTE = "CHANGE_STATEMENT_ATTRIBUTE",
+  MOVE_STATEMENT = "MOVE_STATEMENT",
+  MOVE_STATEMENT_DND = "MOVE_STATEMENT_DND"
 }
 
 export class AddStatement implements Action {
@@ -23,6 +25,16 @@ export class ChangeStatementAttribute implements Action {
   constructor(public payload: { uuid: string, attr: string, value: string | number }) {}
 }
 
+export class MoveStatement implements Action {
+  readonly type = StatementsActionType.MOVE_STATEMENT
+  constructor(public payload: {uuid: string, direction: number}) {}
+}
+
+export class MoveStatementDnD implements Action {
+  readonly type = StatementsActionType.MOVE_STATEMENT_DND
+  constructor(public payload: {dragIndex: number, dropIndex: number}) {}
+}
+
 
 export type StatementsActions =
   AddStatement |
@@ -31,4 +43,6 @@ export type StatementsActions =
   AddCondition |
   DeleteCondition |
   GetQuestionaireSuccess |
-  CreateQuestionaire
+  CreateQuestionaire |
+  MoveStatement |
+  MoveStatementDnD

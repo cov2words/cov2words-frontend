@@ -74,10 +74,10 @@ export class QuestionComponent implements OnInit {
     this.store.dispatch(new Questions.ChangeQuestionAttribute({ attr, value, uuid }))
   }
 
-  changeCategory = (event) => {
+  /* changeCategory = (event) => {
     let { uuid } = this.question, value = event.target.value, attr = "category"
     this.store.dispatch(new Questions.ChangeQuestionAttribute({attr, value, uuid}))
-  }
+  } */
 
   changeOptionText = (index: number, text: string) => {
     let { uuid } = this.question

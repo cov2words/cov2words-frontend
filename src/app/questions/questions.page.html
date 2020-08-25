@@ -29,7 +29,7 @@
           <ion-list>
             <ion-row class="question">
               <ion-col>
-                <ion-textarea placeholder="Enter preludeText" value="{{ questionaire.preludeText }}" (ionChange)="changePreludeText($event)"></ion-textarea>
+                <ion-textarea placeholder="Enter preludeText" value="{{ preludeText }}" (ionChange)="changePreludeText($event)"></ion-textarea>
               </ion-col>
             </ion-row>
             <question-component *ngFor="let question of questionaire.questions; let i=index; trackBy:trackByFn"

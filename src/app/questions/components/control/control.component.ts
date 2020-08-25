@@ -95,13 +95,15 @@ export class ControlComponent implements OnInit {
   }
 
   saveQuestionaire() {
-    // TODO: rename stuff? 
-    let {questions, ...questionaire} = this._questionaire
-    let _questions = this._questions
+    // TODO: rename stuff?
+    console.log(this._questionaire)
+    //let {questions, ...questionaire} = this._questionaire
+    let questionaire = this._questionaire
+    let questions = this._questions
     let statements = this._statements
     let conditions = this._conditions
     
-    this.store.dispatch(new Questionaire.SetQuestionaire({questionaire, questions: _questions, statements, conditions}))
+    this.store.dispatch(new Questionaire.SetQuestionaire({questionaire, questions, statements, conditions}))
   }
 
   importQuestionaire(event) {
@@ -138,12 +140,12 @@ export class ControlComponent implements OnInit {
     return await createQuestionaireModal.present()
   }
 
-  async showEditCategoriesModal() {
+  /* async showEditCategoriesModal() {
     let editCategoriesModal = await this.modalCtrl.create({
       component: EditCategoriesModal
     })
     return await editCategoriesModal.present()
-  }
+  } */
 
   async showAddQuestionModal() {
     let addQuestionModal = await this.modalCtrl.create({

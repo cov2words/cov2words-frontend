@@ -58,6 +58,10 @@ export class QuestionsPage implements OnInit {
       return this.questionaire.questions.map(q => this.questions.find(x => x.uuid === q))
     }
 
+    get preludeText() {
+      return this.questionaire.preludeText
+    }
+
     toggleQuestionsStatements = () => {
       this._showStatements = !this._showStatements
     }

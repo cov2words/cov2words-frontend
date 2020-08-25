@@ -18,10 +18,12 @@ export enum QuestionaireActionType {
   ADD_CATEGORY = "ADD_CATEGORY",
   DELETE_CATEGORY = "DELETE_CATEGORY",
   EDIT_CATEGORY = "EDIT_CATEGORY",
-  ADD_QUESTION = "ADD_QUESTION",
-  DELETE_QUESTION = "DELETE_QUESTION",
+  /* ADD_QUESTION = "ADD_QUESTION",
+  DELETE_QUESTION = "DELETE_QUESTION", */
   MOVE_QUESTION = "MOVE_QUESTION",
-  MOVE_QUESTION_DND = "MOVE_QUESTION_DND"
+  MOVE_QUESTION_DND = "MOVE_QUESTION_DND",
+  MOVE_STATEMENT = "MOVE_STATEMENT",
+  MOVE_STATEMENT_DND = "MOVE_STATEMENT_DND"
 }
 
 export class GetQuestionaire implements Action {
@@ -89,7 +91,7 @@ export class EditCategory implements Action {
   constructor(public payload: {index: number, value: string}) {}
 }
 
-export class AddQuestion implements Action {
+/* export class AddQuestion implements Action {
   readonly type = QuestionaireActionType.ADD_QUESTION
   constructor(public payload: {question: any}) {}
 }
@@ -97,7 +99,7 @@ export class AddQuestion implements Action {
 export class DeleteQuestion implements Action {
   readonly type = QuestionaireActionType.DELETE_QUESTION
   constructor(public payload: {uuid: string}) {}
-}
+} */
 
 export class MoveQuestion implements Action {
   readonly type = QuestionaireActionType.MOVE_QUESTION
@@ -106,6 +108,16 @@ export class MoveQuestion implements Action {
 
 export class MoveQuestionDnD implements Action {
   readonly type = QuestionaireActionType.MOVE_QUESTION_DND
+  constructor(public payload: {dragIndex: number, dropIndex: number}) {}
+}
+
+export class MoveStatement implements Action {
+  readonly type = QuestionaireActionType.MOVE_STATEMENT
+  constructor(public payload: {uuid: string, direction: number}) {}
+}
+
+export class MoveStatementDnD implements Action {
+  readonly type = QuestionaireActionType.MOVE_STATEMENT_DND
   constructor(public payload: {dragIndex: number, dropIndex: number}) {}
 }
 
@@ -123,9 +135,11 @@ export type QuestionaireActions =
   AddCategory |
   DeleteCategory |
   EditCategory |
-  AddQuestion |
-  DeleteQuestion |
+  /* AddQuestion |
+  DeleteQuestion | */
   MoveQuestion |
   MoveQuestionDnD |
+  MoveStatement |
+  MoveStatementDnD |
   QuestionsActions |
   StatementsActions

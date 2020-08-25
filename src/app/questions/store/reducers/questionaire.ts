@@ -1,11 +1,14 @@
 import { QuestionaireActions, QuestionaireActionType } from "../actions/questionaire"
+import { QuestionsActionType } from "../actions/question"
+import { StatementsActionType } from "../actions/statement"
 
 export interface InitialStateQuestionaire {
   name: string
   owner: string
   uuid: string
-  categories: string[]
+  //categories: string[]
   questions: string[]
+  statements: string[]
   preludeText: string
   lambdaEndpoint: string
 }
@@ -14,8 +17,9 @@ export const initialStateX = {
   name: '',
   owner: '',
   uuid: '',
-  categories: [],
+  //categories: [],
   questions: [],
+  statements: [],
   preludeText: '',
   lambdaEndpoint: ''
 }
@@ -31,17 +35,18 @@ export function questionaireReducer(state: InitialStateQuestionaire = initialSta
 
       let { questions, metadata } = action.payload.questionaire
 
-      let _questions = questions.map(q => q.uuid)
+      //let _questions = questions.map(q => q.uuid)
 
-      let _metadata = metadata.hasOwnProperty("categories")
+      /* let _metadata = metadata.hasOwnProperty("categories")
         ? metadata
-        : Object.assign({}, metadata, { categories: [] })
+        : Object.assign({}, metadata, { categories: [] }) */
 
 
-      return {
-        ..._metadata,
+      /* return {
+        metadata,
         questions: _questions
-      }
+      } */
+      return metadata
     }
 
     case QuestionaireActionType.IMPORT_QUESTIONAIRE: {
@@ -70,41 +75,14 @@ export function questionaireReducer(state: InitialStateQuestionaire = initialSta
         name,
         owner,
         uuid,
-        categories: [],
         questions: [],
+        statements: [],
         preludeText: '',
         lambdaEndpoint: ''
       }
     }
 
-    case QuestionaireActionType.ADD_CATEGORY: {
-      let { value } = action.payload
-      return {
-        ...state,
-        categories: [...state.categories, value]
-      }
-    }
-
-    case QuestionaireActionType.DELETE_CATEGORY: {
-      let { index } = action.payload
-      return {
-        ...state,
-        categories: state.categories.filter((c,i) => i !== index)
-      }
-    }
-
-    case QuestionaireActionType.EDIT_CATEGORY: {
-      let { index, value } = action.payload
-      return {
-        ...state,
-        categories: state.categories.map((c,i) => i !== index
-          ? c
-          : value
-        )
-      }
-    }
-
-    case QuestionaireActionType.ADD_QUESTION: {
+    case QuestionsActionType.ADD_QUESTION: {
       let { uuid } = action.payload.question
       return {
         ...state,
@@ -112,11 +90,27 @@ export function questionaireReducer(state: InitialStateQuestionaire = initialSta
       }
     }
 
-    case QuestionaireActionType.DELETE_QUESTION: {
+    case QuestionsActionType.DELETE_QUESTION: {
       let { uuid } = action.payload
       return {
         ...state,
         questions: state.questions.filter(q => q !== uuid)
+      }
+    }
+
+    case StatementsActionType.ADD_STATEMENT: {
+      let { uuid } = action.payload.statement
+      return {
+        ...state,
+        statements: [...state.statements, uuid]
+      }
+    }
+
+    case StatementsActionType.DELETE_STATEMENT: {
+      let { uuid } = action.payload.statement
+      return {
+        ...state,
+        statements: state.statements.filter(q => q !== uuid)
       }
     }
 
@@ -144,6 +138,33 @@ export function questionaireReducer(state: InitialStateQuestionaire = initialSta
       return {
         ...state,
         questions
+      }
+    }
+
+    /* case StatementsActionType.MOVE_STATEMENT: {
+      let { uuid, direction } = action.payload
+      let questions = [...state.questions]
+      let index = questions.findIndex(q => q === uuid)
+      let newIndex = index + direction
+
+      // question is first or last element. cant be moved outside
+      if (newIndex < 0 || newIndex >= questions.length) {
+        return state
+      }
+      questions.splice(newIndex, 0, questions.splice(index, 1)[0])
+      return {
+        ...state,
+        questions
+      }
+    } */
+
+    case QuestionaireActionType.MOVE_STATEMENT_DND: {
+      let { dragIndex, dropIndex } = action.payload
+      let statements = [...state.statements]
+      statements.splice(dropIndex, 0, statements.splice(dragIndex, 1)[0])
+      return {
+        ...state,
+        statements
       }
     }
 

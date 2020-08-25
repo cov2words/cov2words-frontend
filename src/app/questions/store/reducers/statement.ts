@@ -26,6 +26,41 @@ export const statementsReducer = (state: InitialStateStatements = initialState, 
         : Object.assign({}, statement, {[attr]: value}))
     }
 
+    /* case StatementsActionType.MOVE_STATEMENT: {
+      let { uuid, direction } = action.payload
+      let questions = [...state.questions]
+      let index = questions.findIndex(q => q === uuid)
+      let newIndex = index + direction
+
+      // question is first or last element. cant be moved outside
+      if (newIndex < 0 || newIndex >= questions.length) {
+        return state
+      }
+      questions.splice(newIndex, 0, questions.splice(index, 1)[0])
+      return {
+        ...state,
+        questions
+      }
+    } */
+
+    case StatementsActionType.MOVE_STATEMENT_DND: {
+      let { dragIndex, dropIndex } = action.payload
+      /* let questions = [...state.questions]
+      questions.splice(dropIndex, 0, questions.splice(dragIndex, 1)[0])
+      return {
+        ...state,
+        questions
+      } */
+      let statements = state.map(s => Object.assign({}, s))
+
+      let foo = statements.splice(dragIndex, 1)[0]
+      console.log(foo)
+      let bar = statements.splice(dropIndex, 0, foo)
+      console.log(bar)
+      console.log(statements)
+      return statements.splice(dropIndex, 0, statements.splice(dragIndex, 1)[0])
+    }
+
     case ConditionActionType.ADD_CONDITION: {
       let { condition, statementUUID } = action.payload
       return state.map(statement => statement.uuid !== statementUUID

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as Statements from "../../store/actions/statement"
 import * as Answers from "../../store/actions/answer"
+import * as Questionaire from "../../store/actions/questionaire"
 import { uuid } from 'uuidv4';
 import { answersToStatements } from "./deleteme"
 
@@ -57,11 +58,15 @@ export class StatementCatalog implements OnInit {
     return this._answerVisibility
   }
 
+  /* get statementsList() {
+    return this._statements
+  } */
+
   ngOnInit() {
     this.store.select(state => state.questions.present).subscribe(response => {
 
       let { statements, conditions, questions, answers } = response
-      
+
       this._statements = statements || []
       this._answers = answers || []
       this._conditions = conditions || []
@@ -93,24 +98,24 @@ export class StatementCatalog implements OnInit {
   }
 
   changeAnswer(selectedQuestion: any, index: number, event: any) {
-    let answer = {[selectedQuestion.uuid]: event.detail.value}
+    let answer = { [selectedQuestion.uuid]: event.detail.value }
     this.store.dispatch(new Answers.ChangeAnswer({ index, answer }))
   }
 
   getSelectedQuestions = (statements, questions) => {
     const selectedQuestions = []
     statements.forEach((statement, i) => {
-        statement.conditions.forEach(c => {
-          let condition = this._conditions.find(cond => cond.uuid === c)
-          condition.selected.forEach(s => {
-            selectedQuestions.includes(s) || ["", undefined].includes(s) ? null : selectedQuestions.push(s)
-          })
+      statement.conditions.forEach(c => {
+        let condition = this._conditions.find(cond => cond.uuid === c)
+        condition.selected.forEach(s => {
+          selectedQuestions.includes(s) || ["", undefined].includes(s) ? null : selectedQuestions.push(s)
         })
-      
+      })
+
     })
 
     return selectedQuestions.map(q => questions.find(x => x.uuid === q))
-                    .sort((a,b) => questions.findIndex(x => x.uuid == a.uuid) - questions.findIndex(x => x.uuid == b.uuid))
+      .sort((a, b) => questions.findIndex(x => x.uuid == a.uuid) - questions.findIndex(x => x.uuid == b.uuid))
   }
 
   evalCondtion = (value, operand, targetValue) => {
@@ -138,16 +143,20 @@ export class StatementCatalog implements OnInit {
     let conditionMap = Object.assign(
       {}, ...this._conditions.map(c => (
         //{[c.name]: Object.assign(
-        {[c.uuid]: Object.assign(
-          {}, c,
-          {selected: c.selected.map(x => `${this._questions.find(q => q.uuid === x).category}_${this._questions.find(q => q.uuid === x).id}`)}
-          )}
+        {
+          [c.uuid]: Object.assign(
+            {}, c,
+            //{selected: c.selected.map(x => `${this._questions.find(q => q.uuid === x).category}_${this._questions.find(q => q.uuid === x).id}`)}
+            {selected: c.selected.map(x => `${this._questions.find(q => q.uuid === x).id}`)}
+
+          )
+        }
       ))
     )
     let statementMap = Object.assign(
       {}, ...this._statements.map(statement => (
         //{[statement.name]: statement}
-        {[statement.uuid]: statement}
+        { [statement.uuid]: statement }
       ))
     )
     let scoreMap = JSON.stringify({
@@ -159,13 +168,30 @@ export class StatementCatalog implements OnInit {
     this._answers.forEach(a => {
       Object.keys(a).forEach(k => {
         let question = this._questions.find(q => q.uuid === k)
-        let key = `${question.category}_${question.id}`
+        //let key = `${question.category}_${question.id}`
+        let key = question.id
         answers[key] = question.inputType === 'radio' ? question.options.indexOf(a[k]) : parseInt(a[k])// fuck my life....
       })
     })
 
     let rec = answersToStatements(answers, scoreMap)
     this._evaluations = rec
+  }
+
+  doReorder(ev: any) {
+    // Before complete is called with the items they will remain in the
+    // order before the drag
+    
+
+    // Finish the reorder and position the item in the DOM based on
+    // where the gesture ended. Update the items variable to the
+    // new order of items
+    let { from, to } = ev.detail
+    this.store.dispatch(new Questionaire.MoveStatementDnD({dragIndex: from, dropIndex: to}))
+    ev.detail.complete();
+
+    // After complete is called the items will be in the new order
+
   }
 
 }

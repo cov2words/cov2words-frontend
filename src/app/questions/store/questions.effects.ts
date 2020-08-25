@@ -47,7 +47,7 @@ export class QuestionsEffects {
     ofType(QuestionaireActionType.SET_QUESTIONAIRE),
     switchMap((action) => {
       let { payload: { questionaire, questions, statements, conditions } } = action
-
+      console.log("the q", questionaire)
       return from(this.questionsService.setQuestionaire(questionaire, questions, statements, conditions)).pipe(
         map(() => new SetQuestionaireSuccess('save success')),
         catchError(error => of(new SetQuestionaireFailure(error)))

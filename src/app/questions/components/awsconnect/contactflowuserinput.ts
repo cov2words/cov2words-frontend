@@ -64,8 +64,8 @@ export const ContactFlowUserInput = (props: ContactFlowUserInputProps) => {
     }
     conditionMetadata.push(conditionMetadataObj)
 
-    let key = `${question.category}_${question.id}`
-
+    //let key = `${question.category}_${question.id}`
+    let key = question.id
 
     let contactFlowAttribute = ContactFlowAttribute({
       ownUUID: optionsUUIDMap[i],
