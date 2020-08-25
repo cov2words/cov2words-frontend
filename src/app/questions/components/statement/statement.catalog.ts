@@ -19,6 +19,7 @@ export class StatementCatalog implements OnInit {
   private _conditions
   private _questions
   private _evaluations: any = []
+  private _answerVisibility: boolean = false
 
   constructor(
     private store: Store<any>
@@ -52,6 +53,10 @@ export class StatementCatalog implements OnInit {
     return this._answers.some(a => a === "")
   }
 
+  get answersVisible() {
+    return this._answerVisibility
+  }
+
   ngOnInit() {
     this.store.select(state => state.questions.present).subscribe(response => {
 
@@ -69,9 +74,13 @@ export class StatementCatalog implements OnInit {
     return item.uuid
   }
 
+  toggleAnswerVisibility() {
+    this._answerVisibility = !this._answerVisibility
+  }
+
   addStatement() {
     let statement = {
-      name: this._newStatementName,
+      //name: this._newStatementName,
       uuid: uuid(),
       conditions: []
     }
@@ -128,7 +137,8 @@ export class StatementCatalog implements OnInit {
   getEvaluations = () => {
     let conditionMap = Object.assign(
       {}, ...this._conditions.map(c => (
-        {[c.name]: Object.assign(
+        //{[c.name]: Object.assign(
+        {[c.uuid]: Object.assign(
           {}, c,
           {selected: c.selected.map(x => `${this._questions.find(q => q.uuid === x).category}_${this._questions.find(q => q.uuid === x).id}`)}
           )}
@@ -136,7 +146,8 @@ export class StatementCatalog implements OnInit {
     )
     let statementMap = Object.assign(
       {}, ...this._statements.map(statement => (
-        {[statement.name]: statement}
+        //{[statement.name]: statement}
+        {[statement.uuid]: statement}
       ))
     )
     let scoreMap = JSON.stringify({

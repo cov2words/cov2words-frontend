@@ -15,7 +15,7 @@ import {uuid} from "uuidv4"
 export class StatementComponent implements OnInit {
   @Input() statement: any
 
-  private _newConditionName: string = ''
+  //private _newConditionName: string = ''
 
   constructor(
     private store: Store<any>,
@@ -27,9 +27,9 @@ export class StatementComponent implements OnInit {
     return this.statement.conditions
   }
       
-  get newConditionName() {
+  /* get newConditionName() {
     return this._newConditionName
-  }
+  } */
 
   ngOnInit() {}
 
@@ -41,19 +41,19 @@ export class StatementComponent implements OnInit {
     return item
   }
 
-  renameStatement = (value: string) => {
+  /* renameStatement = (value: string) => {
     let uuid = this.statement.uuid, attr="name"
     this.store.dispatch(new Statements.ChangeStatementAttribute({uuid,attr,value}))
-  }
+  } */
 
   deleteStatement() {
     let statement = this.statement
     this.store.dispatch(new Statements.DeleteStatement({statement}))
   }
 
-  addCondition = (name: string) => {
+  addCondition = () => {
     let condition = {
-      name,
+      //name,
       selected: [],
       uuid: uuid(),
       value: {}
@@ -62,9 +62,9 @@ export class StatementComponent implements OnInit {
     this.store.dispatch(new Conditions.AddCondition({condition, statementUUID}))
   }
 
-  changeNewConditionName(event) {
+  /* changeNewConditionName(event) {
     this._newConditionName = event.detail.value
-  }
+  } */
 
   updateStatementTrueText = (value: string) => {
     let uuid = this.statement.uuid, attr = "trueText"
@@ -76,7 +76,7 @@ export class StatementComponent implements OnInit {
     this.store.dispatch(new Statements.ChangeStatementAttribute({value, uuid, attr}))
   }
 
-  async showAddCondition() {
+  /* async showAddCondition() {
     let modal = await this.modalCtrl.create({
       component: EditModal,
       componentProps: {
@@ -87,9 +87,9 @@ export class StatementComponent implements OnInit {
       }
     })
     return await modal.present()
-  }
+  } */
 
-  async showChangeName() {
+  /* async showChangeName() {
     let modal = await this.modalCtrl.create({
       component: EditModal,
       componentProps: {
@@ -100,7 +100,7 @@ export class StatementComponent implements OnInit {
       }
     })
     return await modal.present()
-  }
+  } */
 
   async showChangeTrueText() {
     let modal = await this.modalCtrl.create({

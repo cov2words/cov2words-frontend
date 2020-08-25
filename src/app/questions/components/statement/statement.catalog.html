@@ -1,38 +1,46 @@
 <ion-grid>
-  <ion-row *ngFor="let sq of selectedQuestions; let i=index; trackBy: trackByFn">
-    <ion-col size="6">
-      {{ sq.id }}: {{ sq.text }}
-    </ion-col>
-    <ion-col size="6">
-      <ion-input *ngIf="sq.inputType == 'date'; else elseBlock"
-        placeholder="enter answer value" (ionChange)="changeAnswer(sq, i, $event)"></ion-input>
-      <ng-template #elseBlock>
-        <ion-select (ionChange)="changeAnswer(sq, i, $event)">
-          <ion-select-option *ngFor="let o of sq.options; let i=index; trackBy: trackByFn">{{o}}</ion-select-option>
-        </ion-select>
-      </ng-template>
-    </ion-col>
-  </ion-row>
+  <ion-button (click)="toggleAnswerVisibility()">
+    <ion-icon *ngIf="!answersVisible" name="eye"></ion-icon>
+    <ion-icon *ngIf="answersVisible" name="eye-off"></ion-icon>
+  </ion-button>
+  <ng-container *ngIf="answersVisible">
+    <ion-row *ngFor="let sq of selectedQuestions; let i=index; trackBy: trackByFn" class="answer">
+      <ion-col size="6">
+        {{ sq.id }}: {{ sq.text }}
+      </ion-col>
+      <ion-col size="6">
+        <ion-input *ngIf="sq.inputType == 'date'; else elseBlock" placeholder="enter answer value"
+          (ionChange)="changeAnswer(sq, i, $event)"></ion-input>
+        <ng-template #elseBlock>
+          <ion-select (ionChange)="changeAnswer(sq, i, $event)">
+            <ion-select-option *ngFor="let o of sq.options; let i=index; trackBy: trackByFn">{{o}}</ion-select-option>
+          </ion-select>
+        </ng-template>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size=12>
+        <ion-button (click)="getEvaluations()" disabled={{evalDisabled}}>eval</ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size=12>
+        <ion-item *ngFor="let ev of evaluations">{{ev}}</ion-item>
+      </ion-col>
+    </ion-row>
+  </ng-container>
   <ion-row>
-    <ion-col size=12>
-      <ion-button (click)="getEvaluations()" disabled={{evalDisabled}}>eval</ion-button>
-    </ion-col>
-  </ion-row>
-  <ion-row>
-    <ion-col size=12>
-      <ion-item *ngFor="let ev of evaluations">{{ev}}</ion-item>
-    </ion-col>
-  </ion-row>
-  <ion-row>
-    <ion-col>
+    <!-- <ion-col>
       <ion-input placeholder="enter new statement name" value={{newStatementName}}
         (ionChange)="changeNewStatementName($event)"></ion-input>
-    </ion-col>
+    </ion-col> -->
     <ion-col>
-      <ion-button disabled="{{ newStatementName.length <= 0 }}" (click)="addStatement()">add</ion-button>
+      <!-- <ion-button disabled="{{ newStatementName.length <= 0 }}" (click)="addStatement()">add</ion-button> -->
+      <ion-button (click)="addStatement()">add statement</ion-button>
     </ion-col>
   </ion-row>
 
-  <statement-component *ngFor="let s of statements; let i=index; trackBy: trackByUUID" [statement]="s"></statement-component>
+  <statement-component *ngFor="let s of statements; let i=index; trackBy: trackByUUID" [statement]="s">
+  </statement-component>
 
 </ion-grid>

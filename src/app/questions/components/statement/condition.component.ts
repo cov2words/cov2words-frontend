@@ -95,10 +95,10 @@ export class ConditionComponent implements OnInit {
     this.store.dispatch(new Conditions.DeleteCondition({uuid, statementUUID }))
   }
 
-  renameCondition = (value: string) => {
+  /* renameCondition = (value: string) => {
     let attr = "name", uuid = this.condition.uuid, statementUUID = this.statementUUID
     this.store.dispatch(new Conditions.ChangeConditionAttribute({attr, value, statementUUID, uuid}))
-  }
+  } */
 
   changeOperand(event) {
     let attr = "operand", value = event.detail.value, uuid = this.condition.uuid, statementUUID = this.statementUUID
@@ -130,7 +130,7 @@ export class ConditionComponent implements OnInit {
     this.store.dispatch(new Conditions.ChangeConditionAttribute({attr, value, statementUUID, uuid}))
   }
 
-  async showChangeName() {
+  /* async showChangeName() {
     let modal = await this.modalCtrl.create({
       component: EditModal,
       componentProps: {
@@ -141,7 +141,7 @@ export class ConditionComponent implements OnInit {
       }
     })
     return await modal.present()
-  }
+  } */
 
   async showChangeValue() {
     let modal = await this.modalCtrl.create({
@@ -149,7 +149,7 @@ export class ConditionComponent implements OnInit {
       componentProps: {
         setValue: this.changeValueNumber,
         initialValue: this.condition.value.val,
-        labelText: `change value of condition ${this.condition.name}`,
+        labelText: `change value of condition ${this.condition.uuid}`,
         placeholder: 'enter value',
         pattern: 'number'
       }

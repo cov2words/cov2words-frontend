@@ -9,7 +9,7 @@ export interface ConditionValue {
 
 export interface Condition {
   uuid: string,
-  name: string,
+  //name: string,
   operand: string,
   selected: string[],
   value: ConditionValue,//string | number,
