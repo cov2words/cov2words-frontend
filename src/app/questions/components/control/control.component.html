@@ -1,5 +1,5 @@
 <ion-segment>
-  <ion-select value='{{questionaire.name}}' selectedText='{{questionaire.name}}'
+  <ion-select value='{{questionaireName}}' selectedText='{{questionaireName}}'
     (ionChange)='changeQuestionaire($event)' placeholder='select existing questionaire'>
     <ion-select-option *ngFor='let q of questionaires' value='{{q.uuid}}'>{{q.name}}</ion-select-option>
   </ion-select>

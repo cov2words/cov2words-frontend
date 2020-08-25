@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { NgForm } from '@angular/forms';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 
 import { AuthService, AuthResponseData } from './auth.service';
+import * as Auth from "../questions/store/actions/auth"
+
 
 @Component({
   selector: 'app-auth',
@@ -18,11 +21,13 @@ export class AuthPage implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
+    private store: Store<any>,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   authenticate(email: string, password: string) {
     this.isLoading = true;
@@ -38,7 +43,7 @@ export class AuthPage implements OnInit {
         }
         authObs.subscribe(
           resData => {
-            console.log(resData);
+            this.store.dispatch(new Auth.SetUser({user: resData}))
             this.isLoading = false;
             loadingEl.dismiss();
             this.router.navigateByUrl('/');

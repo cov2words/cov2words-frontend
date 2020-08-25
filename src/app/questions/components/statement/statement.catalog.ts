@@ -18,7 +18,7 @@ export class StatementCatalog implements OnInit {
   private _selectedQuestions
   private _conditions
   private _questions
-  private _evaluations: any = []//string[] = []
+  private _evaluations: any = []
 
   constructor(
     private store: Store<any>
@@ -50,7 +50,6 @@ export class StatementCatalog implements OnInit {
 
   get evalDisabled() {
     return this._answers.some(a => a === "")
-    //return this._selectedQuestions.length !== this._answers.length
   }
 
   ngOnInit() {
@@ -94,9 +93,9 @@ export class StatementCatalog implements OnInit {
     statements.forEach((statement, i) => {
         statement.conditions.forEach(c => {
           let condition = this._conditions.find(cond => cond.uuid === c)
-          condition.selected.forEach(s =>
-            questions.includes(s) || ["", undefined].includes(s) ? null : selectedQuestions.push(s)
-          )
+          condition.selected.forEach(s => {
+            selectedQuestions.includes(s) || ["", undefined].includes(s) ? null : selectedQuestions.push(s)
+          })
         })
       
     })
@@ -144,7 +143,7 @@ export class StatementCatalog implements OnInit {
       conditions: conditionMap,
       statements: statementMap
     })
-    /* let answers = this._answers.map(a => Object.keys(a).map(k => this._questions.find(q => q.uuid === k))) */
+
     let answers = {}
     this._answers.forEach(a => {
       Object.keys(a).forEach(k => {

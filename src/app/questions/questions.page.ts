@@ -62,6 +62,17 @@ export class QuestionsPage implements OnInit {
       this._showStatements = !this._showStatements
     }
 
+    changePreludeText = (event: any) => {
+      console.log(event)
+      let attr = "preludeText", value = event.target.value
+      this.store.dispatch(new Questionaire.ChangeQuestionaireAttribute({attr, value}))
+    }
+
+    changePostludeText = (event: any) => {
+      let attr = "postludeText", value = event.target.value
+      this.store.dispatch(new Questionaire.ChangeQuestionaireAttribute({attr, value}))
+    }
+
     trackByFn(index,item) {
       return item
     }

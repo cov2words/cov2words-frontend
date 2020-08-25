@@ -9,6 +9,9 @@ import {ToastController} from "@ionic/angular";
 import {ServiceError} from "../extlib/cov2words-client-js/cov2words_client_js/error_handling/service_error.type";
 import {TranslateService} from "@ngx-translate/core";
 import {AnswerResponse} from "../extlib/cov2words-client-js/cov2words_client_js/model/answer.response";
+import { Store } from '@ngrx/store';
+import { AuthService } from '../auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-home',
@@ -31,7 +34,10 @@ export class HomePage implements OnInit {
         private _wordService: WordService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _toastController: ToastController,
-        private _translateService: TranslateService
+        private _translateService: TranslateService,
+        private store: Store<any>,
+        private auth: AuthService,
+        private router: Router
     ) {
         window.addEventListener('beforeinstallprompt', (e) => {
             console.log('beforeinstallprompt Event fired');
@@ -54,6 +60,12 @@ export class HomePage implements OnInit {
         if (this._cov2WordsService.lastValue !== null) {
             this._buildWordListView(this._cov2WordsService.lastValue);
         }
+    }
+
+    logout() {
+      this.store.dispatch({type: 'LOGOUT'})
+      this.auth.logout()
+      this.router.navigateByUrl('/auth')
     }
 
     private _buildWordListView(response: WordListResponse) {

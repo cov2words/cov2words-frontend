@@ -3,13 +3,6 @@ import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {IonicModule} from '@ionic/angular';
-
-import { StoreModule, ActionReducer } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import { storeLogger } from 'ngrx-store-logger';
-import { rootReducer, undoable } from "./store/reducers/root" //"./store/questions.reducer"
-import { QuestionsEffects } from "./store/questions.effects"
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import {AngularFireFunctionsModule} from '@angular/fire/functions';
 
 import {QuestionsPage} from './questions.page';
@@ -27,24 +20,11 @@ import { StatementComponent } from './components/statement/statement.component';
 import { ConditionComponent } from './components/statement/condition.component';
 
 
-export function logger(reducer: ActionReducer<any>): any {
-  return storeLogger()(reducer);
-}
-
-export const metaReducers = [logger];
-
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         IonicModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('questions', undoable(rootReducer), { metaReducers }),
-        StoreDevtoolsModule.instrument({
-          maxAge: 25 // Retains last 25 states
-        }),
-        EffectsModule.forRoot([]),
-        EffectsModule.forFeature([QuestionsEffects]),
         RouterModule.forChild([
             {
                 path: '',

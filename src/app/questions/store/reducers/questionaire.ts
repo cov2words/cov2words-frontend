@@ -10,7 +10,7 @@ export interface InitialStateQuestionaire {
   lambdaEndpoint: string
 }
 
-export const initialState = {
+export const initialStateX = {
   name: '',
   owner: '',
   uuid: '',
@@ -20,6 +20,7 @@ export const initialState = {
   lambdaEndpoint: ''
 }
 
+export const initialState = undefined
 
 export function questionaireReducer(state: InitialStateQuestionaire = initialState, action: QuestionaireActions) {
   switch (action.type) {
@@ -44,7 +45,6 @@ export function questionaireReducer(state: InitialStateQuestionaire = initialSta
     }
 
     case QuestionaireActionType.IMPORT_QUESTIONAIRE: {
-      console.log(action.payload.questionaire)
       return action.payload.questionaire
     }
 
@@ -71,7 +71,9 @@ export function questionaireReducer(state: InitialStateQuestionaire = initialSta
         owner,
         uuid,
         categories: [],
-        questions: []
+        questions: [],
+        preludeText: '',
+        lambdaEndpoint: ''
       }
     }
 
@@ -126,7 +128,6 @@ export function questionaireReducer(state: InitialStateQuestionaire = initialSta
 
       // question is first or last element. cant be moved outside
       if (newIndex < 0 || newIndex >= questions.length) {
-        console.log("oh boy blyat")
         return state
       }
       questions.splice(newIndex, 0, questions.splice(index, 1)[0])
@@ -139,9 +140,7 @@ export function questionaireReducer(state: InitialStateQuestionaire = initialSta
     case QuestionaireActionType.MOVE_QUESTION_DND: {
       let { dragIndex, dropIndex } = action.payload
       let questions = [...state.questions]
-      console.log(dragIndex, dropIndex, questions)
       questions.splice(dropIndex, 0, questions.splice(dragIndex, 1)[0])
-      console.log(questions)
       return {
         ...state,
         questions

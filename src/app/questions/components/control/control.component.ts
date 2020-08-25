@@ -14,6 +14,7 @@ import { AWSConnectModal } from "./awsconnect.modal"
 import { HelpModal } from "./help.modal"
 import { uuid } from "uuidv4"
 
+
 @Component({
   selector: 'control-component',
   templateUrl: 'control.component.html',
@@ -45,6 +46,12 @@ export class ControlComponent implements OnInit {
 
   get questionaire() {
     return this._questionaire
+  }
+
+  get questionaireName() {
+    return this._questionaire === undefined
+      ? ""
+      : this._questionaire.name
   }
 
   get questions() {

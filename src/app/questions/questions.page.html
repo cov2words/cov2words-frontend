@@ -24,11 +24,21 @@
       <statement-catalog></statement-catalog>
     </div>
     <ng-template #elseBlock>
-      <ion-row>
+      <ion-row *ngIf="questionaire">
         <ion-col size="10">
           <ion-list>
+            <ion-row class="question">
+              <ion-col>
+                <ion-textarea placeholder="Enter preludeText" value="{{ questionaire.preludeText }}" (ionChange)="changePreludeText($event)"></ion-textarea>
+              </ion-col>
+            </ion-row>
             <question-component *ngFor="let question of questionaire.questions; let i=index; trackBy:trackByFn"
               [questionUUID]="question" [categories]="questionaire.categories" [index]="i"></question-component>
+            <ion-row class="question">
+              <ion-col>
+                <ion-textarea placeholder="Enter postludeText" value="{{ questionaire.postludeText }}" (ionChange)="changePostludeText($event)"></ion-textarea>
+              </ion-col>
+            </ion-row>
           </ion-list>
         </ion-col>
         <ion-col size="2">

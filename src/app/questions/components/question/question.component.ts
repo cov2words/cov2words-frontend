@@ -37,7 +37,9 @@ export class QuestionComponent implements OnInit {
       this.question = response.questions.find(q => q.uuid === this.questionUUID)
       this.questions = response.questions
       this.validNextQuestions = response.questions.filter((q,i) => i > this.index)
-      this._fork = this.question.nextQuestionMap !== undefined && this.question.nextQuestionMap.some(x => x !== "")
+      this._fork = this.question 
+        ? this.question.nextQuestionMap !== undefined && this.question.nextQuestionMap.some(x => x !== "")
+        : false
     })
   }
 
@@ -101,13 +103,12 @@ export class QuestionComponent implements OnInit {
 
   toggleFork = (event) => {
     let { uuid } = this.question
-    console.log(this.question.inputType, event.detail.checked, this.question)
     // please dont beat me up for this :/
     if (
       (event.detail.checked && this.question.hasOwnProperty("nextQuestionMap") && this.question.nextQuestionMap.length > 0) ||
       (!event.detail.checked && (!this.question.hasOwnProperty("nextQuestionMap") || this.question.nextQuestionMap.length == 0))
     ) {
-      console.log("oh boy blyat")
+
       return
     }
     this._fork = !this._fork
