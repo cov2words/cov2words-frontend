@@ -9,7 +9,7 @@
     </ion-button>
   </ion-col>
   <ion-col size="12">
-    <ion-list>
+    <ion-list class="foobar">
       <condition-component *ngFor="let c of conditions; let i=index; trackBy: trackByItem"
         [statementUUID]="statement.uuid" [conditionUUID]="c" [isLastElement]="i == conditions.length - 1">
       </condition-component>

@@ -1,25 +1,15 @@
-ion-input {
+/* ion-input {
   --background: #ccc;
   --color: #333;
   border: solid rgb(15, 172, 106) 2px;
-}
+} */
 
-ion-select, ion-label, .foobarbaz {
+/* ion-select, ion-label, .foobarbaz {
   border: solid rgb(15, 172, 106) 2px;
 }
-
-.statementWrapper {
-  border: solid green 5px;
-}
-
-.statementComponent {
-  border: solid red 1px;
-}
-
-.conditionComponent {
-  border: solid blue 1px;
-}
-
+ */
+.statementWrapper,
+.statementComponent,
 .answer {
   margin: 25px;
   padding: 25px;
@@ -27,4 +17,15 @@ ion-select, ion-label, .foobarbaz {
   border: solid #eee 2px;
   color: #2c3e50;
   border-radius: 25px;
+}
+
+.conditionComponent {
+  --background: #2c3e50;
+  --color: #eee;
+}
+
+.foobar {
+  background: #2c3e50;
+  border-radius: 25px;
+  border: solid #eee 2px;
 }

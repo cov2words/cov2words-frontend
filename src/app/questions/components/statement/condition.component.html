@@ -1,45 +1,53 @@
 <ion-item class="conditionComponent">
   <ion-grid>
     <ion-row>
-      <!-- <ion-label (click)="showChangeName()">{{condition.name}}</ion-label> -->
       <ion-button (click)="deleteCondition()">
         <ion-icon name="trash"></ion-icon>
       </ion-button>
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-label>Question: </ion-label>
+        <ion-item>
+          <ion-label>Question: </ion-label>
+          <ion-select value="{{condition.selected}}" placeholder="PLEASE SELECT" (ionChange)="changeSelected($event)">
+            <ion-select-option *ngFor="let q of questions; let i=index; trackBy: trackByUUID" value="{{q.uuid}}">
+              {{q.id}}: {{q.text}}</ion-select-option>
+          </ion-select>
+        </ion-item>
       </ion-col>
       <ion-col>
-        <ion-select value="{{condition.selected}}" placeholder="PLEASE SELECT" (ionChange)="changeSelected($event)">
-          <ion-select-option *ngFor="let q of questions; let i=index; trackBy: trackByUUID" value="{{q.uuid}}">{{q.id}}: {{q.text}}</ion-select-option>
-        </ion-select>
+        <ion-item>
+          <ion-label>Condition: </ion-label>
+          <ion-select value="{{condition.operand}}" selectedText="{{condition.operand}}"
+            (ionChange)="changeOperand($event)">
+            <ion-select-option *ngFor="let o of operands; let i=index; trackBy: trackByIndex">{{o}}</ion-select-option>
+          </ion-select>
+        </ion-item>
       </ion-col>
       <ion-col>
-        <ion-label>Condition: </ion-label>
-      </ion-col>
-      <ion-col>
-        <ion-select value="{{condition.operand}}" selectedText="{{condition.operand}}" (ionChange)="changeOperand($event)">
-          <ion-select-option *ngFor="let o of operands; let i=index; trackBy: trackByIndex">{{o}}</ion-select-option>
-        </ion-select>
-      </ion-col>
-      <ion-col>
-        <ion-label>Value: </ion-label>
-      </ion-col>
-      <ion-col>
-        <ion-select *ngIf="isRadioQuestion; else elseBlock" value="{{condition.value.val}}" selectedText="{{condition.value.display}}" (ionChange)="changeValueRadio($event)">
-          <ion-select-option *ngFor="let o of questionChoices; let i=index; trackBy: trackByItem" value="{{ i }}" >{{o}}</ion-select-option>
-        </ion-select>
-        <ng-template #elseBlock>
-          <ion-label (click)="showChangeValue()">{{ condition.value.display }}</ion-label>
-        </ng-template>
+        <ion-item>
+          <ion-label>Value: </ion-label>
+          <ion-select *ngIf="isRadioQuestion; else elseBlock" value="{{condition.value.val}}"
+            selectedText="{{condition.value.display}}" (ionChange)="changeValueRadio($event)">
+            <ion-select-option *ngFor="let o of questionChoices; let i=index; trackBy: trackByItem" value="{{ i }}">
+              {{o}}
+            </ion-select-option>
+          </ion-select>
+          <ng-template #elseBlock>
+            <ion-label (click)="showChangeValue()">{{ condition.value.display }}</ion-label>
+          </ng-template>
+        </ion-item>
       </ion-col>
     </ion-row>
     <ion-row *ngIf="!isLastElement">
       <ion-col size="12">
-        <ion-select value="{{condition.combination}}" placeholder="PLEASE SELECT" (ionChange)="changeCombination($event)">
-          <ion-select-option *ngFor="let c of combinations; let i=index; trackBy: trackByIndex">{{c}}</ion-select-option>
-        </ion-select>
+        <ion-item>
+          <ion-label>Combination: </ion-label>
+          <ion-select value="{{condition.combination}}" placeholder="PLEASE SELECT"
+            (ionChange)="changeCombination($event)">
+            <ion-select-option *ngFor="let c of combinations; let i=index; trackBy: trackByIndex">{{c}}</ion-select-option>
+          </ion-select>
+        </ion-item>
       </ion-col>
     </ion-row>
   </ion-grid>

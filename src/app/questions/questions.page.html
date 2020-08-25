@@ -8,7 +8,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding class="questionaire">
   <ion-grid>
     <h1 *ngIf="user">Hello {{ user }}</h1>
     <control-component *ngIf="user" [toggleQuestionsStatements]="toggleQuestionsStatements"></control-component>
@@ -26,7 +26,7 @@
     <ng-template #elseBlock>
       <ion-row *ngIf="questionaire">
         <ion-col size="10">
-          <ion-list>
+          <ion-list class="foobar">
             <ion-row class="question">
               <ion-col>
                 <ion-textarea placeholder="Enter preludeText" value="{{ preludeText }}" (ionChange)="changePreludeText($event)"></ion-textarea>

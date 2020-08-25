@@ -51,7 +51,7 @@ const evalCondtion = (value, operand, targetValue) => {
     case "||":
       return value || targetValue
     default:
-      console.log("FAIL RAISE ERROR")
+      console.log("FAIL RAISE ERROR", value, operand, targetValue)
       return undefined
   }
 }
@@ -111,7 +111,7 @@ const getEvaluations = (statements, conditions, answers) => {
         conditionTrue = evalCondtion(
           cListTrue, condition.combination, nListTrue
         )
-        /* console.log("WTF", conditionTrue) */
+        console.log(`${cListTrue} ${condition.combination} ${nListTrue} is ${conditionTrue}`)
       }
 
       else {

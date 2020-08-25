@@ -42,7 +42,6 @@ export class StatementCatalog implements OnInit {
   get selectedQuestions() {
     //return this._selectedQuestions
     let blyat = this.getSelectedQuestions()
-    console.log({blyat})
     return blyat
   }
 
