@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as Statements from "../../store/actions/statement"
 import * as Answers from "../../store/actions/answer"
 import * as Questionaire from "../../store/actions/questionaire"
 import { uuid } from 'uuidv4';
 import { answersToStatements } from "./deleteme"
+import { IonSelect, IonInput } from '@ionic/angular';
 
 @Component({
   selector: 'statement-catalog',
@@ -12,6 +13,8 @@ import { answersToStatements } from "./deleteme"
   styleUrls: ['./statement.component.scss']
 })
 export class StatementCatalog implements OnInit {
+  @ViewChild('answerSelect', {static: false}) selectRef:IonSelect
+  @ViewChild('answerInput', {static: false}) inputRef:IonInput
 
   private _statementsList
   private _statements
@@ -94,6 +97,15 @@ export class StatementCatalog implements OnInit {
 
   toggleAnswerVisibility() {
     this._answerVisibility = !this._answerVisibility
+  }
+
+  openSelect()
+    {
+        this.selectRef.open();
+    }
+
+  focusInput() {
+    this.inputRef.setFocus();
   }
 
   addStatement() {

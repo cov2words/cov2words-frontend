@@ -6,18 +6,24 @@
 </ion-row>
 <ng-container *ngIf="answersVisible">
   <ion-row *ngFor="let sq of selectedQuestions; let i=index; trackBy: trackByIndex" class="answer">
-    <ion-col size="6">
-      {{ sq.id }}: {{ sq.text }}
-    </ion-col>
-    <ion-col size="6">
-      <ion-input *ngIf="sq.inputType == 'date'; else elseBlock" placeholder="enter answer value"
-        (ionChange)="changeAnswer(sq, i, $event)"></ion-input>
-      <ng-template #elseBlock>
-        <ion-select (ionChange)="changeAnswer(sq, i, $event)">
+    <ng-container *ngIf="sq.inputType == 'date'; else elseBlock">
+      <ion-col size="6" (click)="focusInput()">
+        {{ sq.id }}: {{ sq.text }}
+      </ion-col>
+      <ion-col size="6">
+        <ion-input placeholder="enter answer value" #answerInput (ionChange)="changeAnswer(sq, i, $event)"></ion-input>
+      </ion-col>
+    </ng-container>
+    <ng-template #elseBlock>
+      <ion-col size="6" (click)="openSelect()">
+        {{ sq.id }}: {{ sq.text }}
+      </ion-col>
+      <ion-col size="6">
+        <ion-select (ionChange)="changeAnswer(sq, i, $event)" #answerSelect>
           <ion-select-option *ngFor="let o of sq.options; let i=index; trackBy: trackByItem">{{o}}</ion-select-option>
         </ion-select>
-      </ng-template>
-    </ion-col>
+      </ion-col>
+    </ng-template>
   </ion-row>
   <ion-row>
     <ion-col size=12>
