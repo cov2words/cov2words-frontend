@@ -23,6 +23,7 @@ export class AWSConnectModal implements OnInit {
   private _conditions
   private _name: string
   private _preludeText: string
+  private _postludeText: string
   private _lambdaEndpoint: string
 
   constructor(
@@ -56,6 +57,7 @@ export class AWSConnectModal implements OnInit {
         .replace(/ /g, "_")
         .toLowerCase()
       this._preludeText = response.questionaire.preludeText || ""
+      this._postludeText = response.questionaire.postludeText || ""
       this._lambdaEndpoint = response.questionaire.lambdaEndpoint || ""
     })
   }
@@ -79,10 +81,12 @@ export class AWSConnectModal implements OnInit {
     let basename = this._name
     let questions = this._questions
     let endPoint = this._lambdaEndpoint
+    let predlude = this._preludeText.replace(/(\r\n|\n|\r)/gm, "");
+    let postlude = this._postludeText.replace(/(\r\n|\n|\r)/gm, "");
     // TODO: change datatype of selected or make use of array.
     let conditionMap = Object.assign(
       {}, ...this._conditions.map(c => (
-        {[c.name]: Object.assign(
+        {[c.uuid]: Object.assign(
           {}, c,
           //{selected: c.selected.map(x => `${questions.find(q => q.uuid === x).category}_${questions.find(q => q.uuid === x).id}`)}
           {selected: c.selected.map(x => `${questions.find(q => q.uuid === x).id}`)}
@@ -91,7 +95,7 @@ export class AWSConnectModal implements OnInit {
     )
     let statementMap = Object.assign(
       {}, ...this._statements.map(statement => (
-        {[statement.name]: statement}
+        {[statement.uuid]: statement}
       ))
     )
     let scoreMap = {
@@ -152,7 +156,8 @@ export class AWSConnectModal implements OnInit {
     const staticStartName = `${basename}_start`
     const staticStart = ContactFlowStaticStart({
       name: staticStartName,
-      text: defaultText.greetingText[language],
+      //text: defaultText.greetingText[language],
+      text: predlude,
       language: language,
       firstQuestionName: `${basename}_0`,
       scoreMap: scoreMap
@@ -167,7 +172,7 @@ export class AWSConnectModal implements OnInit {
       //{selected: c.selected.map(x => `${questions.find(q => q.uuid === x).category}_${questions.find(q => q.uuid === x).id}`)}))
       {selected: c.selected.map(x => `${questions.find(q => q.uuid === x).id}`)}))
 
-    const staticEnd = ContactFlowStaticEnd({ name: staticEndName, language: language, statements: conditions, endPoint }) // rename this stuff...
+    const staticEnd = ContactFlowStaticEnd({ name: staticEndName, language: language, statements: conditions, endPoint, text: postlude }) // rename this stuff...
     amazonConnectData[staticEndName] = staticEnd
     return amazonConnectData
   }

@@ -10,11 +10,12 @@ export interface ContactFlowStaticEndProps {
   language: string,
   name: string,
   statements: any,
-  endPoint: string
+  endPoint: string,
+  text?: string
 }
 
 export const ContactFlowStaticEnd = (props: ContactFlowStaticEndProps) => {
-  let { language, name, statements, endPoint } = props
+  let { language, name, statements, endPoint, text = "default postludeText" } = props
 
   const finishUUID = uuid()
   const endErrorUUID = uuid()
@@ -57,7 +58,7 @@ export const ContactFlowStaticEnd = (props: ContactFlowStaticEndProps) => {
     transitionUUID: finishUUID,
     errorUUID: endErrorUUID,
     textToSpechType: "text",
-    text: "$.External.word1 und $.External.word2. Empfehlung: $.External.recommendation"
+    text: `${text} $.External.word1 und $.External.word2. Empfehlung: $.External.recommendation`
   })
   endModules.push(recomVoice)
 

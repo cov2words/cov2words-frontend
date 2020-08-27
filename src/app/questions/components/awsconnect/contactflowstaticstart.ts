@@ -92,6 +92,7 @@ export const ContactFlowStaticStart = (props: ContactFlowStaticStartProps) => {
     ownUUID: greetingUUID,
     transitionUUID: startTransferUUID,
     errorUUID: startErrorUUID,
+    textToSpechType: "text",
     text: text
   })
   startModules.push(startGreeting)

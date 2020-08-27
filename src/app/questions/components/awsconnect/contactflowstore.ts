@@ -24,7 +24,7 @@ export const ContactFlowStore = (props: ContactFlowStoreProps) => {
     maxDigits = 3
    } = props
 
-  let key = `${question.category}_${question.id}`
+  let key = question.id//`${question.category}_${question.id}`
 
   const blyatUUID = uuid()
 
