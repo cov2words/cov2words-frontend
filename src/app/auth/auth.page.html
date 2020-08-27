@@ -19,6 +19,7 @@
                 required
                 email
                 #emailCtrl="ngModel"
+                (keydown.enter)="onSubmit(f)"
               ></ion-input>
             </ion-item>
             <ion-item
@@ -38,6 +39,7 @@
                 required
                 minlength="6"
                 #passwordCtrl="ngModel"
+                (keydown.enter)="onSubmit(f)"
               ></ion-input>
             </ion-item>
             <ion-item
