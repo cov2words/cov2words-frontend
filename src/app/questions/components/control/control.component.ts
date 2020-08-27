@@ -140,13 +140,6 @@ export class ControlComponent implements OnInit {
     return await createQuestionaireModal.present()
   }
 
-  /* async showEditCategoriesModal() {
-    let editCategoriesModal = await this.modalCtrl.create({
-      component: EditCategoriesModal
-    })
-    return await editCategoriesModal.present()
-  } */
-
   async showAddQuestionModal() {
     let addQuestionModal = await this.modalCtrl.create({
       component: AddQuestionModal
@@ -160,6 +153,12 @@ export class ControlComponent implements OnInit {
     })
     return await awsConnectModal.present()
   }
+
+  /* async showInfoModal() {
+    let infoModal = await this.modalCtrl.create({
+      component: 
+    })
+  } */
 
   async showHelpModal() {
     let helpModal = await this.modalCtrl.create({

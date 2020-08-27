@@ -21,3 +21,15 @@
   border-radius: 25px;
   border: solid #eee 2px;
 }
+
+.center {
+  text-align: center;
+  width: 100%;
+}
+
+.center ion-textarea {
+  width: 100%;
+  text-align: left;
+  --background: #eee;
+  --color: #2c3e50;
+}

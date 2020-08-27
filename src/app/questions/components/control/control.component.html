@@ -14,10 +14,6 @@
       <ion-label>save</ion-label>
       <ion-icon slot="icon-only" name="save"></ion-icon>
     </ion-button>
-    <!-- <ion-button (click)="showEditCategoriesModal()">
-      <ion-label>cats</ion-label>
-      <ion-icon slot="icon-only" name="hammer"></ion-icon>
-    </ion-button> -->
     <ion-button (click)="showAddQuestionModal()">
       <ion-label>add question</ion-label>
       <ion-icon slot="icon-only" name="add"></ion-icon>
@@ -56,3 +52,12 @@
 
 
 </ion-toolbar>
+
+<ion-row *ngIf="questionaire">
+  <ion-col>
+    Questionaire: {{ questionaire.name }}
+    Owner: {{ questionaire.owner }}
+    Created: {{ questionaire.created }}
+    LastModified: {{ questionaire.modified }}
+  </ion-col>
+</ion-row>

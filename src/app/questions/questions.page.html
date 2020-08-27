@@ -12,14 +12,6 @@
   <ion-grid>
     <h1 *ngIf="user">Hello {{ user }}</h1>
     <control-component *ngIf="user" [toggleQuestionsStatements]="toggleQuestionsStatements"></control-component>
-    <ion-row *ngIf="questionaire && user">
-      <ion-col>
-        Questionaire: {{ questionaire.name }}
-        Owner: {{ questionaire.owner }}
-        Created: {{ questionaire.created }}
-        LastModified: {{ questionaire.modified }}
-      </ion-col>
-    </ion-row>
     <div *ngIf="showStatements && questionaire; else elseBlock">
       <statement-catalog></statement-catalog>
     </div>
@@ -27,16 +19,19 @@
       <ion-row *ngIf="questionaire">
         <ion-col size="10">
           <ion-list class="foobar">
-            <ion-row class="question">
-              <ion-col>
-                <ion-textarea placeholder="Enter preludeText" value="{{ preludeText }}" (ionChange)="changePreludeText($event)"></ion-textarea>
-              </ion-col>
-            </ion-row>
+            <!-- <ion-row class="question">
+              <ion-col class="center"> -->
+                <ion-label>blyat text</ion-label>
+                <ion-textarea cols=80 placeholder="Enter preludeText" value="{{ questionaire.preludeText }}" (ionChange)="changePreludeText($event)"
+                  maxlength=3000 auto-grow="true"></ion-textarea>
+            <!--   </ion-col>
+            </ion-row> -->
             <question-component *ngFor="let question of questionaire.questions; let i=index; trackBy:trackByFn"
               [questionUUID]="question" [categories]="questionaire.categories" [index]="i"></question-component>
             <ion-row class="question">
-              <ion-col>
-                <ion-textarea placeholder="Enter postludeText" value="{{ questionaire.postludeText }}" (ionChange)="changePostludeText($event)"></ion-textarea>
+              <ion-col class="center">
+                <ion-label>blyat text</ion-label>
+                <ion-textarea placeholder="Enter postludeText" value="{{ questionaire.postludeText }}" (ionChange)="changePostludeText($event)"  maxlength=3000></ion-textarea>
               </ion-col>
             </ion-row>
           </ion-list>
