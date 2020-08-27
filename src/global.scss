@@ -13,6 +13,8 @@
 @import "~@ng-select/ng-select/themes/default.theme.css";
 
 :root {
+  --ion-font-family: 'Abel', sans-serif;
+
   --ion-color-primary: #2c3e50;
   --ion-color-primary-rgb: 44, 62, 80;
   --ion-color-primary-contrast: #ffffff;
@@ -22,7 +24,7 @@
 
   --ion-color-secondary: #1abc9c;
   --ion-color-secondary-rgb: 26, 188, 156;
-  --ion-color-secondary-contrast: #000000;
+  --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 0, 0, 0;
   --ion-color-secondary-shade: #17a589;
   --ion-color-secondary-tint: #31c3a6;
