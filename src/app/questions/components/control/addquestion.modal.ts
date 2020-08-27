@@ -26,6 +26,10 @@ export class AddQuestionModal implements OnInit {
     return this._id && this._text && this._inputType
   }
 
+  get newQuestionType() {
+    return this._inputType
+  }
+
   ngOnInit() {
   }
 

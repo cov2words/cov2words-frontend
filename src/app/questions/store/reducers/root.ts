@@ -65,3 +65,5 @@ export function undoable(reducer) {
     }
   }
 }
+
+export default undoable(rootReducer)

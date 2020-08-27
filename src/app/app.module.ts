@@ -25,7 +25,8 @@ import { StoreModule, ActionReducer } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { QuestionsEffects } from './questions/store/questions.effects';
-import { rootReducer, undoable } from './questions/store/reducers/root';
+//import { rootReducer, undoable } from './questions/store/reducers/root';
+import undoableRootReducer from "./questions/store/reducers/root";
 import { storeLogger } from 'ngrx-store-logger';
 
 export function createTranslateLoader(http: HttpClient) {
@@ -58,7 +59,7 @@ export const metaReducers = [logger];
             }
         }),
         StoreModule.forRoot({}),
-        StoreModule.forFeature('questions', undoable(rootReducer), { metaReducers }),
+        StoreModule.forFeature('questions', undoableRootReducer, { metaReducers }),
         StoreDevtoolsModule.instrument({
           maxAge: 25 // Retains last 25 states
         }),
