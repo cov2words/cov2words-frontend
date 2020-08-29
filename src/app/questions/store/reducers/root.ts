@@ -7,8 +7,7 @@ import { statementsReducer } from "./statement"
 import { conditionReducer } from "./condition"
 import { answerReducer } from "./answer"
 
-
-export const rootReducer = combineReducers({
+export const reducers = {
   auth: authReducer,
   questionaires: questionairesReducer,
   questionaire: questionaireReducer,
@@ -16,7 +15,9 @@ export const rootReducer = combineReducers({
   statements: statementsReducer,
   conditions: conditionReducer,
   answers: answerReducer
-})
+}
+
+//export const rootReducer = combineReducers(reducers)
 
 
 export function undoable(reducer) {
@@ -65,5 +66,3 @@ export function undoable(reducer) {
     }
   }
 }
-
-export default undoable(rootReducer)

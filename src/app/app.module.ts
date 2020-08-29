@@ -1,5 +1,5 @@
 import {HttpClient, HttpClientModule} from '@angular/common/http';
-import {NgModule} from '@angular/core';
+import {NgModule, InjectionToken} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouteReuseStrategy} from '@angular/router';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
@@ -22,14 +22,12 @@ import { AngularFireAuthModule } from '@angular/fire/auth'
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import {ENV} from "../environments/environment"
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { StoreModule, ActionReducer } from '@ngrx/store';
+import { StoreModule, ActionReducer, ActionReducerMap, combineReducers } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { QuestionsEffects } from './questions/store/questions.effects';
-//import { rootReducer, undoable } from './questions/store/reducers/root';
-import undoableRootReducer from "./questions/store/reducers/root";
+import  { undoable, reducers }  from "./questions/store/reducers/root";
 import { storeLogger } from 'ngrx-store-logger';
-import { AuthService } from './auth/auth.service';
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -38,6 +36,14 @@ export function createTranslateLoader(http: HttpClient) {
 export function logger(reducer: ActionReducer<any>): any {
   return storeLogger()(reducer);
 }
+
+
+
+export const rootReducer = combineReducers(reducers);
+export const undoableRootReducer = undoable(rootReducer);
+
+export const ROOT_REDUCER = new InjectionToken<any>('root reducer',
+{factory: () => ({questions: undoableRootReducer})});
 
 export const metaReducers = [logger];
 
@@ -53,8 +59,8 @@ export const metaReducers = [logger];
         AngularFireAuthModule,
         AngularFireDatabaseModule,
         AngularFirestoreModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('questions', undoableRootReducer, { metaReducers }),
+        StoreModule.forRoot(ROOT_REDUCER),
+        //StoreModule.forFeature('questions', undoableRootReducer, { metaReducers }),
         StoreDevtoolsModule.instrument({
           maxAge: 25 // Retains last 25 states
         }),
@@ -74,7 +80,6 @@ export const metaReducers = [logger];
         SplashScreen,
         Cov2WordsService,
         QuestionsService,
-        //AuthService,
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
         {
             provide: ApplicationEnvironment,
