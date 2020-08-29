@@ -19,26 +19,33 @@ export class AuthGuard implements CanLoad {
       take(1),
       switchMap(isAuthenticated => {
         if (!isAuthenticated) {
-          return this.authService.autoLogin();
+          console.log("autologin canLoad")
+          //return this.authService.autoLogin();
+          return of(isAuthenticated)
         } else {
+          console.log("isAuthenticated canLoad")
           return of(isAuthenticated);
         }
       }),
       tap(isAuthenticated => {
         if (!isAuthenticated) {
+          console.log(isAuthenticated)
+          console.log("denied!")
           this.router.navigateByUrl('/auth');
         }
       })
     );
   }
 
-  canActivate(): Observable<boolean> {
+  canActivate(): Observable<boolean> | any {
     return this.authService.userIsAuthenticated.pipe(
       take(1),
       switchMap(isAuthenticated => {
         if (!isAuthenticated) {
+          console.log("autologin canActivate")
           return this.authService.autoLogin();
         } else {
+          console.log("isAuthenticated canActivate")
           return of(isAuthenticated);
         }
       })

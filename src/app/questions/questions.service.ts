@@ -6,9 +6,10 @@ import { AngularFireDatabase } from '@angular/fire/database';
 })
 export class QuestionsService {
 
-  constructor(private db: AngularFireDatabase) {}
+  constructor(public db: AngularFireDatabase) {}
 
   getQuestionaires(owner: string) {
+    console.log("blyat")
     return this.db.list('questionaire', ref => ref.orderByChild('metadata/owner').equalTo(owner)).valueChanges()
   }
 

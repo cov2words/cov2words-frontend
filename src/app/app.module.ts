@@ -18,6 +18,7 @@ import {Cov2WordsService} from "./app.service";
 import {QuestionsService} from "./questions/questions.service"
 
 import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth'
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import {ENV} from "../environments/environment"
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -28,6 +29,7 @@ import { QuestionsEffects } from './questions/store/questions.effects';
 //import { rootReducer, undoable } from './questions/store/reducers/root';
 import undoableRootReducer from "./questions/store/reducers/root";
 import { storeLogger } from 'ngrx-store-logger';
+import { AuthService } from './auth/auth.service';
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -44,12 +46,20 @@ export const metaReducers = [logger];
     entryComponents: [],
     imports: [
         BrowserModule,
-        AngularFireModule.initializeApp(ENV.firebaseConfig),
-        AngularFireDatabaseModule,
-        AngularFirestoreModule,
         HttpClientModule,
         IonicModule.forRoot(),
         AppRoutingModule,
+        AngularFireModule.initializeApp(ENV.firebaseConfig),
+        AngularFireAuthModule,
+        AngularFireDatabaseModule,
+        AngularFirestoreModule,
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('questions', undoableRootReducer, { metaReducers }),
+        StoreDevtoolsModule.instrument({
+          maxAge: 25 // Retains last 25 states
+        }),
+        EffectsModule.forRoot([]),
+        EffectsModule.forFeature([QuestionsEffects]),
         Cov2WordsClientJSModule,
         TranslateModule.forRoot({
             loader: {
@@ -58,19 +68,13 @@ export const metaReducers = [logger];
                 deps: [HttpClient]
             }
         }),
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('questions', undoableRootReducer, { metaReducers }),
-        StoreDevtoolsModule.instrument({
-          maxAge: 25 // Retains last 25 states
-        }),
-        EffectsModule.forRoot([]),
-        EffectsModule.forFeature([QuestionsEffects]),
     ],
     providers: [
         StatusBar,
         SplashScreen,
         Cov2WordsService,
         QuestionsService,
+        //AuthService,
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
         {
             provide: ApplicationEnvironment,

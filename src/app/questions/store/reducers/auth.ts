@@ -6,6 +6,7 @@ export function authReducer(state=initialStateAuth, action: AuthActions) {
   switch (action.type) {
     case AuthActionType.SET_USER: {
       let { user } = action.payload
+      console.log(user)
       return {
         ...user
       }

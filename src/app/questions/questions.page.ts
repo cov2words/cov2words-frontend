@@ -23,7 +23,7 @@ export class QuestionsPage implements OnInit {
     constructor(
       private store: Store<any>,
       private toastController: ToastController,
-      private auth: AuthService,
+      public auth: AuthService,
       private router: Router
     ) {}
 
@@ -36,6 +36,7 @@ export class QuestionsPage implements OnInit {
       this.store.select(state => state.questions.present).subscribe(response => {
         this.questionaire = response.questionaire
         this.questions = response.questions
+        console.log(response.auth)
         this.user = response.auth.email
         if (response.message) {
           this.presentToast(response.message)

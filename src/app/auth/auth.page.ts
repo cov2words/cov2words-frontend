@@ -21,7 +21,7 @@ export class AuthPage implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private store: Store<any>,
+    public store: Store<any>,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController
   ) {}
@@ -35,7 +35,8 @@ export class AuthPage implements OnInit {
       .create({ keyboardClose: true, message: 'Logging in...' })
       .then(loadingEl => {
         loadingEl.present();
-        let authObs: Observable<AuthResponseData>;
+        //let authObs//: Observable<AuthResponseData>;
+        let authObs: Observable<any>
         if (this.isLogin) {
           authObs = this.authService.login(email, password);
         } else {
@@ -43,13 +44,32 @@ export class AuthPage implements OnInit {
         }
         authObs.subscribe(
           resData => {
+            console.log({resData})
+            console.log(this.store)
+            //this.store.dispatch(new Auth.SetUser({user: resData}))
+            console.log("FUCK ZH")
+            this.isLoading = false;
+            loadingEl.dismiss();
+            this.router.navigateByUrl('/')
+          },
+          errRes => {
+            console.log({errRes})
+            this.isLoading = false;
+            loadingEl.dismiss();
+          }
+        )
+        /* authObs.subscribe(
+          resData => {
+            console.log({resData})
             this.store.dispatch(new Auth.SetUser({user: resData}))
             this.isLoading = false;
             loadingEl.dismiss();
+            console.log("aye")
             this.router.navigateByUrl('/');
           },
           errRes => {
             loadingEl.dismiss();
+            console.log({errRes})
             const code = errRes.error.error.message;
             let message = 'Could not sign you up, please try again.';
             if (code === 'EMAIL_EXISTS') {
@@ -61,7 +81,7 @@ export class AuthPage implements OnInit {
             }
             this.showAlert(message);
           }
-        );
+        ); */
       });
   }
 
@@ -78,6 +98,7 @@ export class AuthPage implements OnInit {
 
     this.authenticate(email, password);
     form.reset();
+    console.log("DONE")
   }
 
   private showAlert(message: string) {
