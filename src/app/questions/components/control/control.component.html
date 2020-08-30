@@ -8,21 +8,21 @@
   </ion-button>
 </ion-segment>
 
-<ion-toolbar *ngIf="questionaire">
+<ion-toolbar >
   <ion-buttons>
     <ion-button (click)="saveQuestionaire()" disabled="{{ questions.length <= 0 }}">
       <ion-label>save</ion-label>
       <ion-icon slot="icon-only" name="save"></ion-icon>
     </ion-button>
-    <ion-button (click)="showAddQuestionModal()">
+    <ion-button (click)="showAddQuestionModal()" disabled="{{ !questionaire }}">
       <ion-label>add question</ion-label>
       <ion-icon slot="icon-only" name="add"></ion-icon>
     </ion-button>
-    <ion-button (click)="toggleQuestionsStatements()">
+    <ion-button (click)="toggleQuestionsStatements()" disabled="{{ !questionaire }}">
       <ion-label>recom</ion-label>
       <ion-icon slot="icon-only" name="bulb"></ion-icon>
     </ion-button>
-    <ion-button (click)="showAWSConnectModal()">
+    <ion-button (click)="showAWSConnectModal()" disabled="{{ !questionaire }}">
       <ion-label>dl</ion-label>
       <ion-icon slot="icon-only" name="document"></ion-icon>
     </ion-button>
@@ -34,7 +34,7 @@
       <ion-label>fwd</ion-label>
       <ion-icon slot="icon-only" name="arrow-forward"></ion-icon>
     </ion-button>
-    <ion-button (click)="exportQuestionaire()">
+    <ion-button (click)="exportQuestionaire()" disabled="{{ !questionaire }}">
       <ion-label>export</ion-label>
       <ion-icon slot="icon-only" name="cloud-upload"></ion-icon>
     </ion-button>

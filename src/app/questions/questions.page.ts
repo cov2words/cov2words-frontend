@@ -7,6 +7,7 @@ import { from } from 'rxjs';
 import {AuthService} from "../auth/auth.service"
 import * as Questionaire from "./store/actions/questionaire"
 import * as Auth from "./store/actions/auth"
+import { flatMap, map } from 'rxjs/operators';
 
 @Component({
     selector: 'app-home',
@@ -30,6 +31,7 @@ export class QuestionsPage implements OnInit {
     ngOnInit() {
       from(Plugins.Storage.get({ key: 'authData' })).subscribe(response => {
         let user = JSON.parse(response.value)
+        console.log(response)
         this.store.dispatch(new Auth.SetUser({user}))
       })
 
@@ -46,10 +48,6 @@ export class QuestionsPage implements OnInit {
         console.log(error)
       })
     }
-
-    /* get questions() {
-      return this.questionaire.questions
-    } */
 
     get showStatements() {
       return this._showStatements
@@ -68,7 +66,6 @@ export class QuestionsPage implements OnInit {
     }
 
     changePreludeText = (event: any) => {
-      console.log(event)
       let attr = "preludeText", value = event.target.value
       this.store.dispatch(new Questionaire.ChangeQuestionaireAttribute({attr, value}))
     }

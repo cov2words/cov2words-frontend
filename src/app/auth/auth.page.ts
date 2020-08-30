@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+//import { Store } from '@ngrx/store';
 import { NgForm } from '@angular/forms';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { Observable } from 'rxjs';
@@ -21,7 +21,7 @@ export class AuthPage implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    public store: Store<any>,
+    //public store: Store<any>,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController
   ) {}
@@ -45,7 +45,7 @@ export class AuthPage implements OnInit {
         authObs.subscribe(
           resData => {
             console.log({resData})
-            console.log(this.store)
+            //console.log(this.store)
             //this.store.dispatch(new Auth.SetUser({user: resData}))
             console.log("FUCK ZH")
             this.isLoading = false;

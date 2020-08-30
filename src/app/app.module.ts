@@ -59,7 +59,7 @@ export const metaReducers = [logger];
         AngularFireAuthModule,
         AngularFireDatabaseModule,
         AngularFirestoreModule,
-        StoreModule.forRoot(ROOT_REDUCER),
+        StoreModule.forRoot(ROOT_REDUCER, { metaReducers }),
         //StoreModule.forFeature('questions', undoableRootReducer, { metaReducers }),
         StoreDevtoolsModule.instrument({
           maxAge: 25 // Retains last 25 states

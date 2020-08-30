@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,6 @@ export class QuestionsService {
   constructor(public db: AngularFireDatabase) {}
 
   getQuestionaires(owner: string) {
-    console.log("blyat")
     return this.db.list('questionaire', ref => ref.orderByChild('metadata/owner').equalTo(owner)).valueChanges()
   }
 

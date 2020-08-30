@@ -3,12 +3,9 @@ import { ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store'
 import * as Questionaires from "../../store/actions/questionaires"
 import * as Questionaire from "../../store/actions/questionaire"
-import * as Questions from "../../store/actions/question"
-import { Questionaire as QuestionaireModel } from "../../questions.model"
 import fileDownload from "js-file-download"
 import * as JSZip from "jszip"
 import { CreateQuestionaireModal } from "./createquestionaire.modal"
-import { EditCategoriesModal } from "./editcategories.modal"
 import { AddQuestionModal } from "./addquestion.modal"
 import { AWSConnectModal } from "./awsconnect.modal"
 import { HelpModal } from "./help.modal"
@@ -73,13 +70,21 @@ export class ControlComponent implements OnInit {
       this._newQuestionaireName = response.newQuestionaireName
       this._userEmail = response.auth.email
     })
-    this.store.dispatch(new Questionaires.GetQuestionaires({email:this._userEmail}))
+
+    this._userEmail ?
+      this.store.dispatch(new Questionaires.GetQuestionaires({email:this._userEmail}))
+      : null
+
     this.store.select(state => state.questions.future).subscribe(response => {
       this.hasFuture = response.length ? true : false
     })
     this.store.select(state => state.questions.past).subscribe(response => {
       this.hasPast = response.length ? true : false
     })
+  }
+
+  ngOnChanges() {
+    console.log("changed", this._userEmail)
   }
 
   changeQuestionaire(event) {

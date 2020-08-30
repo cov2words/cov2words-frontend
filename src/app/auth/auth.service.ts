@@ -134,7 +134,7 @@ export class AuthService /* implements OnDestroy */ {
     }, duration);
   } */
 
-  private async setUserData(userData: any/* AuthResponseData */) {
+  private setUserData(userData: any/* AuthResponseData */) {
     const { user: { uid, email, refreshToken } } = userData
     const user = new User(uid, email, refreshToken)
 
