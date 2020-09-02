@@ -20,6 +20,7 @@ import { uuid } from "uuidv4"
 export class ControlComponent implements OnInit {
 
   @Input() toggleQuestionsStatements: () => {}
+  @Input() userEmail: any
 
   public hasFuture: boolean
   public hasPast: boolean
@@ -30,7 +31,6 @@ export class ControlComponent implements OnInit {
   private _statements
   private _conditions
   private _newQuestionaireName
-  private _userEmail
 
   constructor(
     private store: Store<any>,
@@ -68,13 +68,9 @@ export class ControlComponent implements OnInit {
       this._statements = response.statements
       this._conditions = response.conditions
       this._newQuestionaireName = response.newQuestionaireName
-      this._userEmail = response.auth.email
     })
 
-    this._userEmail ?
-      this.store.dispatch(new Questionaires.GetQuestionaires({email:this._userEmail}))
-      : null
-
+    this.store.dispatch(new Questionaires.GetQuestionaires({email:this.userEmail}))
     this.store.select(state => state.questions.future).subscribe(response => {
       this.hasFuture = response.length ? true : false
     })
@@ -84,7 +80,7 @@ export class ControlComponent implements OnInit {
   }
 
   ngOnChanges() {
-    console.log("changed", this._userEmail)
+    console.log("changed", this.userEmail)
   }
 
   changeQuestionaire(event) {
@@ -116,7 +112,7 @@ export class ControlComponent implements OnInit {
     let fr = new FileReader();
     fr.onload = () => {
       let _questionaire = JSON.parse(fr.result.toString())
-      let questionaire = Object.assign({}, _questionaire, {metadata: Object.assign({}, _questionaire.metadata, {owner: this._userEmail, uuid: uuid()})})
+      let questionaire = Object.assign({}, _questionaire, {metadata: Object.assign({}, _questionaire.metadata, {owner: this.userEmail, uuid: uuid()})})
       this.store.dispatch(new Questionaire.GetQuestionaireSuccess({questionaire}))
 
     }
@@ -147,7 +143,8 @@ export class ControlComponent implements OnInit {
 
   async showAddQuestionModal() {
     let addQuestionModal = await this.modalCtrl.create({
-      component: AddQuestionModal
+      component: AddQuestionModal,
+      cssClass: 'add-question-modal'
     })
     return await addQuestionModal.present()
   }

@@ -28,18 +28,15 @@ export class QuestionsPage implements OnInit {
       private router: Router
     ) {}
 
-    ngOnInit() {
-      from(Plugins.Storage.get({ key: 'authData' })).subscribe(response => {
-        let user = JSON.parse(response.value)
-        console.log(response)
-        this.store.dispatch(new Auth.SetUser({user}))
+    ngOnInit() {   
+      this.auth.user.subscribe(user => {
+        this.user = user !== null ? user.email : null
       })
+
 
       this.store.select(state => state.questions.present).subscribe(response => {
         this.questionaire = response.questionaire
         this.questions = response.questions
-        console.log(response.auth)
-        this.user = response.auth.email
         if (response.message) {
           this.presentToast(response.message)
         }

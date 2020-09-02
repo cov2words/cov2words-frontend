@@ -15,7 +15,7 @@
     <ng-template #spinnerBlock>
       <h1> Nope</h1>
     </ng-template>
-    <control-component *ngIf="user" [toggleQuestionsStatements]="toggleQuestionsStatements" ></control-component>
+    <control-component *ngIf="user" [toggleQuestionsStatements]="toggleQuestionsStatements" [userEmail]="user"></control-component>
     <div *ngIf="showStatements && questionaire; else elseBlock">
       <statement-catalog></statement-catalog>
     </div>

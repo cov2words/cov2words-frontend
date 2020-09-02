@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-//import { Store } from '@ngrx/store';
 import { NgForm } from '@angular/forms';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 
-import { AuthService, AuthResponseData } from './auth.service';
-import * as Auth from "../questions/store/actions/auth"
+import { AuthService } from './auth.service';
+
 
 
 @Component({
@@ -21,7 +20,6 @@ export class AuthPage implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    //public store: Store<any>,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController
   ) {}
@@ -35,7 +33,6 @@ export class AuthPage implements OnInit {
       .create({ keyboardClose: true, message: 'Logging in...' })
       .then(loadingEl => {
         loadingEl.present();
-        //let authObs//: Observable<AuthResponseData>;
         let authObs: Observable<any>
         if (this.isLogin) {
           authObs = this.authService.login(email, password);
@@ -44,44 +41,17 @@ export class AuthPage implements OnInit {
         }
         authObs.subscribe(
           resData => {
-            console.log({resData})
-            //console.log(this.store)
-            //this.store.dispatch(new Auth.SetUser({user: resData}))
-            console.log("FUCK ZH")
             this.isLoading = false;
             loadingEl.dismiss();
             this.router.navigateByUrl('/')
           },
           errRes => {
-            console.log({errRes})
             this.isLoading = false;
             loadingEl.dismiss();
+            const message = errRes.message;
+            this.showAlert(message)
           }
         )
-        /* authObs.subscribe(
-          resData => {
-            console.log({resData})
-            this.store.dispatch(new Auth.SetUser({user: resData}))
-            this.isLoading = false;
-            loadingEl.dismiss();
-            console.log("aye")
-            this.router.navigateByUrl('/');
-          },
-          errRes => {
-            loadingEl.dismiss();
-            console.log({errRes})
-            const code = errRes.error.error.message;
-            let message = 'Could not sign you up, please try again.';
-            if (code === 'EMAIL_EXISTS') {
-              message = 'This email address exists already!';
-            } else if (code === 'EMAIL_NOT_FOUND') {
-              message = 'E-Mail address could not be found.';
-            } else if (code === 'INVALID_PASSWORD') {
-              message = 'This password is not correct.';
-            }
-            this.showAlert(message);
-          }
-        ); */
       });
   }
 

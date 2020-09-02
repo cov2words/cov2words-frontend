@@ -1,54 +1,42 @@
 import { Injectable } from '@angular/core';
-import { CanLoad, Route, UrlSegment, Router } from '@angular/router';
+import { CanLoad, Route, UrlSegment, Router, CanActivate } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { take, tap, switchMap } from 'rxjs/operators';
+import { take, tap, switchMap, map } from 'rxjs/operators';
 
 import { AuthService } from './auth.service';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanLoad {
-  constructor(private authService: AuthService, private router: Router) { }
+export class AuthGuard implements CanActivate {
+  constructor(private authService: AuthService, private router: Router, private afAuth: AngularFireAuth) { }
 
   canLoad(
     route: Route,
     segments: UrlSegment[]
   ): Observable<boolean> | Promise<boolean> | boolean {
-    return this.authService.userIsAuthenticated.pipe(
+    return this.afAuth.authState.pipe(
       take(1),
-      switchMap(isAuthenticated => {
-        if (!isAuthenticated) {
-          console.log("autologin canLoad")
-          //return this.authService.autoLogin();
-          return of(isAuthenticated)
-        } else {
-          console.log("isAuthenticated canLoad")
-          return of(isAuthenticated);
-        }
-      }),
-      tap(isAuthenticated => {
-        if (!isAuthenticated) {
-          console.log(isAuthenticated)
-          console.log("denied!")
+      map(authState => !!authState),
+      tap(authState => {
+        if(!authState) {
           this.router.navigateByUrl('/auth');
         }
       })
-    );
+    )
   }
 
   canActivate(): Observable<boolean> | any {
-    return this.authService.userIsAuthenticated.pipe(
+    return this.afAuth.authState.pipe(
       take(1),
-      switchMap(isAuthenticated => {
-        if (!isAuthenticated) {
-          console.log("autologin canActivate")
-          return this.authService.autoLogin();
-        } else {
-          console.log("isAuthenticated canActivate")
-          return of(isAuthenticated);
+      map(authState => !!authState),
+      tap(authState => {
+        if(!authState) {
+          this.router.navigateByUrl('/auth');
         }
       })
     )
+    
   }
 }
