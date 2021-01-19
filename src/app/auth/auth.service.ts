@@ -52,14 +52,14 @@ export class AuthService {
   }
 
   signup(email: string, password: string) {
-    return from(this.firebaseAuth.setPersistence(firebase.auth.Auth.Persistence.SESSION)).pipe(
+    return from(this.firebaseAuth.setPersistence(firebase.auth.Auth.Persistence.NONE)).pipe(
       flatMap((result) => this.firebaseAuth.createUserWithEmailAndPassword(email, password)),
       tap(user => this._user.next(user.user))
     )
   }
 
   login(email: string, password: string) {
-    return from(this.firebaseAuth.setPersistence(firebase.auth.Auth.Persistence.SESSION)).pipe(
+    return from(this.firebaseAuth.setPersistence(firebase.auth.Auth.Persistence.NONE)).pipe(
       flatMap((result) => this.firebaseAuth.signInWithEmailAndPassword(email, password)),
       tap(user => this._user.next(user.user))
     )
